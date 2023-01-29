@@ -3,7 +3,7 @@ D_BUILT_IN = built_in/
 SRC_BUILT_IN = $(addprefix ${D_BUILT_IN}, ${S_BUILT_IN})
 BUILT_INT = $(addprefix ${D_SRC}, ${SRC_BUILT_IN})
 
-S_SRC = main.c  utils.c  get_cmd.c  parsing.c  lexer.c  lexer2.c  lexer3.c
+S_SRC = main.c  utils.c  lexer.c  lexer2.c  lexer3.c
 D_SRC = ./src/
 SRC = $(addprefix ${D_SRC}, ${S_SRC}) ${SRC_BUILT_IN}
 
@@ -22,7 +22,7 @@ CC = cc
 
 FLAGS = -Wall -Wextra -Werror -g
 
-LFLAGS = ${FLAGS} -lreadline
+LFLAGS = -lreadline
 
 ${D_OBJ}%.o : ${D_SRC}%.c ${INC}
 	${CC} ${FLAGS} -I${D_INC} -c $< -o $@
@@ -30,7 +30,7 @@ ${D_OBJ}%.o : ${D_SRC}%.c ${INC}
 all	: ${NAME}
 
 ${NAME}	:	${D_OBJ}  ${OBJ}
-	${CC} ${LFLAGS} ${OBJ} -o${NAME}
+	${CC} ${FLAGS} ${OBJ} -o${NAME} ${LFLAGS}
 
 ${D_OBJ}:
 	mkdir -p ${D_OBJ}
