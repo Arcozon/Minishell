@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/03 17:14:35 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/03 17:20:34 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_parenthesis(t_lexer *root)
 int	check_special(t_lexer *root)
 {
 	static int	is_special[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
-		1, 1, 1, 1, 0, 0, 1};
+		1, 1, 1, 1, 0, 0, 1, 0};
 	int			last_type_was_special;
 
 	last_type_was_special = 0;
