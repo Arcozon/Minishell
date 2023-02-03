@@ -6,7 +6,11 @@ S_LEXER =  lexer.c  lexer2.c  lexer3.c
 D_LEXER = lexer/
 SRC_LEXER = $(addprefix ${D_LEXER}, ${S_LEXER})
 
-S_SRC = main.c  utils.c  ${SRC_BUILT_IN}  ${SRC_LEXER}
+S_SYNTAX =  syntax.c
+D_SYNTAX = syntax/
+SRC_SYNTAX = $(addprefix ${D_SYNTAX}, ${S_SYNTAX})
+
+S_SRC = main.c  utils.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}
 D_SRC = ./src/
 SRC = $(addprefix ${D_SRC}, ${S_SRC})
 
@@ -39,6 +43,7 @@ ${D_OBJ}:
 	mkdir -p ${D_OBJ}
 	mkdir -p ${D_OBJ}${D_BUILT_IN}
 	mkdir -p ${D_OBJ}${D_LEXER}
+	mkdir -p ${D_OBJ}${D_SYNTAX}
 
 clean :
 	rm -f ${OBJ}

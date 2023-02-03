@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/03 14:14:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/03 17:08:13 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 
 # define MAX_TYPE				22
 
+/*-----------------------Lexer----------------------*/
 typedef struct s_lexer
 {
 	int				type;
@@ -60,6 +61,15 @@ typedef struct s_lexer
 t_lexer	*lexer(const char *line);
 void	get_text(const char *line, int *start, t_lexer **root);
 void	change_text(t_lexer *root);
+void	aff_lexer(t_lexer *root);
+void	change_space(t_lexer **root);
+void	change_text(t_lexer *root);
+void	change_text_into_cmd_args(t_lexer *root);
+
+/*---------------------Syntax-----------------------*/
+int		check_parenthesis(t_lexer *root);
+int		check_special(t_lexer *root);
+int		syntax(t_lexer *root);
 
 /*--------------------Parsing-----------------------*/
 typedef struct s_cmd
@@ -73,10 +83,6 @@ typedef struct s_cmd
 
 char	**get_cmd(char *line);
 t_cmd	*parsing_t_cmd(char *cmd, int input, int output, int e_output);
-void	aff_lexer(t_lexer *root);
-void	change_space(t_lexer **root);
-void	change_text(t_lexer *root);
-void	change_text_into_cmd_args(t_lexer *root);
 
 /*---------------------Built ins----------------------*/
 int		bi_echo(char **av, char **env);
@@ -86,7 +92,6 @@ int		bi_env(char **av, char **env);
 void	bi_exit(void);
 
 char	*get_pwd(void);
-int		check_built_ins(char *line, char **_cmd);
 
 /*-----------------------Utils------------------------*/
 char	*ft_strdup(const char *s);
