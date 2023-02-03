@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:56:07 by geudes            #+#    #+#             */
-/*   Updated: 2023/01/26 12:51:54 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/02 20:05:03 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_lexer	*lexer(const char *line)
 	root = 0;
 	while (line[start])
 		add_chain(&root, line, &start);
+	change_space(&root);
 	change_text(root);
-	aff_lexer(root);
 	return (root);
 }

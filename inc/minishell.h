@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/01/29 02:07:55 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/02 20:04:49 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -75,19 +74,23 @@ typedef struct s_cmd
 char	**get_cmd(char *line);
 t_cmd	*parsing_t_cmd(char *cmd, int input, int output, int e_output);
 void	aff_lexer(t_lexer *root);
+void	change_space(t_lexer **root);
+void	change_text(t_lexer *root);
 
 /*---------------------Built ins----------------------*/
-void	_echo(char **args);
-char	*_pwd(void);
-int		_cd(char *path);
-void	_env(char **_env);
-void	__exit(void);
+int		bi_echo(char **av, char **env);
+int		bi_pwd(char **av, char **env);
+int		bi_cd(char **av, char **env);
+int		bi_env(char **av, char **env);
+void	bi_exit(void);
 
+char	*get_pwd(void);
 int		check_built_ins(char *line, char **_cmd);
 
 /*-----------------------Utils------------------------*/
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_with_slash(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);

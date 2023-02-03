@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:43 by geudes            #+#    #+#             */
-/*   Updated: 2023/01/26 10:13:01 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/02 17:39:53 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #define SIZE 32
 
-char	*_pwd(void)
+char	*get_pwd(void)
 {
 	size_t	size_path;
 	char	*path;
@@ -22,14 +22,33 @@ char	*_pwd(void)
 	size_path = SIZE;
 	path = malloc(size_path * sizeof(char));
 	if (!path)
-		return (perror("Pwd malloc error\n"), (char *)0);
+		return (0);
 	while (!getcwd(path, size_path))
 	{
 		free(path);
 		size_path <<= 1;
 		path = malloc(size_path * sizeof(char));
 		if (!path)
-			return (perror("Pwd malloc error\n"), (char *)0);
+			return (0);
 	}
 	return (path);
+}
+
+// Returns 0 on succes 1 on error
+// Av is a Null terminated char** with av[0] being the name of the function,
+// and av[1]...av[n] the arguments
+int	pwd(char **av, char **env)
+{
+	char	*pwd;
+
+	(void)av;
+	(void)env;
+	pwd = get_pwd();
+	if (!pwd)
+		return (perror("Minishell: pwd: malloc error"), 0);
+	write(1, pwd, ft_strlen(pwd));
+	pwd[0] = '\n';
+	write(1, pwd, 1);
+	free(pwd);
+	return (1);
 }

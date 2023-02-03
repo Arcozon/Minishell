@@ -1,13 +1,16 @@
 S_BUILT_IN =  pwd.c  cd.c  echo.c  env.c  exit.c
 D_BUILT_IN = built_in/
 SRC_BUILT_IN = $(addprefix ${D_BUILT_IN}, ${S_BUILT_IN})
-BUILT_INT = $(addprefix ${D_SRC}, ${SRC_BUILT_IN})
 
-S_SRC = main.c  utils.c  lexer.c  lexer2.c  lexer3.c
+S_LEXER =  lexer.c  lexer2.c  lexer3.c
+D_LEXER = lexer/
+SRC_LEXER = $(addprefix ${D_LEXER}, ${S_LEXER})
+
+S_SRC = main.c  utils.c  ${SRC_BUILT_IN}  ${SRC_LEXER}
 D_SRC = ./src/
-SRC = $(addprefix ${D_SRC}, ${S_SRC}) ${SRC_BUILT_IN}
+SRC = $(addprefix ${D_SRC}, ${S_SRC})
 
-S_OBJ = ${S_SRC:.c=.o} ${SRC_BUILT_IN:.c=.o}
+S_OBJ = ${S_SRC:.c=.o}
 D_OBJ = ./obj/
 OBJ = $(addprefix ${D_OBJ}, ${S_OBJ})
 
@@ -35,6 +38,7 @@ ${NAME}	:	${D_OBJ}  ${OBJ}
 ${D_OBJ}:
 	mkdir -p ${D_OBJ}
 	mkdir -p ${D_OBJ}${D_BUILT_IN}
+	mkdir -p ${D_OBJ}${D_LEXER}
 
 clean :
 	rm -f ${OBJ}

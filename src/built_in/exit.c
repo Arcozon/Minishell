@@ -6,13 +6,15 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:02:13 by geudes            #+#    #+#             */
-/*   Updated: 2023/01/26 10:12:35 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/02 19:59:41 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	__exit(void)
+//Return nothing
+void	bi_exit(void)
 {
+	rl_clear_history();
 	exit (0);
 }
