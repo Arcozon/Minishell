@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/02 20:04:49 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/03 14:14:13 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_cmd	*parsing_t_cmd(char *cmd, int input, int output, int e_output);
 void	aff_lexer(t_lexer *root);
 void	change_space(t_lexer **root);
 void	change_text(t_lexer *root);
+void	change_text_into_cmd_args(t_lexer *root);
 
 /*---------------------Built ins----------------------*/
 int		bi_echo(char **av, char **env);
