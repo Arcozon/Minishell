@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:05:21 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/03 17:12:08 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/06 08:27:51 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,33 +67,32 @@ void	get_text(const char *line, int *start, t_lexer **root)
 static inline int	lasttypeisundefined(int type)
 {
 	static int	typemap[] = {0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 0};
+		1, 1, 1, 1, 1, 1};
 
 	if (type >= 0 && type < MAX_TYPE)
 		return (typemap[type]);
 	return (0);
 }
 
-void	change_text_into_cmd_args(t_lexer *root)
+// Arcozon war here, info&1 for i m in var, info&2 for i m in cmd
+void	change_text_into_cmd_args_but_not_var(t_lexer *root)
 {
-	int	lasttype;
+	int	info;
 
-	lasttype = UNDEFINED_TYPE;
-
+	info = 0;
 	while (root)
 	{
-		if (root->type == TEXT && lasttype == UNDEFINED_TYPE)
+		if (root->type == TEXT && !info)
 		{
 			root->type = CMD;
-			lasttype = CMD;
+			info |= 2;
 		}
-		else if (root->type == TEXT && (lasttype == CMD || lasttype == ARGS))
-		{
+		else if (root->type == TEXT && info & 2 && !(info & 1))
 			root->type = ARGS;
-			lasttype = ARGS;
-		}
-		else if (lasttypeisundefined(root->type))
-			lasttype = UNDEFINED_TYPE;
+		else if (lasttypeisundefined(root->type) && !(info & 2))
+			info = 0;
+		if (!(info & 2) && root->type == EQUAL)
+			info |= 1;
 		root = root->next;
 	}
 }

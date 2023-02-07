@@ -10,7 +10,11 @@ S_SYNTAX =  syntax.c
 D_SYNTAX = syntax/
 SRC_SYNTAX = $(addprefix ${D_SYNTAX}, ${S_SYNTAX})
 
-S_SRC = main.c  utils.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}
+S_UTILS =  utils.c  utils2.c
+D_UTILS = utils/
+SRC_UTILS = $(addprefix ${D_UTILS}, ${S_UTILS})
+
+S_SRC = main.c    ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}
 D_SRC = ./src/
 SRC = $(addprefix ${D_SRC}, ${S_SRC})
 
@@ -44,6 +48,7 @@ ${D_OBJ}:
 	mkdir -p ${D_OBJ}${D_BUILT_IN}
 	mkdir -p ${D_OBJ}${D_LEXER}
 	mkdir -p ${D_OBJ}${D_SYNTAX}
+	mkdir -p ${D_OBJ}${D_UTILS}
 
 clean :
 	rm -f ${OBJ}

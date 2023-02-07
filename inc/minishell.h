@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/03 17:08:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/07 05:19:12 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,21 @@
 
 # define MAX_TYPE				22
 
+/*-------------------Environement-------------------*/
+typedef struct t_env
+{
+	char			*var_name;
+	char			*content;
+	struct t_env	*next;
+}	t_lexer;
+
+/*---------------------Built ins----------------------*/
+int		bi_echo(char **av, t_env *env);
+int		bi_pwd(char **av, t_env *env);
+int		bi_cd(char **av, t_env *env);
+int		bi_env(char **av, t_env *env);
+void	bi_exit(void);
+
 /*-----------------------Lexer----------------------*/
 typedef struct s_lexer
 {
@@ -64,7 +79,7 @@ void	change_text(t_lexer *root);
 void	aff_lexer(t_lexer *root);
 void	change_space(t_lexer **root);
 void	change_text(t_lexer *root);
-void	change_text_into_cmd_args(t_lexer *root);
+void	change_text_into_cmd_args_but_not_var(t_lexer *root);
 
 /*---------------------Syntax-----------------------*/
 int		check_parenthesis(t_lexer *root);
@@ -72,24 +87,7 @@ int		check_special(t_lexer *root);
 int		syntax(t_lexer *root);
 
 /*--------------------Parsing-----------------------*/
-typedef struct s_cmd
-{
-	char			**cmd;
-	int				input;
-	int				output;
-	int				e_output;
-	struct s_cmd	*next_cmd;
-}	t_cmd;
 
-char	**get_cmd(char *line);
-t_cmd	*parsing_t_cmd(char *cmd, int input, int output, int e_output);
-
-/*---------------------Built ins----------------------*/
-int		bi_echo(char **av, char **env);
-int		bi_pwd(char **av, char **env);
-int		bi_cd(char **av, char **env);
-int		bi_env(char **av, char **env);
-void	bi_exit(void);
 
 char	*get_pwd(void);
 

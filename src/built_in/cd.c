@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:46 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/02 19:58:03 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/07 05:17:12 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*get_path(char **av)
 // Returns 0 on succes 1 on error
 // Av is a Null terminated char** with av[0] being the name of the function,
 // and av[1]...av[n] the arguments
-int	bi_cd(char **av, char **env)
+int	bi_cd(char **av, t_env *env)
 {
 	char	*path;
 
@@ -48,7 +48,7 @@ int	bi_cd(char **av, char **env)
 	path = get_path(av);
 	if (!path)
 		return (0);
-	if (chdir(path))
+	if (chdir(path))(char **av, t_env *env)
 	{
 		write (2, "Minishell: cd :", 15);
 		write (2, av[1], ft_strlen(av[1]));

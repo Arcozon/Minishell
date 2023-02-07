@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/03 17:20:34 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/07 04:24:05 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,41 @@ int	check_special(t_lexer *root)
 	return (1);
 }
 
+int	check_cmd(t_lexer *root)
+{
+	static int	is_sep[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 1, 1, 1, 1, 1, 0, 0};
+	int			i_m_in_cmd;
+
+	i_m_in_cmd = 0;
+	while (root)
+	{
+		if (root->type == CMD && !i_m_in_cmd)
+			i_m_in_cmd = 1;
+		else if (root->type == CMD && i_m_in_cmd)
+			return (0);
+		if (i_m_in_cmd && root->type >= 0 && root->type < MAX_TYPE
+			&& is_sep[root->type])
+			i_m_in_cmd = 0;
+		root = root->next;
+	}
+	return (1);
+}
+
+int	check_quote(t_lexer *root)
+{
+	while (root)
+	{
+		if (root->type == TEXT_SQ || root->type == TEXT_DQ)
+			if (root->content[0] != root->content[ft_strlen(root->content) - 1])
+				return (0);
+		root = root->next;
+	}
+	return (1);
+}
+
 int	syntax(t_lexer *root)
 {
-	return (check_parenthesis(root) && check_special(root));
+	return (check_parenthesis(root) && check_special(root) && check_cmd(root)
+		&& check_quote(root));
 }

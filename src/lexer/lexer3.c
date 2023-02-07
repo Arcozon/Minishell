@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:16:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/02 20:04:32 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/06 08:15:46 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,19 @@ void	free_chain_lexer(t_lexer **root)
 	*root = (*root)->next;
 	free(buff->content);
 	free(buff);
-
 }
 
 static int	i_m_space(int pre_type, int next_type)
 {
 	static int	trad_pre[] = {SPACE_, MUST_DELETE, MUST_DELETE, MUST_DELETE,
-		SPACE_, SPACE_, MUST_DELETE, SPACE_, SPACE_, MUST_DELETE, MUST_DELETE,
+		SPACE_, SPACE_, SPACE_, SPACE_, SPACE_, MUST_DELETE, MUST_DELETE,
 		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE,
-		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE,
+		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, SPACE_,
 		MUST_DELETE};
 	static int	trad_next[] = {SPACE_, MUST_DELETE, MUST_DELETE, MUST_DELETE,
 		SPACE_, SPACE_, SPACE_, SPACE_, SPACE_, MUST_DELETE, MUST_DELETE,
 		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE,
-		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE,
+		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, SPACE_,
 		MUST_DELETE};
 	int			mytype;
 
