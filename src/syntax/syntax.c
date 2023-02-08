@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/07 04:24:05 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/08 07:46:57 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	check_parenthesis(t_lexer *root)
 // Returns 1 if OK 0 if not
 int	check_special(t_lexer *root)
 {
-	static int	is_special[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
-		1, 1, 1, 1, 0, 0, 1, 0};
+	static int	is_special[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
+		1, 1, 1, 1, 0, 0, 0};
 	int			last_type_was_special;
 
 	last_type_was_special = 0;
@@ -59,10 +59,11 @@ int	check_special(t_lexer *root)
 	return (1);
 }
 
+// Returns 1 if OK 0 if not
 int	check_cmd(t_lexer *root)
 {
-	static int	is_sep[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 1, 1, 1, 1, 1, 0, 0};
+	static int	is_sep[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 1, 1, 1, 1, 1, 0};
 	int			i_m_in_cmd;
 
 	i_m_in_cmd = 0;
@@ -80,6 +81,7 @@ int	check_cmd(t_lexer *root)
 	return (1);
 }
 
+// Returns 1 if OK 0 if not
 int	check_quote(t_lexer *root)
 {
 	while (root)

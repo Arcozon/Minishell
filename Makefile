@@ -14,7 +14,7 @@ S_UTILS =  utils.c  utils2.c
 D_UTILS = utils/
 SRC_UTILS = $(addprefix ${D_UTILS}, ${S_UTILS})
 
-S_SRC = main.c    ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}
+S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}
 D_SRC = ./src/
 SRC = $(addprefix ${D_SRC}, ${S_SRC})
 

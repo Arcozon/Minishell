@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/07 05:19:12 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/08 07:41:18 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define PROMPT ">Minishell: "
+# define PROMPT ">Minishell:"
 
+//ls | xargs -I var find var -name "PATERN" -not -path '* /\.*' | grep -v /
 /*--------------------Lexing-----------------------*/
 # define MUST_DELETE			-3
 # define UNDEFINED_TYPE			-2
@@ -32,31 +33,34 @@
 # define CMD					4
 # define ARGS					5
 # define VAR					6
-# define TEXT_SQ				7
-# define TEXT_DQ				8
-# define INPUT_REDIR			9
-# define INPUT_HEREDOC			10
-# define HEREDOC_EOF			11
-# define OUTPUT_REDIR			12
-# define OUTPUT_HAPPEND_REDIR	13
-# define ERROR_REDIR			14
-# define PIPE					15
-# define AND					16
-# define OR						17
-# define OPEN_PAR				18
-# define CLOSE_PAR				19
-# define EQUAL					20
-# define SPACE_					21
+# define TEXT_SQ				6
+# define TEXT_DQ				7
+# define INPUT_REDIR			8
+# define INPUT_HEREDOC			9
+# define HEREDOC_EOF			10
+# define OUTPUT_REDIR			11
+# define OUTPUT_HAPPEND_REDIR	12
+# define ERROR_REDIR			13
+# define PIPE					14
+# define AND					15
+# define OR						16
+# define OPEN_PAR				17
+# define CLOSE_PAR				18
+# define SPACE_					19
 
-# define MAX_TYPE				22
+# define MAX_TYPE				20
 
 /*-------------------Environement-------------------*/
-typedef struct t_env
+typedef struct s_env
 {
 	char			*var_name;
 	char			*content;
-	struct t_env	*next;
-}	t_lexer;
+	struct s_env	*next;
+}	t_env;
+
+void	env_addback(t_env **root, t_env *new);
+t_env	*cpy_env(char **_env);
+t_env	*new_env(char *var);
 
 /*---------------------Built ins----------------------*/
 int		bi_echo(char **av, t_env *env);
@@ -64,6 +68,8 @@ int		bi_pwd(char **av, t_env *env);
 int		bi_cd(char **av, t_env *env);
 int		bi_env(char **av, t_env *env);
 void	bi_exit(void);
+
+char	*get_pwd(void);
 
 /*-----------------------Lexer----------------------*/
 typedef struct s_lexer
@@ -79,7 +85,7 @@ void	change_text(t_lexer *root);
 void	aff_lexer(t_lexer *root);
 void	change_space(t_lexer **root);
 void	change_text(t_lexer *root);
-void	change_text_into_cmd_args_but_not_var(t_lexer *root);
+void	change_text_into_cmd_args(t_lexer *root);
 
 /*---------------------Syntax-----------------------*/
 int		check_parenthesis(t_lexer *root);
@@ -87,9 +93,6 @@ int		check_special(t_lexer *root);
 int		syntax(t_lexer *root);
 
 /*--------------------Parsing-----------------------*/
-
-
-char	*get_pwd(void);
 
 /*-----------------------Utils------------------------*/
 char	*ft_strdup(const char *s);

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:56:07 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/06 08:31:18 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/08 07:41:28 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	short_add_chain(t_lexer **root, const char *line, int *start, int t)
 {
-	static int	len[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 1, 2, 2,
-		1, 2, 2, 1, 1, 1, 0};
+	static int	len[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 1, 2, 2,
+		1, 2, 2, 1, 1, 0};
 
 	(*root)->type = t;
 	(*root)->content = ft_substr(line, *start, len[t]);
@@ -34,8 +34,6 @@ static void	add_chain2(t_lexer **root, const char *line, int *start)
 		short_add_chain(root, line, start, OPEN_PAR);
 	else if (line[*start] == ')')
 		short_add_chain(root, line, start, CLOSE_PAR);
-	else if (line[*start] == '=')
-		short_add_chain(root, line, start, EQUAL);
 	else
 		get_text(line, start, root);
 }
@@ -60,8 +58,6 @@ void	add_chain(t_lexer **root, const char *line, int *start)
 		short_add_chain(root, line, start, OUTPUT_REDIR);
 	else if (line[*start] == '<')
 		short_add_chain(root, line, start, INPUT_REDIR);
-	else if (line[*start] == '<')
-		short_add_chain(root, line, start, EQUAL);
 	else
 		add_chain2(root, line, start);
 }
@@ -77,6 +73,6 @@ t_lexer	*lexer(const char *line)
 		add_chain(&root, line, &start);
 	change_space(&root);
 	change_text(root);
-	change_text_into_cmd_args_but_not_var(root);
+	change_text_into_cmd_args(root);
 	return (root);
 }

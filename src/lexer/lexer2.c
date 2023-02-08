@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:05:21 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/06 08:27:51 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/08 07:47:46 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	aff_lexer(t_lexer *root)
 {
 	static char	*trad[] = {"TEXT", "FILE_INPUT", "FILE_OUTPUT", "FILE_ERROR",
-		"CMD", "ARGS", "VAR", "TEXT_SQ", "TEXT_DQ", "INPUT_REDIR",
+		"CMD", "ARGS", "TEXT_SQ", "TEXT_DQ", "INPUT_REDIR",
 		"INPUT_HEREDOC", "HEREDOC_EOF", "OUTPUT_REDIR", "OUTPUT_HAPPEND_REDIR",
-		"ERROR_REDIR", "PIPE", "AND", "OR", "OPEN_PAR", "CLOSE_PAR", "EQUAL",
+		"ERROR_REDIR", "PIPE", "AND", "OR", "OPEN_PAR", "CLOSE_PAR",
 		"SPACE"};
 
 	while (root)
@@ -32,7 +32,7 @@ void	aff_lexer(t_lexer *root)
 
 static inline int	is_special_char(char c)
 {
-	return (c == ' ' || c == '|' || c == '(' || c == ')' || c == '='
+	return (c == ' ' || c == '|' || c == '(' || c == ')'
 		|| c == '<' || c == '>' || c == '\'' || c == '"');
 }
 
@@ -66,33 +66,30 @@ void	get_text(const char *line, int *start, t_lexer **root)
 
 static inline int	lasttypeisundefined(int type)
 {
-	static int	typemap[] = {0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 1};
+	static int	typemap[] = {0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1};
 
 	if (type >= 0 && type < MAX_TYPE)
 		return (typemap[type]);
 	return (0);
 }
 
-// Arcozon war here, info&1 for i m in var, info&2 for i m in cmd
-void	change_text_into_cmd_args_but_not_var(t_lexer *root)
+void	change_text_into_cmd_args(t_lexer *root)
 {
-	int	info;
+	int	i_m_in_cmd;
 
-	info = 0;
+	i_m_in_cmd = 0;
 	while (root)
 	{
-		if (root->type == TEXT && !info)
+		if (root->type == TEXT && !i_m_in_cmd)
 		{
 			root->type = CMD;
-			info |= 2;
+			i_m_in_cmd = 1;
 		}
-		else if (root->type == TEXT && info & 2 && !(info & 1))
+		else if (root->type == TEXT && i_m_in_cmd)
 			root->type = ARGS;
-		else if (lasttypeisundefined(root->type) && !(info & 2))
-			info = 0;
-		if (!(info & 2) && root->type == EQUAL)
-			info |= 1;
+		else if (lasttypeisundefined(root->type) && !i_m_in_cmd)
+			i_m_in_cmd = 0;
 		root = root->next;
 	}
 }

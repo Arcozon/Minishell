@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:46 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/07 05:17:12 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/08 00:09:15 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	bi_cd(char **av, t_env *env)
 	path = get_path(av);
 	if (!path)
 		return (0);
-	if (chdir(path))(char **av, t_env *env)
+	if (chdir(path))
 	{
 		write (2, "Minishell: cd :", 15);
 		write (2, av[1], ft_strlen(av[1]));

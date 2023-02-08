@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:16:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/06 08:15:46 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/08 07:40:33 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	i_m_text(int pre_type, int next_type)
 {
-	static int	trad_pre[] = {ERROR, ERROR, ERROR, ERROR, ARGS, ARGS, ERROR,
+	static int	trad_pre[] = {ERROR, ERROR, ERROR, ERROR, ARGS, ARGS,
 		ARGS, ARGS, FILE_INPUT, HEREDOC_EOF, CMD, FILE_OUTPUT, FILE_OUTPUT,
-		FILE_ERROR, CMD, TEXT, TEXT, TEXT, TEXT, TEXT};
-	static int	trad_next[] = {ERROR, ERROR, ERROR, ERROR, ERROR, TEXT, TEXT,
+		FILE_ERROR, CMD, TEXT, TEXT, TEXT, TEXT};
+	static int	trad_next[] = {ERROR, ERROR, ERROR, ERROR, ERROR, TEXT,
 		TEXT, TEXT, ERROR, ERROR, ERROR, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT,
-		TEXT, TEXT, VAR, TEXT};
+		TEXT, TEXT, TEXT};
 	int			mytype;
 
 	mytype = TEXT;
@@ -64,15 +64,13 @@ void	free_chain_lexer(t_lexer **root)
 static int	i_m_space(int pre_type, int next_type)
 {
 	static int	trad_pre[] = {SPACE_, MUST_DELETE, MUST_DELETE, MUST_DELETE,
-		SPACE_, SPACE_, SPACE_, SPACE_, SPACE_, MUST_DELETE, MUST_DELETE,
+		SPACE_, SPACE_, SPACE_, SPACE_, MUST_DELETE, MUST_DELETE,
 		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE,
-		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, SPACE_,
-		MUST_DELETE};
+		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE};
 	static int	trad_next[] = {SPACE_, MUST_DELETE, MUST_DELETE, MUST_DELETE,
-		SPACE_, SPACE_, SPACE_, SPACE_, SPACE_, MUST_DELETE, MUST_DELETE,
+		SPACE_, SPACE_, SPACE_, SPACE_, MUST_DELETE, MUST_DELETE,
 		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE,
-		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, SPACE_,
-		MUST_DELETE};
+		MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE, MUST_DELETE};
 	int			mytype;
 
 	mytype = SPACE_;
