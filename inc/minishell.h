@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/08 07:41:18 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/08 08:01:07 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-void	env_addback(t_env **root, t_env *new);
 t_env	*cpy_env(char **_env);
-t_env	*new_env(char *var);
 
 /*---------------------Built ins----------------------*/
 int		bi_echo(char **av, t_env *env);
@@ -70,6 +68,8 @@ int		bi_env(char **av, t_env *env);
 void	bi_exit(void);
 
 char	*get_pwd(void);
+t_env	*new_env(char *var);
+void	env_addback(t_env **root, t_env *new);
 
 /*-----------------------Lexer----------------------*/
 typedef struct s_lexer
