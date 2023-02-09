@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:46 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/08 00:09:15 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/09 05:52:57 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ static char	*get_path(char **av)
 	while (av[ac])
 		ac++;
 	if (ac > 2)
-		return (perror("Minishell: cd: Too many arguments\n"), (char *)0);
+		return (write(2, "Minishell: cd: Too many arguments\n", 34), (char *)0);
 	if (ac == 1)
 		return (ft_strdup("~"));
+	if (ft_strlen(av[1]) > 255)
+		return (write(2, "Minishell: cd: File name too long\n", 34), (char *)0);
 	if (av[1][0] != '/' && av[1][0] != '~')
 	{
 		pwd = get_pwd();
 		if (!pwd)
-			return (perror("Minishell: cd: Pwd error\n"), (char *)0);
+			return (write(2, "Minishell: cd: Pwd error\n", 25), (char *)0);
 		path = ft_strjoin_with_slash(pwd, av[1]);
 		free(pwd);
 		return (path);

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 08:44:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/07 05:19:28 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/09 05:50:03 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	bi_echo(char **av, t_env *env)
 
 	i = 0;
 	(void)env;
-	if (!av)
-		return (perror("Minishell: echo: av Null\n"), 1);
 	while (av[i])
 		i++;
 	dash_n = 0;
@@ -40,5 +38,5 @@ int	bi_echo(char **av, t_env *env)
 	}
 	if (!dash_n)
 		write(1, "\n", 1);
-	return (1);
+	return (0);
 }
