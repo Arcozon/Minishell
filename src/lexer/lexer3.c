@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:16:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/08 07:40:33 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/10 11:31:49 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	change_space(t_lexer **root)
 	int		next_type;
 
 	pre_type = UNDEFINED_TYPE;
+	if (root && *root && (*root)->type == SPACE_)
+		(*root)->type = MUST_DELETE;
 	actual_chain = *root;
 	while (actual_chain)
 	{
@@ -103,6 +105,7 @@ void	change_space(t_lexer **root)
 	{
 		if ((*root)->type == MUST_DELETE)
 			free_chain_lexer(root);
-		root = &((*root)->next);
+		else
+			root = &((*root)->next);
 	}
 }

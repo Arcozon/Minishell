@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:05:21 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/08 07:47:46 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/10 12:46:11 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	aff_lexer(t_lexer *root)
 
 static inline int	is_special_char(char c)
 {
-	return (c == ' ' || c == '|' || c == '(' || c == ')'
+	return (c == ' ' || c == '\t' || c == '|' || c == '(' || c == ')'
 		|| c == '<' || c == '>' || c == '\'' || c == '"');
 }
 
@@ -43,8 +43,9 @@ void	get_text(const char *line, int *start, t_lexer **root)
 
 	len = 0;
 	lastsep = line[*start];
-	if (line[*start] && line[*start] == ' ')
-		while (line[*start + len] && line[*start + len] == ' ')
+	if (line[*start] && (line[*start] == ' ' || line[*start] == '\t'))
+		while (line[*start + len] && (line[*start + len] == ' '
+				|| line[*start + len] == '\t'))
 			len++;
 	else if (line[*start] && (line[*start] == '\'' || line[*start] == '"'))
 		while (line[*start + ++len] && line[*start + len] != lastsep)
@@ -58,7 +59,7 @@ void	get_text(const char *line, int *start, t_lexer **root)
 		(*root)->type = (len++, TEXT_SQ);
 	else if (lastsep == '"')
 		(*root)->type = (len++, TEXT_DQ);
-	else if (lastsep == ' ')
+	else if (lastsep == ' ' || lastsep == '\t')
 		(*root)->type = SPACE_;
 	(*root)->content = ft_substr(line, *start, len);
 	(*start) += len;

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/09 05:46:29 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/10 12:41:24 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,22 @@ int	main(int ac, char **av, char **_env)
 	(void)ac;
 	(void)av;
 	env = cpy_env(_env);
-	char *exp[] = {"env", "=abc", "PATH=LECACA", 0};
-	bi_export(exp, &env);
+	char *unset[] = {"unset", "PATH", "USER_ZDOTDIR", 0};
+	bi_unset(unset, &env);
 	bi_env(0, env);
 	line = 0;
 	while (1)
 	{
 		line = readline(PROMPT);
+
+		if (!line)
+			break ;
 		if (ft_strlen(line))
 			add_history(line);
 		root_lexer = lexer(line);
 		aff_lexer(root_lexer);
 		printf("Syntax: %d\n", syntax(root_lexer));
 	}
+	bi_exit();
 	return (0);
 }

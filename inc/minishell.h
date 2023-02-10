@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/09 04:38:55 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/10 11:06:48 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int		bi_pwd(char **av, t_env *env);
 int		bi_cd(char **av, t_env *env);
 int		bi_env(char **av, t_env *env);
 int		bi_export(char **av, t_env **env);
+int		bi_unset(char **av, t_env **env);
 void	bi_exit(void);
 
 char	*get_pwd(void);

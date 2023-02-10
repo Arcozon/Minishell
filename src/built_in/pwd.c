@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:43 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/09 05:50:47 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/10 10:42:04 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	pwd(char **av, char **env)
 	(void)env;
 	pwd = get_pwd();
 	if (!pwd)
-		return (write(2, "Minishell: pwd: malloc error, 28"), 0);
+		return (write(2, "Minishell: pwd: malloc error", 28), 0);
 	write(1, pwd, ft_strlen(pwd));
 	pwd[0] = '\n';
 	write(1, pwd, 1);
