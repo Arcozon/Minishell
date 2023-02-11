@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:54:37 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/09 05:46:06 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/11 01:13:52 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,5 @@ int	bi_export(char **av, t_env **env)
 			i_equal++;
 		do_i->content = ft_substr(av[i], i_equal + 1, ft_strlen(av[i]));
 	}
-	return (0);
+	return (returnvalue);
 }

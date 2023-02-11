@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/10 11:06:48 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/11 01:59:43 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,19 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }	t_lexer;
 
-t_lexer	*lexer(const char *line);
+t_lexer	*lexer(const char *line, t_env *env);
 void	get_text(const char *line, int *start, t_lexer **root);
 void	change_text(t_lexer *root);
 void	aff_lexer(t_lexer *root);
 void	change_space(t_lexer **root);
 void	change_text(t_lexer *root);
 void	change_text_into_cmd_args(t_lexer *root);
+
+/*---------------------Expand-----------------------*/
+void    expand_me_onee_chan(t_lexer **root, t_env *env);
+void    expand_sq(t_lexer **root, t_env *env);
+void    expand_dq(t_lexer **root, t_env *env);
+void    expand_text(t_lexer **root, t_env *env);
 
 /*---------------------Syntax-----------------------*/
 int		check_parenthesis(t_lexer *root);
@@ -96,7 +102,7 @@ int		syntax(t_lexer *root);
 
 /*--------------------Parsing-----------------------*/
 
-/*-----------------------Utils------------------------*/
+/*----------------------Utils-----------------------*/
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strjoin_with_slash(char const *s1, char const *s2);
