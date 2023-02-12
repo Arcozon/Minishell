@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:56:07 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/11 01:55:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/12 05:55:25 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_lexer	*lexer(const char *line, t_env *env)
 	root = 0;
 	while (line[start])
 		add_chain(&root, line, &start);
-	expand_me_onee_chan(&root, env);
+	expand_me_onee_chan(root, env);
 	change_space(&root);
 	change_text(root);
 	change_text_into_cmd_args(root);

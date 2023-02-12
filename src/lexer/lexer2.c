@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:05:21 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/10 12:46:11 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/12 06:18:34 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ void	aff_lexer(t_lexer *root)
 		if (root->type >= 0 && root->type <= MAX_TYPE)
 			printf("%s>%s<\n", trad[root->type], root->content);
 		else
-			printf("Errortype\n");
+			printf("Errortype %d\n", root->type);
 		root = root->next;
 	}
 }
 
 static inline int	is_special_char(char c)
 {
-	return (c == ' ' || c == '\t' || c == '|' || c == '(' || c == ')'
-		|| c == '<' || c == '>' || c == '\'' || c == '"');
+	return (c == ' ' || c == '\t' || c == '\n' || c == '|' || c == '('
+		|| c == ')' || c == '<' || c == '>' || c == '\'' || c == '"');
 }
 
 void	get_text(const char *line, int *start, t_lexer **root)
@@ -45,7 +45,7 @@ void	get_text(const char *line, int *start, t_lexer **root)
 	lastsep = line[*start];
 	if (line[*start] && (line[*start] == ' ' || line[*start] == '\t'))
 		while (line[*start + len] && (line[*start + len] == ' '
-				|| line[*start + len] == '\t'))
+				|| line[*start + len] == '\t' || line[*start + len] == '\n'))
 			len++;
 	else if (line[*start] && (line[*start] == '\'' || line[*start] == '"'))
 		while (line[*start + ++len] && line[*start + len] != lastsep)
@@ -59,7 +59,7 @@ void	get_text(const char *line, int *start, t_lexer **root)
 		(*root)->type = (len++, TEXT_SQ);
 	else if (lastsep == '"')
 		(*root)->type = (len++, TEXT_DQ);
-	else if (lastsep == ' ' || lastsep == '\t')
+	else if (lastsep == ' ' || lastsep == '\t' || lastsep == '\n')
 		(*root)->type = SPACE_;
 	(*root)->content = ft_substr(line, *start, len);
 	(*start) += len;
@@ -85,12 +85,19 @@ void	change_text_into_cmd_args(t_lexer *root)
 		if (root->type == TEXT && !i_m_in_cmd)
 		{
 			root->type = CMD;
+			while (root && root->type != SPACE_)
+			{
+				if (root->type == TEXT)
+					root->type = CMD;
+				root = root->next;
+			}
 			i_m_in_cmd = 1;
 		}
 		else if (root->type == TEXT && i_m_in_cmd)
 			root->type = ARGS;
 		else if (lasttypeisundefined(root->type) && !i_m_in_cmd)
 			i_m_in_cmd = 0;
-		root = root->next;
+		if (root)
+			root = root->next;
 	}
 }

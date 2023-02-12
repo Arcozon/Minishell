@@ -6,14 +6,14 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 01:08:20 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/11 01:47:06 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/12 05:54:24 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    expand_text(t_lexer **root, t_env *env)
+void	expand_text(t_lexer *root, t_env *env)
 {
-    (void)root;
-    (void)env;
+	(void)root;
+	(void)env;
 }
