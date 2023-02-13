@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/12 06:04:48 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/13 16:47:41 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <dirent.h>
 
 # define PROMPT ">Minishell:"
 # define RETURN_VAR "?"
