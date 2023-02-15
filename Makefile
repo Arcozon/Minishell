@@ -2,7 +2,7 @@ S_BUILT_IN =  pwd.c  cd.c  echo.c  env.c  exit.c  export.c  unset.c
 D_BUILT_IN = built_in/
 SRC_BUILT_IN = $(addprefix ${D_BUILT_IN}, ${S_BUILT_IN})
 
-S_LEXER =  lexer.c  lexer2.c  lexer3.c
+S_LEXER =  lexer.c  lexer2.c  lexer3.c  lexer4.c
 D_LEXER = lexer/
 SRC_LEXER = $(addprefix ${D_LEXER}, ${S_LEXER})
 

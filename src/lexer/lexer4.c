@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   lexer4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 23:34:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/15 04:15:02 by geudes           ###   ########.fr       */
+/*   Created: 2023/02/15 00:09:13 by geudes            #+#    #+#             */
+/*   Updated: 2023/02/15 04:11:45 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	expand_me_onee_chan(t_lexer **root, t_env *env)
+t_lexer	*lexer_new(int type, char *content)
 {
-	t_lexer	**next;
+	t_lexer	*new;
 
-	while (*root)
+	new = malloc(sizeof(t_lexer));
+	if (!new)
 	{
-		next = &((*root)->next);
-		if ((*root)->type == TEXT_SQ)
-			expand_sq(*root, env);
-		else if ((*root)->type == TEXT_DQ)
-			expand_dq(*root, env);
-		else if ((*root)->type == TEXT)
-			expand_text(root, env);
-		root = next;
+		write(2, "Minishel: lexer: malloc error\n", 30);
+		return (0);
 	}
+	new->content = content;
+	new->type = type;
+	new->next = 0;
+	return (new);
+}
+
+void	lexer_add_back(t_lexer **root, t_lexer *new)
+{
+	if (!root)
+		return ;
+	while (*root)
+		root = &((*root)->next);
+	*root = new;
 }

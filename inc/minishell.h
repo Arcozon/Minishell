@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/13 16:47:41 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/15 04:19:06 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }					t_lexer;
 
+void				lexer_add_back(t_lexer **root, t_lexer *new);
+t_lexer				*lexer_new(int type, char *content);
 t_lexer				*lexer(const char *line, t_env *env);
 void				get_text(const char *line, int *start, t_lexer **root);
 void				change_text(t_lexer *root);
@@ -94,10 +96,11 @@ void				change_text(t_lexer *root);
 void				change_text_into_cmd_args(t_lexer *root);
 
 /*---------------------Expand-----------------------*/
-void				expand_me_onee_chan(t_lexer *root, t_env *env);
+void				expand_me_onee_chan(t_lexer **root, t_env *env);
 void				expand_sq(t_lexer *root, t_env *env);
 void				expand_dq(t_lexer *root, t_env *env);
-void				expand_text(t_lexer *root, t_env *env);
+void				expand_text(t_lexer **root, t_env *env);
+void				expand_wc(t_lexer **root);
 char				*expand_var_name(char *text, int *start, t_env *env);
 char				*expand_dollar_sign(char *text, t_env *env);
 

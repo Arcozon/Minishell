@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 23:51:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/13 16:49:48 by geudes           ###   ########.fr       */
+/*   Updated: 2023/02/15 04:28:30 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,49 +28,55 @@ int	check_patern(char *patern, char *str)
 	return (0);
 }
 
-int	count_curdir(char *pwd, char *patern)
-{
-	struct dirent	*files;
-	DIR				*dir;
-	int				count;
-	int				ret;
-
-	dir = opendir(pwd);
-	if (!dir)
-		return (write(2, "error\n", 6), 0);
-	count = 0;
-	ret = 1;
-	files = readdir(dir);
-	if (files && (files->d_name[0] == '.' || !wildcard(patern, files->d_name)))
-		count --;
-	while (files)
-	{
-		count++;
-		files = readdir(dir);
-		if (!files)
-			break ;
-		if (files->d_name[0] == '.' || !wildcard(patern, files->d_name))
-			count --;
-	}
-	closedir(dir);
-	return (count);
-}
-
 char	*gimme_next_file_name(DIR *dir, char *patern)
 {
 	struct dirent	*f;
-	char			*res;
 
 	f = readdir(dir);
-	while (f && (f->d_name[0] == '.' || !wildcard(patern, f->d_name)))
+	while (f && (f->d_name[0] == '.' || !check_patern(patern, f->d_name)))
 		f = readdir(dir);
 	if (!f)
 		return (0);
-	res = ft_strdup(f->d_name);
-	return (res);
+	return (ft_strdup(f->d_name));
 }
 
-void	expand_wc(char *patern)
+t_lexer	*find_all_wc(char *patern)
 {
+	char	*text;
+	t_lexer	*res;
+	DIR		*dir;
 
+	text = get_pwd();
+	if (!text)
+		return (write(2, "Minishell: wildcard: can't find pwd\n", 36),
+			(t_lexer *)0);
+	res = 0;
+	dir = opendir(text);
+	if (!dir)
+		return (write(2, "Minishell: wildcard: can't open directory\n", 6),
+			free(text), (t_lexer *)0);
+	text = (free(text), gimme_next_file_name(dir, patern));
+	if (!text)
+		return (write(2, "Minishell: wildcard: No match\n", 30),
+			lexer_new(TEXT, ft_strdup(patern)));
+	while (text)
+	{
+		lexer_add_back(&res, lexer_new(SPACE_, 0));
+		lexer_add_back(&res, lexer_new(TEXT, text));
+		text = gimme_next_file_name(dir, patern);
+	}
+	return (closedir(dir), res);
+}
+
+void	expand_wc(t_lexer **root)
+{
+	t_lexer	*next;
+	char	*patern;
+
+	next = (*root)->next;
+	patern = (*root)->content;
+	free(*root);
+	*root = find_all_wc(patern);
+	free(patern);
+	lexer_add_back(root, next);
 }
