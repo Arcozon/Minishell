@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:56:07 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/15 04:18:15 by geudes           ###   ########.fr       */
+/*   Updated: 2023/04/17 16:17:52 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,17 @@ t_lexer	*lexer(const char *line, t_env *env)
 	change_text(root);
 	change_text_into_cmd_args(root);
 	return (root);
+}
+
+void	free_lexer(t_lexer *root)
+{
+	t_lexer	*next;
+
+	while (root)
+	{
+		next = root->next;
+		free(root->content);
+		free(root);
+		root = next;
+	}
 }

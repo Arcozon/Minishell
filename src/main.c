@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/12 06:05:03 by geudes           ###   ########.fr       */
+/*   Updated: 2023/04/17 15:43:19 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int ac, char **av, char **_env)
 		root_lexer = lexer(line, env);
 		aff_lexer(root_lexer);
 		printf("Syntax: %d\n", syntax(root_lexer));
+		free_lexer(root_lexer);
 	}
 	bi_exit();
 	return (0);
