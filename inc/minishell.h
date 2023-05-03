@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/04/17 15:44:32 by geudes           ###   ########.fr       */
+/*   Updated: 2023/05/03 16:28:52 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,27 @@ int					check_special(t_lexer *root);
 int					syntax(t_lexer *root);
 
 /*--------------------Parsing-----------------------*/
+typedef struct s_input_output
+{
+	int		type;
+	char	*name;
+}	t_input_output;
+
+typedef struct s_sub_cmd
+{
+	int					input;
+	int					output;
+	t_input_output		inoutput;
+	char				**cmd;
+	struct s_sub_cmd	*next;
+}	t_subcmd;
+
+typedef struct s_cmd
+{
+	int			logical_op;
+	t_subcmd	r_cmd;
+	t_subcmd	l_cnd;
+}	t_cmd;
 
 /*----------------------Utils-----------------------*/
 char				*ft_strdup(const char *s);
