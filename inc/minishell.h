@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/05/03 16:28:52 by geudes           ###   ########.fr       */
+/*   Updated: 2023/05/29 18:23:00 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,28 +110,32 @@ int					check_parenthesis(t_lexer *root);
 int					check_special(t_lexer *root);
 int					syntax(t_lexer *root);
 
-/*--------------------Parsing-----------------------*/
-typedef struct s_input_output
+/*--------------------WTF Binary Tree-----------------------*/
+typedef struct t_ioe_put
 {
-	int		type;
-	char	*name;
-}	t_input_output;
-
-typedef struct s_sub_cmd
-{
-	int					input;
-	int					output;
-	t_input_output		inoutput;
-	char				**cmd;
-	struct s_sub_cmd	*next;
-}	t_subcmd;
+	int						type;
+	char					*name;
+	struct s_input_output	*next;
+}	t_ioe_put;
 
 typedef struct s_cmd
 {
-	int			logical_op;
-	t_subcmd	r_cmd;
-	t_subcmd	l_cnd;
+	int				input;
+	int				output;
+	int				error;
+	t_ioe_put		*inoutput;
+	char			**cmd;
+	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct s_wtb
+{
+	int				logical_op;
+	t_cmd			*r_cmd;
+	t_cmd			*l_cnd;
+	struct s_wtb	*r_wtb;
+	struct s_wtb	*l_wtb;
+}	t_wtb;
 
 /*----------------------Utils-----------------------*/
 char				*ft_strdup(const char *s);
