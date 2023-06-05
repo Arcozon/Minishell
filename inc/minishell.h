@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/05/29 18:23:00 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/05 02:24:08 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void				free_lexer(t_lexer *root);
 void				expand_me_onee_chan(t_lexer **root, t_env *env);
 void				expand_sq(t_lexer *root, t_env *env);
 void				expand_dq(t_lexer *root, t_env *env);
-void				expand_text(t_lexer **root, t_env *env);
-void				expand_wc(t_lexer **root);
+t_lexer				**expand_text(t_lexer **root, t_env *env);
+t_lexer				**expand_wc(t_lexer **root);
 char				*expand_var_name(char *text, int *start, t_env *env);
 char				*expand_dollar_sign(char *text, t_env *env);
 
@@ -111,11 +111,11 @@ int					check_special(t_lexer *root);
 int					syntax(t_lexer *root);
 
 /*--------------------WTF Binary Tree-----------------------*/
-typedef struct t_ioe_put
+typedef struct s_ioe_put
 {
 	int						type;
 	char					*name;
-	struct s_input_output	*next;
+	struct s_ioe_put		*next;
 }	t_ioe_put;
 
 typedef struct s_cmd
@@ -132,7 +132,7 @@ typedef struct s_wtb
 {
 	int				logical_op;
 	t_cmd			*r_cmd;
-	t_cmd			*l_cnd;
+	t_cmd			*l_cmd;
 	struct s_wtb	*r_wtb;
 	struct s_wtb	*l_wtb;
 }	t_wtb;
