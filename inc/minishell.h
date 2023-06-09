@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/05 02:24:08 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/08 08:56:40 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # define PROMPT ">Minishell:"
 # define RETURN_VAR "?"
 
-//ls | xargs -I var find var -name "PATERN" -not -path '* /\.*' | grep -v /
 /*--------------------Lexing-----------------------*/
 # define MUST_DELETE -3
 # define UNDEFINED_TYPE -2
@@ -96,6 +95,8 @@ void				change_text(t_lexer *root);
 void				change_text_into_cmd_args(t_lexer *root);
 void				free_lexer(t_lexer *root);
 
+
+//ls | xargs -I var find var -name "PATERN" -not -path '* /\.*' | grep -v /
 /*---------------------Expand-----------------------*/
 void				expand_me_onee_chan(t_lexer **root, t_env *env);
 void				expand_sq(t_lexer *root, t_env *env);
@@ -118,24 +119,47 @@ typedef struct s_ioe_put
 	struct s_ioe_put		*next;
 }	t_ioe_put;
 
-typedef struct s_cmd
+typedef struct s_lcmd
 {
 	int				input;
 	int				output;
 	int				error;
-	t_ioe_put		*inoutput;
+	t_ioe_put		*ioe_put;
 	char			**cmd;
-	struct s_cmd	*next;
-}	t_cmd;
+	struct s_lcmd	*next;
+}	t_lcmd;
 
-typedef struct s_wtb
-{
+struct s_node;
+
+	typedef struct s_opp
+	{
 	int				logical_op;
-	t_cmd			*r_cmd;
-	t_cmd			*l_cmd;
-	struct s_wtb	*r_wtb;
-	struct s_wtb	*l_wtb;
-}	t_wtb;
+	struct s_node	*r_node;
+	struct s_node	*t_node;
+}	t_opp;
+
+typedef struct s_node
+{
+	t_lcmd	*lcmd;
+	t_opp	*opp;
+}	t_node;
+
+t_node   *create_node(t_lexer *lexer);
+
+t_opp *create_opp(t_lexer *lexer);
+
+t_lcmd   *create_lcmd(t_lexer *lexer);
+char    **create_cmd(t_lexer *lexer);
+t_ioe_put   *create_ioeput(t_lexer *lexer);
+
+t_lexer  *look_for_opp(t_lexer *lexer);
+t_lexer  *look_for_pipe(t_lexer *lexer);
+t_lexer  *look_for_end_cmd(t_lexer *lexer);
+
+void    print_tree(t_node *node, int count);
+void    print_lcmd(t_lcmd *lcmd, int count);
+void    print_ioeput(t_ioe_put *ioeput);
+
 
 /*----------------------Utils-----------------------*/
 char				*ft_strdup(const char *s);

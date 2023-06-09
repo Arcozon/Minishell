@@ -14,11 +14,15 @@ S_SYNTAX =  syntax.c
 D_SYNTAX = syntax/
 SRC_SYNTAX = $(addprefix ${D_SYNTAX}, ${S_SYNTAX})
 
+S_TREE =  cmd.c  node.c  opp.c  utils.c  debug.c
+D_TREE = tree/
+SRC_TREE = $(addprefix ${D_TREE}, ${S_TREE})
+
 S_UTILS =  utils.c  utils2.c
 D_UTILS = utils/
 SRC_UTILS = $(addprefix ${D_UTILS}, ${S_UTILS})
 
-S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}  ${SRC_EXPAND}
+S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}  ${SRC_EXPAND}  ${SRC_TREE}
 D_SRC = ./src/
 SRC = $(addprefix ${D_SRC}, ${S_SRC})
 
@@ -54,6 +58,7 @@ ${D_OBJ}:
 	mkdir -p ${D_OBJ}${D_EXPAND}
 	mkdir -p ${D_OBJ}${D_SYNTAX}
 	mkdir -p ${D_OBJ}${D_UTILS}
+	mkdir -p ${D_OBJ}${D_TREE}
 
 clean :
 	rm -f ${OBJ}
