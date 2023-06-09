@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:07:23 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/08 08:56:55 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/09 09:00:30 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,24 @@ void    print_tree(t_node *node, int count)
         else
         {
             printf("Logical opp\n");
-            // print_opp(node->opp, count + 1);
+            print_opp(node->opp, count + 1);
         }
     }
     printf("End of Node %d: %p\n", count, node);
     printf("-------------\n");
+}
+
+void    print_opp(t_opp *opp, int count)
+{
+    static char *trad[] = {"OR", "AND"};
+
+    printf("############################\n");
+    printf("OPP %d: %s :%p\n", count, trad[opp->logical_opp == AND], opp);
+    printf(" --L Node %d: %p\n", count + 1, opp->l_node);
+    print_tree(opp->l_node, count + 1);
+    printf(" --R Node %d: %p\n", count + 2, opp->r_node);
+    print_tree(opp->r_node, count + 2);
+    printf("############################\n");
 }
 
 void    print_lcmd(t_lcmd *lcmd, int count)

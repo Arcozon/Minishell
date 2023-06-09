@@ -6,13 +6,13 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 23:16:00 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/08 08:58:46 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/09 09:08:47 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lcmd   *create_lcmd(t_lexer *lexer)
+t_lcmd   *create_lcmd(t_lexer *lexer, t_lexer *end_lexer)
 {
     t_lcmd   *lcmd;
 
@@ -26,9 +26,9 @@ t_lcmd   *create_lcmd(t_lexer *lexer)
     lcmd->input = 0;
     lcmd->output = 1;
     lcmd->error = 2;
-    lcmd->ioe_put = create_ioeput(lexer);
-    lcmd->cmd = create_cmd(lexer);
-    lcmd->next = create_lcmd(look_for_pipe(lexer));
+    lcmd->ioe_put = create_ioeput(lexer, end_lexer);
+    lcmd->cmd = create_cmd(lexer, end_lexer);
+    lcmd->next = create_lcmd(look_for_pipe(lexer, end_lexer), end_lexer);
     return (lcmd);
 }
 
@@ -37,7 +37,7 @@ static int count_cmdargs(t_lexer *lexer, t_lexer *end_cmd)
     int     count;
 
     count = 0;
-    while (lexer != end_cmd)
+    while (lexer && lexer != end_cmd)
     {
         if (lexer->type == CMD || lexer->type == ARGS)
             ++count;
@@ -46,24 +46,26 @@ static int count_cmdargs(t_lexer *lexer, t_lexer *end_cmd)
     return (count);
 }
 
-char    **create_cmd(t_lexer *lexer)
+char    **create_cmd(t_lexer *lexer, t_lexer *end_lexer)
 {
     t_lexer *end_cmd;
     int     count;
     char    **cmd;
 
-    end_cmd = look_for_end_cmd(lexer);
+    end_cmd = look_for_end_cmd(lexer, end_lexer);
     count = count_cmdargs(lexer, end_cmd);
     cmd = malloc(sizeof(char *) * (count + 1));
     if (!cmd)
         exit(1);
     cmd[count] = 0;
     count = 0;
-    while (lexer != end_cmd)
+    while (lexer && lexer != end_cmd)
     {
         if (lexer->type == CMD || lexer->type == ARGS)
         {
             cmd[count] = ft_strdup(lexer->content);
+            if (!cmd[count])
+                exit(0);
             ++count;
         }
         lexer = lexer->next;
@@ -71,14 +73,14 @@ char    **create_cmd(t_lexer *lexer)
     return (cmd);
 }
 
-static int is_there_ioe(t_lexer *lexer)
+static int is_there_ioe(t_lexer *lexer, t_lexer *end_lexer)
 {
     static char is_ioe[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0,
         0, 0, 0, 0, 0};
     t_lexer     *end_cmd;
     
-    end_cmd = look_for_end_cmd(lexer);
-    while (lexer != end_cmd)
+    end_cmd = look_for_end_cmd(lexer, end_lexer);
+    while (lexer && lexer != end_cmd)
     {
         if (is_ioe[lexer->type])
             return (1);
@@ -87,15 +89,15 @@ static int is_there_ioe(t_lexer *lexer)
     return (0);
 }
 
-t_ioe_put   *create_ioeput(t_lexer *lexer)
+t_ioe_put   *create_ioeput(t_lexer *lexer, t_lexer *end_lexer)
 {
     static char is_ioe[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0,
         0, 0, 0, 0, 0};
     t_lexer     *end_cmd;
     t_ioe_put   *ioe_put;
 
-    end_cmd = look_for_end_cmd(lexer);
-    if (!is_there_ioe(lexer))
+    end_cmd = look_for_end_cmd(lexer, end_lexer);
+    if (!is_there_ioe(lexer, end_lexer))
         return (0);
     ioe_put = malloc(sizeof(ioe_put));
     if (!ioe_put)
@@ -106,7 +108,9 @@ t_ioe_put   *create_ioeput(t_lexer *lexer)
         {
             ioe_put->type = lexer->type;
             ioe_put->name = ft_strdup(lexer->next->content);
-            ioe_put->next = create_ioeput(lexer->next);
+            if (!ioe_put->name)
+                exit(1);
+            ioe_put->next = create_ioeput(lexer->next, end_lexer);
             return (ioe_put);
         }
         lexer = lexer->next;

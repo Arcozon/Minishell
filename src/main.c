@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/08 06:55:04 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/09 05:37:10 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char **av, char **_env)
 		else
 			continue ;
 		aff_lexer(root_lexer);
-		tree = create_node(root_lexer);
+		tree = create_node(root_lexer, 0);
 		print_tree(tree, 0);
 		// printf("Syntax: %d\n", syntax(root_lexer));
 		free_lexer(root_lexer);
