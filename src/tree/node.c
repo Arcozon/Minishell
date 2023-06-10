@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:14:09 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/09 08:41:36 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/10 20:32:07 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 t_node   *create_node(t_lexer *lexer, t_lexer *end_lexer)
 {
     t_node   *node;
-
+    
+    if (lexer == end_lexer)
+        return (0);
     node = malloc(sizeof(t_node));
     if (!node)
         exit(1);
