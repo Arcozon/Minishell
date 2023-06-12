@@ -14,7 +14,7 @@ S_SYNTAX =  syntax.c
 D_SYNTAX = syntax/
 SRC_SYNTAX = $(addprefix ${D_SYNTAX}, ${S_SYNTAX})
 
-S_TREE =  cmd.c  node.c  opp.c  utils.c  debug.c
+S_TREE =  cmd.c  node.c  opp.c  utils.c  utils2.c  debug.c
 D_TREE = tree/
 SRC_TREE = $(addprefix ${D_TREE}, ${S_TREE})
 

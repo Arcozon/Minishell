@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:16:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/07 00:24:35 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/12 20:28:30 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	i_m_text(int pre_type, int next_type)
 {
-	static int	trad_pre[] = {TEXT, ERROR, ERROR, ERROR, ARGS, ARGS,
-		ARGS, ARGS, FILE_INPUT, HEREDOC_EOF, CMD, FILE_OUTPUT, FILE_OUTPUT,
-		FILE_ERROR, CMD, TEXT, TEXT, TEXT, TEXT};
-	static int	trad_next[] = {TEXT, ERROR, ERROR, ERROR, ERROR, TEXT,
-		TEXT, TEXT, TEXT, TEXT, ERROR, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT,
-		TEXT, TEXT, TEXT};
+	static int	trad_pre[] = {TEXT, FILE_INPUT, FILE_OUTPUT, FILE_ERROR,
+		ARGS, ARGS, ARGS, ARGS, FILE_INPUT, HEREDOC_EOF, CMD, FILE_OUTPUT,
+		FILE_OUTPUT, FILE_ERROR, CMD, TEXT, TEXT, TEXT, TEXT};
+	static int	trad_next[] = {TEXT, FILE_INPUT, FILE_OUTPUT, FILE_ERROR,
+		ERROR, TEXT, TEXT, TEXT, TEXT, TEXT, ERROR, TEXT, TEXT, TEXT, TEXT,
+		TEXT, TEXT, TEXT, TEXT, TEXT};
 	int			mytype;
 
 	mytype = TEXT;
