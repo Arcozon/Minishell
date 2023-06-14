@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 01:29:29 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 01:39:24 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,15 @@ void					print_lcmd(t_lcmd *lcmd, int count);
 void					print_ioeput(t_ioe_put *ioeput);
 
 /*---------------------Built ins----------------------*/
+<<<<<<< HEAD
 int						bi_cd(char **av, t_env *env);
+=======
+int						bi_echo(t_lcmd *lcmd, t_env *env);
+int						bi_pwd(t_lcmd *lcmd, t_env *env);
+int						bi_cd(t_lcmd *lcmd, t_env *env);
+int						bi_env(t_lcmd *lcmd, t_env *env);
+int						bi_export(t_lcmd *lcmd, t_env **env);
+>>>>>>> 6f558ef (added cd)
 int						bi_unset(t_lcmd *lcmd, t_env **env);
 int						bi_export(t_lcmd *lcmd, t_env **env);
 int						bi_echo(t_lcmd *lcmd, t_env *env);
