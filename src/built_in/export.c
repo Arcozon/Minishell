@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:54:37 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/11 01:13:52 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 00:47:55 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ int	count_equals(char *var)
 }
 
 // Returns 0 on succes 1 on error
-// Av is a Null terminated char** with av[0] being the name of the function,
-// and av[1]...av[n] the arguments
-int	bi_export(char **av, t_env **env)
+int	bi_export(t_lcmd *lcmd, t_env **env)
 {
 	t_env	*do_i;
 	int		i_equal;
@@ -84,22 +82,22 @@ int	bi_export(char **av, t_env **env)
 
 	returnvalue = 0;
 	i = 0;
-	while (av[++i])
+	while (lcmd->cmd[++i])
 	{
-		if (av[i][0] == '=')
-			returnvalue = (write(2,
+		if (lcmd->cmd[i][0] == '=')
+			returnvalue = (write(lcmd->error,
 						"Minishell: export: not a valid identifier\n", 42), 1);
-		if (av[i][0] == '=' || count_equals(av[i]) != 1)
+		if (lcmd->cmd[i][0] == '=' || count_equals(lcmd->cmd[i]) == 0)
 			continue ;
-		do_i = do_i_exist_in_env(av[i], *env);
+		do_i = do_i_exist_in_env(lcmd->cmd[i], *env);
 		if (!do_i)
-			env_addback(env, new_env(av[i]));
+			env_addback(env, new_env(lcmd->cmd[i]));
 		if (!do_i)
 			continue ;
 		i_equal = (free(do_i->content), 0);
-		while (av[i][i_equal] && av[i][i_equal] != '=')
+		while (lcmd->cmd[i][i_equal] && lcmd->cmd[i][i_equal] != '=')
 			i_equal++;
-		do_i->content = ft_substr(av[i], i_equal + 1, ft_strlen(av[i]));
+		do_i->content = ft_strdup(lcmd->cmd[i] + i_equal + 1);
 	}
 	return (returnvalue);
 }

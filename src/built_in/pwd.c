@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:43 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/10 10:42:04 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 01:24:34 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,16 @@ char	*get_pwd(void)
 }
 
 // Returns 0 on succes 1 on error
-// Av is a Null terminated char** with av[0] being the name of the function,
-// and av[1]...av[n] the arguments
-int	pwd(char **av, char **env)
+int	pwd(t_lcmd *lcmd, char **env)
 {
 	char	*pwd;
 
-	(void)av;
 	(void)env;
 	pwd = get_pwd();
 	if (!pwd)
-		return (write(2, "Minishell: pwd: malloc error", 28), 0);
-	write(1, pwd, ft_strlen(pwd));
-	pwd[0] = '\n';
-	write(1, pwd, 1);
+		return (write(lcmd->error, "Minishell: pwd: malloc error", 28), 0);
+	write(lcmd->output, pwd, ft_strlen(pwd));
+	write(lcmd->output, "\n", 1);
 	free(pwd);
 	return (1);
 }

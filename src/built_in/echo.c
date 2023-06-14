@@ -6,37 +6,38 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 08:44:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/09 05:50:03 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 01:24:06 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#define DASH_N "-n"
-
 // Returns 0 on succes 1 on error
-// Av is a Null terminated char** with av[0] being the name of the function,
-// and av[1]...av[n] the arguments
-int	bi_echo(char **av, t_env *env)
+int	bi_echo(t_lcmd *lcmd, t_env *env)
 {
 	int	i;
-	int	dash_n;
+	int	dashn;
+	int	j;
 
-	i = 0;
-	(void)env;
-	while (av[i])
-		i++;
-	dash_n = 0;
-	if (i > 1 && !ft_strncmp(av[1], DASH_N, ft_strlen(DASH_N)))
-		dash_n = (i++, 1);
-	i = 0;
-	while (av[++i])
+	i = ((void)env, 0);
+	while (lcmd->cmd[++i])
 	{
-		write(1, av[i], ft_strlen(av[i]));
-		if (av[i + 1])
-			write(1, " ", 1);
+		j = 0;
+		if (lcmd->cmd[i][0] == '-')
+		{
+			while (lcmd->cmd[i][++j] && lcmd->cmd[i][j] == 'n')
+				dashn = 1;
+			if (lcmd->cmd[i][j])
+				break ;
+		}
 	}
-	if (!dash_n)
-		write(1, "\n", 1);
+	while (lcmd->cmd[i])
+	{
+		write(lcmd->output, lcmd->cmd[i], ft_strlen(lcmd->cmd[i]));
+		if (lcmd->cmd[++i])
+			write(lcmd->output, " ", 1);
+	}
+	if (!dashn)
+		write(lcmd->output, "\n", 1);
 	return (0);
 }

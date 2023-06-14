@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/12 20:36:09 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 01:29:29 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,6 @@ typedef struct s_env
 
 t_env					*cpy_env(char **_env);
 
-/*---------------------Built ins----------------------*/
-int						bi_echo(char **av, t_env *env);
-int						bi_pwd(char **av, t_env *env);
-int						bi_cd(char **av, t_env *env);
-int						bi_env(char **av, t_env *env);
-int						bi_export(char **av, t_env **env);
-int						bi_unset(char **av, t_env **env);
-void					bi_exit(void);
-
-char					*get_pwd(void);
-t_env					*new_env(char *var);
-void					env_addback(t_env **root, t_env *new);
 
 /*-----------------------Lexer----------------------*/
 typedef struct s_lexer
@@ -163,6 +151,19 @@ void					print_tree(t_node *node, int count);
 void					print_opp(t_opp *opp, int count);
 void					print_lcmd(t_lcmd *lcmd, int count);
 void					print_ioeput(t_ioe_put *ioeput);
+
+/*---------------------Built ins----------------------*/
+int						bi_echo(t_lcmd *lcmd, t_env *env);
+int						bi_pwd(t_lcmd *lcmd, t_env *env);
+int						bi_cd(char **av, t_env *env);
+int						bi_env(t_lcmd *lcmd, t_env *env);
+int						bi_export(t_lcmd *lcmd, t_env **env);
+int						bi_unset(t_lcmd *lcmd, t_env **env);
+void					bi_exit(void);
+
+char					*get_pwd(void);
+t_env					*new_env(char *var);
+void					env_addback(t_env **root, t_env *new);
 
 /*----------------------Utils-----------------------*/
 char					*ft_strdup(const char *s);
