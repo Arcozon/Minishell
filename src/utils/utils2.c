@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 08:39:25 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 07:10:31 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 19:45:37 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*ft_strjoin_with_slash(char const *s1, char const *s2)
 	ptr[iptr] = '\0';
 	return (ptr);
 }
-static const int	trad[128] = {
+
+static const int	g_trad[128] = {
 	0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 	21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
 	39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56,
@@ -50,8 +51,6 @@ static const int	trad[128] = {
 
 static int	ft_strcmpup1low2(const char *s1, const char *s2)
 {
-	unsigned char	*us1;
-	unsigned char	*us2;
 	size_t			i;
 
 	if (!s1)
@@ -59,16 +58,14 @@ static int	ft_strcmpup1low2(const char *s1, const char *s2)
 	if (!s2)
 		return (1);
 	i = 0;
-	us1 = (unsigned char *)s1;
-	us2 = (unsigned char *)s2;
 	while (s1[i] && s2[i])
 	{
 		if (s1[i] != s2[i])
-			return ((unsigned int)(us1[i] - us2[i]));
+			return (g_trad[(int)s1[i]] - g_trad[(int)s2[i]]);
 		i++;
 	}
 	if ((s1[i] || s2[i]))
-		return ((unsigned int)(us1[i] - us2[i]));
+		return (g_trad[(int)s1[i]] - g_trad[(int)s2[i]]);
 	return (0);
 }
 
@@ -78,5 +75,20 @@ void	my_bbsort(char **tab)
 	int		i;
 	int		j;
 
-	while ()
+	i = 0;
+	while (tab[i])
+	{
+		j = i + i;
+		while(tab[j])
+		{
+			if (ft_strcmpup1low2(tab[i], tab[j]))
+			{
+				buff = tab[j];
+				tab[j] = tab[i];
+				tab[i] = buff;
+			}
+			j++;
+		}
+		i++;
+	}
 }

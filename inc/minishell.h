@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 03:41:18 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 19:46:38 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,5 +184,5 @@ int						ft_strncmp(const char *s1, const char *s2, size_t n);
 char					*ft_substr(char const *s, unsigned int start,
 							size_t len);
 char					*join_args(t_lexer *lexer);
-
+void					my_bbsort(char **tab);
 #endif
