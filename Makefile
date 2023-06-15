@@ -10,19 +10,23 @@ S_EXPAND =  expand.c  single_quote.c  double_quote.c  text.c  wildcard.c  expand
 D_EXPAND = expand/
 SRC_EXPAND = $(addprefix ${D_EXPAND}, ${S_EXPAND})
 
-S_SYNTAX =  syntax.c
-D_SYNTAX = syntax/
+S_SYNTAX =  
+D_SYNTAX = 
 SRC_SYNTAX = $(addprefix ${D_SYNTAX}, ${S_SYNTAX})
 
 S_TREE =  cmd.c  node.c  opp.c  utils.c  utils2.c  debug.c
 D_TREE = tree/
 SRC_TREE = $(addprefix ${D_TREE}, ${S_TREE})
 
+S_EXEC = exec.c
+D_EXEC = exec/
+SRC_EXEC = $(addprefix ${D_EXEC}, ${S_EXEC})
+
 S_UTILS =  utils.c  utils2.c
 D_UTILS = utils/
 SRC_UTILS = $(addprefix ${D_UTILS}, ${S_UTILS})
 
-S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}  ${SRC_EXPAND}  ${SRC_TREE}
+S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}  ${SRC_EXPAND}  ${SRC_TREE} ${SRC_EXEC}
 D_SRC = ./src/
 SRC = $(addprefix ${D_SRC}, ${S_SRC})
 
@@ -59,12 +63,14 @@ ${D_OBJ}:
 	mkdir -p ${D_OBJ}${D_SYNTAX}
 	mkdir -p ${D_OBJ}${D_UTILS}
 	mkdir -p ${D_OBJ}${D_TREE}
+	mkdir -p ${D_OBJ}${D_EXEC}
 
 clean :
 	rm -f ${OBJ}
 
 fclean :
 	rm -f ${NAME} ${OBJ}
+	rm -rf ${D_OBJ}
 
 re : fclean all
 
