@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 01:39:24 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 03:06:21 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,11 +164,10 @@ int						bi_env(t_lcmd *lcmd, t_env *env);
 int						bi_export(t_lcmd *lcmd, t_env **env);
 >>>>>>> 6f558ef (added cd)
 int						bi_unset(t_lcmd *lcmd, t_env **env);
-int						bi_export(t_lcmd *lcmd, t_env **env);
-int						bi_echo(t_lcmd *lcmd, t_env *env);
-int						bi_env(t_lcmd *lcmd, t_env *env);
-int						bi_pwd(t_lcmd *lcmd, t_env *env);
-int                 	pwd(t_lcmd *lcmd, char **env);
+<<<<<<< HEAD
+=======
+int						owo(t_lcmd *lcmd, t_env *env);
+>>>>>>> 450ac21 (Added OwO and fixed error output of cd)
 void					bi_exit(void);
 
 char					*get_pwd(void);

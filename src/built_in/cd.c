@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:46 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 01:40:04 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 02:51:36 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	bi_cd(t_lcmd *lcmd, t_env *env)
 		return (write(lcmd->error, "Minishell: cd: Pwd error\n", 25), 1);
 	if (chdir(path))
 	{
-		write (2, "Minishell: cd :", 15);
-		write (2, lcmd->cmd[1], ft_strlen(lcmd->cmd[1]));
-		write (2, ": No such file or directory\n", 28);
+		write (lcmd->error, "Minishell: cd :", 15);
+		write (lcmd->error, lcmd->cmd[1], ft_strlen(lcmd->cmd[1]));
+		write (lcmd->error, ": No such file or directory\n", 28);
 		free(path);
 		return (1);
 	}
