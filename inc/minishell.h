@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 03:06:21 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 03:41:18 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_env
 
 t_env					*cpy_env(char **_env);
 
-
 /*-----------------------Lexer----------------------*/
 typedef struct s_lexer
 {
@@ -96,6 +95,8 @@ char					*expand_dollar_sign(char *text, t_env *env);
 /*---------------------Syntax-----------------------*/
 int						check_parenthesis(t_lexer *root);
 int						check_special(t_lexer *root);
+int						check_quote(t_lexer *root);
+int						check_cmd(t_lexer *root);
 int						syntax(t_lexer *root);
 
 /*--------------------WTF Binary Tree-----------------------*/

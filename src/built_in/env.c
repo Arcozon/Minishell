@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:33:08 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 01:02:29 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 03:41:38 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	bi_env(t_lcmd *lcmd, t_env *env)
 		write(lcmd->output, env->var_name, ft_strlen(env->var_name));
 		write(lcmd->output, "=", 1);
 		write(lcmd->output, env->content, ft_strlen(env->content));
-		write(lcmd->output, "\n", 1);\
+		write(lcmd->output, "\n", 1);
 		env = env->next;
 	}
 	return (0);

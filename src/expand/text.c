@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 01:08:20 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/05 02:24:51 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 03:43:24 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ t_lexer	**expand_text(t_lexer **root, t_env *env)
 		free(buffer);
 	}
 	else if (what_i_find & 2)
-		return(expand_wc(root));
+		return (expand_wc(root));
 	return (&((*root)->next));
 }

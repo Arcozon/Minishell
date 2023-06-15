@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 23:51:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/05 02:18:52 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 03:43:14 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_lexer	**expand_wc(t_lexer **root)
 
 	actual = *root;
 	*root = find_all_wc(actual->content);
-	while(*root)
+	while (*root)
 		root = &((*root)->next);
 	*root = actual->next;
 	free(actual->content);

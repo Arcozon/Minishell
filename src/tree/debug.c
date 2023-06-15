@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:07:23 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 00:16:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 03:43:46 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	print_lcmd(t_lcmd *lcmd, int count)
 
 void	print_ioeput(t_ioe_put *ioeput)
 {
-	static char *trad[] = {"Error", "Error", "Error", "Error", "Error", "Error",
+	static char	*trad[] = {"Error", "Error", "Error", "Error", "Error", "Error",
 		"Error", "Error", "<", "<<", "Error", ">", ">>", "2>", "Error", "Error",
 		"Error", "Error", "Error", "Error"};
 
