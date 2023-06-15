@@ -6,13 +6,13 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 23:51:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 03:43:14 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 05:26:42 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_patern(char *patern, char *str)
+static int	check_patern(char *patern, char *str)
 {
 	if (!patern[0] && !str[0])
 		return (1);

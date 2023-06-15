@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:05:07 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/09 02:08:43 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/15 05:12:37 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,14 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	char	*str;
 	size_t	i;
 
-	if (s == 0)
+	if (!s)
 		return (0);
 	if (start > ft_strlen(s))
 		return (ft_strdup(""));
 	if (ft_strlen(s + start) < len)
 		len = ft_strlen(s + start);
 	str = malloc((len + 1) * sizeof(char));
-	if (str == 0)
+	if (!str)
 		return (0);
 	i = -1;
 	while (++i < len && ((s + start)[i]))
