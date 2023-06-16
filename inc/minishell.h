@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 19:46:38 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/16 19:02:43 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ typedef struct s_lcmd
 	int					output;
 	int					error;
 	t_ioe_put			*ioe_put;
+	int					pid;
+	t_lexer				*start_lexer;
+	t_lexer				*end_lexer;
 	char				**cmd;
     int                 pid;
 	struct s_lcmd		*next;

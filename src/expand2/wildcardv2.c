@@ -6,9 +6,11 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 05:09:43 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 06:20:32 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/16 18:56:48 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 static int	check_patern(char *patern, char *str)
 {
@@ -70,7 +72,8 @@ static char	**i_found_one(char *patern, int count)
 
 	res = malloc (sizeof(char *) * (count + 1));
 	if (!res)
-		return (0);
+		return (write(2, "Minishell: wildcard: Malloc error\n", 34),
+			(char **)0);
 	res[count] = 0;
 	pwd = get_pwd();
 	if (!pwd)
@@ -98,7 +101,17 @@ char	**expand_wc_v2(char *patern)
 				(char **)0);
 		res[0] = ft_strdup(patern);
 		res[1] = 0;
-		return (res);
 	}
-	return (i_found_one(patern, count));
+	else
+		res = i_found_one(patern, count);
+	my_bbsort(res);
+	for (int i = 0; res[i]; i++)
+	{
+		printf("%s\n", res[i]);
+	}
+}
+
+int main(void)
+{
+	expand
 }
