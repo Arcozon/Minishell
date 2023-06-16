@@ -6,15 +6,18 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 05:02:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/16 18:41:58 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/16 20:24:38 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minshell.h"
+#include "minishell.h"
 
-char	**expand_lexer_part(t_lexer *lexer, t_lexer *end_lexer, t_env *env)
+void	expand_cmd_ioe(t_lcmd *lcmd, t_env *env)
 {
-	while (*root && *root != end_lexer)
+	t_lexer	**root;
+
+	root = &(lcmd->start_lexer);
+	while (*root && *root != lcmd->end_lexer)
 	{
 		if ((*root)->type == TEXT_SQ)
 		{
@@ -31,4 +34,8 @@ char	**expand_lexer_part(t_lexer *lexer, t_lexer *end_lexer, t_env *env)
 		else
 			root = &((*root)->next);
 	}
+	change_text(lcmd->start_lexer, lcmd->end_lexer);
+	change_text_into_cmd_args(lcmd->start_lexer, lcmd->end_lexer);
+	lcmd->cmd = create_cmd(lcmd->start_lexer, lcmd->end_lexer);
+	lcmd->ioe_put = create_ioeput(lcmd->start_lexer, lcmd->end_lexer);
 }

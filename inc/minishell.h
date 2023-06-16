@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/16 19:02:43 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/16 20:29:09 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ typedef struct s_lexer
 
 void					lexer_add_back(t_lexer **root, t_lexer *new);
 t_lexer					*lexer_new(int type, char *content);
-t_lexer					*lexer(const char *line, t_env *env);
+t_lexer					*lexer(const char *line);
 void					get_text(const char *line, int *start, t_lexer **root);
-void					change_text(t_lexer *root);
 void					aff_lexer(t_lexer *root);
 void					change_space(t_lexer **root);
-void					change_text(t_lexer *root);
-void					change_text_into_cmd_args(t_lexer *root);
+void					change_text(t_lexer *root, t_lexer *end_lexer);
+void					change_text_into_cmd_args(t_lexer *root,
+							t_lexer *end_lexer);
 void					free_lexer(t_lexer *root);
 
 //ls | xargs -I var find var -name "PATERN" -not -path '* /\.*' | grep -v /
@@ -88,7 +88,7 @@ void					expand_me_onee_chan(t_lexer **root, t_env *env);
 void					expand_sq(t_lexer *root, t_env *env);
 void					expand_dq(t_lexer *root, t_env *env);
 t_lexer					**expand_text(t_lexer **root, t_env *env);
-t_lexer					**expand_wc(t_lexer **root);
+t_lexer					*expand_wc_v2(char *patern);
 char					*expand_var_name(char *text, int *start, t_env *env);
 char					*expand_dollar_sign(char *text, t_env *env);
 

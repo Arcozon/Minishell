@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:16:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/12 20:28:30 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/16 20:28:13 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	i_m_text(int pre_type, int next_type)
 	return (mytype);
 }
 
-void	change_text(t_lexer *root)
+void	change_text(t_lexer *root, t_lexer *end_lexer)
 {
 	t_lexer	*actual_chain;
 	int		pre_type;
@@ -39,7 +39,7 @@ void	change_text(t_lexer *root)
 
 	pre_type = UNDEFINED_TYPE;
 	actual_chain = root;
-	while (actual_chain)
+	while (actual_chain && actual_chain != end_lexer)
 	{
 		next_type = UNDEFINED_TYPE;
 		if (actual_chain->next)

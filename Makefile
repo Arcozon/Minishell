@@ -6,8 +6,8 @@ S_LEXER =  lexer.c  lexer2.c  lexer3.c  lexer4.c
 D_LEXER = lexer/
 SRC_LEXER = $(addprefix ${D_LEXER}, ${S_LEXER})
 
-S_EXPAND =  expand.c  single_quote.c  double_quote.c  text.c  wildcard.c  expand_var.c
-D_EXPAND = expand/
+S_EXPAND =  double_quote.c  expand_cmd.c  expand_var.c  single_quote.c  text.c  wildcardv2.c
+D_EXPAND = expand2/
 SRC_EXPAND = $(addprefix ${D_EXPAND}, ${S_EXPAND})
 
 S_SYNTAX =  

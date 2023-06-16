@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 03:39:34 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/16 20:03:06 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ int	check_special(t_lexer *root)
 // Returns 1 if OK 0 if not
 int	check_cmd(t_lexer *root)
 {
-	static int	is_sep[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 1, 1, 1, 1, 1, 0};
 	int			last_saw_sep;
 
 	last_saw_sep = 1;
@@ -96,5 +94,6 @@ int	syntax(t_lexer *root)
 		return (write(2, "Minishell: Syntax error: Missing quote", 38), 0);
 	if (!check_special(root))
 		return (write(2, "Minishell: Syntax error: Missing file", 37), 0);
+	//bash: *: ambiguous redirect
 	return (1);
 }

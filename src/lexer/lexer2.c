@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:05:21 by geudes            #+#    #+#             */
-/*   Updated: 2023/02/12 06:18:34 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/16 20:25:38 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ static inline int	lasttypeisundefined(int type)
 	return (0);
 }
 
-void	change_text_into_cmd_args(t_lexer *root)
+void	change_text_into_cmd_args(t_lexer *root, t_lexer *end_lexer)
 {
 	int	i_m_in_cmd;
 
 	i_m_in_cmd = 0;
-	while (root)
+	while (root && root != end_lexer)
 	{
 		if (root->type == TEXT && !i_m_in_cmd)
 		{
