@@ -113,6 +113,7 @@ typedef struct s_lcmd
 	int					error;
 	t_ioe_put			*ioe_put;
 	char				**cmd;
+    int                 pid;
 	struct s_lcmd		*next;
 }						t_lcmd;
 
