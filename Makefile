@@ -22,11 +22,15 @@ S_EXEC = exec.c
 D_EXEC = exec/
 SRC_EXEC = $(addprefix ${D_EXEC}, ${S_EXEC})
 
+S_GNL = get_next_line.c get_next_line_utils.c
+D_GNL = gnl/
+SRC_GNL = $(addprefix $(D_GNL), $(S_GNL))
+
 S_UTILS =  utils.c  utils2.c
 D_UTILS = utils/
 SRC_UTILS = $(addprefix ${D_UTILS}, ${S_UTILS})
 
-S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}  ${SRC_EXPAND}  ${SRC_TREE} ${SRC_EXEC}
+S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}  ${SRC_EXPAND}  ${SRC_TREE} ${SRC_EXEC} $(SRC_GNL)
 D_SRC = ./src/
 SRC = $(addprefix ${D_SRC}, ${S_SRC})
 
@@ -34,7 +38,7 @@ S_OBJ = ${S_SRC:.c=.o}
 D_OBJ = ./obj/
 OBJ = $(addprefix ${D_OBJ}, ${S_OBJ})
 
-S_INC = minishell.h
+S_INC = minishell.h get_next_line.h
 D_INC = ./inc/
 INC = $(addprefix ${D_INC}, ${S_INC})
 
@@ -64,6 +68,7 @@ ${D_OBJ}:
 	mkdir -p ${D_OBJ}${D_UTILS}
 	mkdir -p ${D_OBJ}${D_TREE}
 	mkdir -p ${D_OBJ}${D_EXEC}
+	mkdir -p $(D_OBJ)$(D_GNL)
 
 clean :
 	rm -f ${OBJ}

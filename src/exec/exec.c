@@ -1,4 +1,5 @@
 #include "../../inc/minishell.h"
+#include "../../inc/get_next_line.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -17,22 +18,59 @@ int    ft_open_file(char *name, int *fd, int oflag, int mode)
 {
     int    tmp;
 
+    if (*fd > 2)
+        close(*fd);
     tmp = ft_open_file_(name, oflag, mode);
     if (tmp == -1)
         return (1);
-    if (*fd > 2)
-        close(*fd);
     *fd = tmp;
     return (0);
 }
 
-int   ft_heredoc(t_lcmd *cmd)
+int ft_write_to_fd(int fd, char *str, int len)
 {
-    if (ft_open_file_(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644))
+    if (write(fd, str, len) != len)
         return (1);
-    ft_heredoc_sub(cmd);
-    close()
+    return (0);
+}
 
+int ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
+{
+    char    *buf;
+    int    len2;
+    int    len;
+
+    len = ft_strlen(ioe->name);
+    write(1, "> ", 2);
+    while (1)
+    {
+        buf = get_next_line(STDIN_FILENO);
+        if (!buf)
+        {
+            write(2, "Warning : heredoc delimited by EOF (wanted '", 44);
+            (write(2, ioe->name, len), write(2, "')\n", 3));
+            return (free(buf), 1);
+        }
+        len2 = ft_strlen(buf) - 1;
+        if (len == len2 && !ft_strncmp(buf, ioe->name, len))
+                break ;
+        if (len2 + 1 > 0)
+            write(1, "> ", 2);
+        if (ft_write_to_fd(cmd->input, buf, len2 + 1))
+            return (free(buf), 1);
+        free(buf);
+    }
+    return (free(buf), 0);
+}
+
+int   ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
+{
+    if (ft_open_file(".heredoc", &cmd->input, O_CREAT | O_WRONLY | O_TRUNC, 0644))
+        return (1);
+    if (ft_heredoc_sub(cmd, ioe))
+        return (1);
+    if (ft_open_file(".heredoc", &cmd->input, O_RDONLY, 0))
+        return (1);
     return (0);
 }
 int    process_file(t_lcmd *cmd)
@@ -48,7 +86,7 @@ int    process_file(t_lcmd *cmd)
             ;
         else if (tmp->type == OUTPUT_HAPPEND_REDIR && !ft_open_file(tmp->name, &cmd->output, O_CREAT | O_WRONLY | O_APPEND, 0622))
             ;
-        else if (tmp->type == INPUT_HEREDOC && !ft_heredoc())
+        else if (tmp->type == INPUT_HEREDOC && !ft_heredoc(cmd, tmp))
             ;
         else
             return (1);
