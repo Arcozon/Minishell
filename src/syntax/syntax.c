@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/16 20:03:06 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/20 21:02:17 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,6 @@ int	check_special(t_lexer *root)
 }
 
 // Returns 1 if OK 0 if not
-int	check_cmd(t_lexer *root)
-{
-	int			last_saw_sep;
-
-	last_saw_sep = 1;
-	while (root)
-	{
-		if (last_saw_sep && (root->type == CMD || root->type == ARGS))
-			last_saw_sep = 0;
-		else if (!last_saw_sep && root->type >= PIPE
-			&& root->type <= CLOSE_PAR)
-			last_saw_sep = 1;
-		else if (last_saw_sep && root->type >= PIPE && root->type <= CLOSE_PAR)
-			return (0);
-	}
-	return (1);
-}
-
-// Returns 1 if OK 0 if not
 int	check_quote(t_lexer *root)
 {
 	while (root)
@@ -83,17 +64,40 @@ int	check_quote(t_lexer *root)
 	return (1);
 }
 
+// Returns 1 if OK 0 if not
+int	check_redirect(t_lexer *root)
+{
+	static char	am_i_redirrect[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
+		1, 0, 0, 0, 0, 0, 0};
+	int			last_was_redirect;
+
+	last_was_redirect = 0;
+	while (root)
+	{
+		if (last_was_redirect && root->type == TEXT)
+		{
+			last_was_redirect = -1;
+			while (root->content && root->content[++last_was_redirect])
+				if (root->content[last_was_redirect] == '*')
+					return (0);
+		}
+		last_was_redirect = am_i_redirrect[root->type];
+		root = root->next;
+	}
+	return (1);
+}
+
 int	syntax(t_lexer *root)
 {
-	if (!check_cmd(root))
-		return (write(2, "Minishell: Syntax error: Missing command", 40), 0);
-	if (!check_cmd(root))
-		return (write(2, "Minishell: Syntax error: Missing parenthesis", 44),
+	if (!check_parenthesis(root))
+		return (write(2, "Minishell: Syntax error: Missing parenthesis\n", 45),
 			0);
 	if (!check_quote(root))
-		return (write(2, "Minishell: Syntax error: Missing quote", 38), 0);
+		return (write(2, "Minishell: Syntax error: Missing quote\n", 39), 0);
 	if (!check_special(root))
-		return (write(2, "Minishell: Syntax error: Missing file", 37), 0);
-	//bash: *: ambiguous redirect
+		return (write(2, "Minishell: Syntax error: Missing file or command\n",
+				48), 0);
+	if (!check_redirect(root))
+		return (write(2, "Minishell: Syntax error: Ambigous redirect\n", 41), 0);
 	return (1);
 }

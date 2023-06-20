@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/16 20:29:09 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/20 18:33:48 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 # define FILE_ERROR 3
 # define CMD 4
 # define ARGS 5
-# define VAR 6
 # define TEXT_SQ 6
 # define TEXT_DQ 7
 # define INPUT_REDIR 8
