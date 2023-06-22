@@ -154,12 +154,13 @@ void					print_lcmd(t_lcmd *lcmd, int count);
 void					print_ioeput(t_ioe_put *ioeput);
 
 /*---------------------Built ins----------------------*/
-int						bi_echo(t_lcmd *lcmd, t_env *env);
-int						bi_pwd(t_lcmd *lcmd, t_env *env);
 int						bi_cd(char **av, t_env *env);
-int						bi_env(t_lcmd *lcmd, t_env *env);
-int						bi_export(t_lcmd *lcmd, t_env **env);
 int						bi_unset(t_lcmd *lcmd, t_env **env);
+int						bi_export(t_lcmd *lcmd, t_env **env);
+int						bi_echo(t_lcmd *lcmd, t_env *env);
+int						bi_env(t_lcmd *lcmd, t_env *env);
+int						bi_pwd(t_lcmd *lcmd, t_env *env);
+int                 	pwd(t_lcmd *lcmd, char **env);
 void					bi_exit(void);
 
 char					*get_pwd(void);
