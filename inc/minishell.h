@@ -191,14 +191,16 @@ char					*ft_substr(char const *s, unsigned int start,
 char					*join_args(t_lexer *lexer);
 void					my_bbsort(char **tab);
 void					*ms_calloc(unsigned int to_malloc, t_minishell ms);
+char	*strnrand(int len);
 
 /*---------------------Free--------------------------*/
 void	free_ms(t_minishell ms);
 void	free_node(t_node *node);
 void	free_cmd(t_lcmd *lcmd);
-void	free_ioe(t_ioeput *ioe);
+void	free_ioe(t_ioe_put *ioe);
 void	free_split(char **split);
 void	free_env(t_env *env);
+void	free_lexer(t_lexer *root);
 
 
 #endif

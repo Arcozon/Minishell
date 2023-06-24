@@ -24,7 +24,7 @@ void	free_split(char **split)
 	free(split);
 }
 
-void	free_ioe(t_ioeput *ioe)
+void	free_ioe(t_ioe_put *ioe)
 {
 	if (!ioe)
 		return ;
@@ -40,19 +40,19 @@ void	free_cmd(t_lcmd *lcmd)
 		return ;
 	if (lcmd->next)
 		free_cmd(lcmd->next);
-	free_ioe(lcmd->ioeput);
+	free_ioe(lcmd->ioe_put);
 }
 
 void	free_node(t_node *node)
 {
 	if (!node)
 		return ;
-	if (node->cmd)
-		free_cmd(node->cmd);
+	if (node->lcmd)
+		free_cmd(node->lcmd);
 	else if (node->opp)
 	{
-		free_node(node->opp->lnode);
-		free_node(node->opp->rnode);
+		free_node(node->opp->l_node);
+		free_node(node->opp->r_node);
 	}
 	free(node);
 }

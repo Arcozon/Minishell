@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../inc/minishell.h"
+
 void	free_lexer(t_lexer *root)
 {
 	t_lexer	*next;

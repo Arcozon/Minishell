@@ -26,7 +26,7 @@ S_GNL = get_next_line.c get_next_line_utils.c
 D_GNL = gnl/
 SRC_GNL = $(addprefix $(D_GNL), $(S_GNL))
 
-S_UTILS =  utils.c  utils2.c
+S_UTILS =  utils.c  utils2.c free1.c free2.c ms_calloc.c
 D_UTILS = utils/
 SRC_UTILS = $(addprefix ${D_UTILS}, ${S_UTILS})
 
