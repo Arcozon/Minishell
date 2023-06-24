@@ -39,7 +39,6 @@ void ft_exec_builtin(t_lcmd *cmd, t_env *env, int nbr)
         bi_exit();
 }
 
-
 int ft_is_builtin(t_lcmd *cmd, t_env *env)
 {
     int i = 0;

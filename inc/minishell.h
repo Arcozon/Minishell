@@ -180,6 +180,9 @@ void					env_addback(t_env **root, t_env *new);
 int						ft_is_builtin(t_lcmd *cmd, t_env *env);
 void					process_tree(t_node *tree, t_env *envdeeznuts);
 void	expand_cmd_ioe(t_lcmd *lcmd, t_env *env);
+void    set_up_dup(t_lcmd *cmd);
+char    **t_env_to_charr(t_env *env);
+void    ft_free_strr(char **str);
 
 /*----------------------Utils-----------------------*/
 char					*ft_strdup(const char *s);
