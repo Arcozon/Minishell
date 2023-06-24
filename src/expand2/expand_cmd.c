@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 void	expand_cmd_ioe(t_lcmd *lcmd, t_env *env)
 {

@@ -179,6 +179,7 @@ void					env_addback(t_env **root, t_env *new);
 
 int						ft_is_builtin(t_lcmd *cmd, t_env *env);
 void					process_tree(t_node *tree, t_env *envdeeznuts);
+void	expand_cmd_ioe(t_lcmd *lcmd, t_env *env);
 
 /*----------------------Utils-----------------------*/
 char					*ft_strdup(const char *s);
@@ -192,6 +193,7 @@ char					*join_args(t_lexer *lexer);
 void					my_bbsort(char **tab);
 void					*ms_calloc(unsigned int to_malloc, t_minishell ms);
 char	*strnrand(int len);
+int ft_strcmp(char *str1, char *str2);
 
 /*---------------------Free--------------------------*/
 void	free_ms(t_minishell ms);

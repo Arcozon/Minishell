@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 // Returns 0 on succes 1 on error
 int	bi_echo(t_lcmd *lcmd, t_env *env)

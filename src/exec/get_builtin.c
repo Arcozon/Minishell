@@ -10,7 +10,7 @@ static int (*bi_func[])() = {bi_cd, bi_export, bi_unset,
 
 int ft_strcmp(char *str1, char *str2)
 {
-    while (str1 && str2 && (unsigned char)*str1 == (unsigned char)*str2)
+    while (*str1 && *str2 && (unsigned char)*str1 == (unsigned char)*str2)
     {
         str1++;
         str2++;
@@ -30,12 +30,12 @@ void ft_exec_builtin(t_lcmd *cmd, t_env *env, int nbr)
         if ((bi_func[nbr])(cmd, &env))
             exit(748);
     }
-    else if (nbr > BUILTINSPLIT && nbr < BUILTINNBR)
+    else if (nbr > BUILTINSPLIT && nbr < BUILTINNBR - 1)
     {
         if ((bi_func[nbr])(cmd, env))
             exit(749);
     }
-    else if (nbr == BUILTINNBR)
+    else if (nbr == BUILTINNBR - 1)
         bi_exit();
 }
 
