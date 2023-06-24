@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/20 18:33:48 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/24 12:48:37 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,13 @@ typedef struct s_node
 	t_opp				*opp;
 }						t_node;
 
+typedef struct s_minishell
+{
+	t_lexer	*lexer;
+	t_node	*tree;
+	t_env	*env;
+}	t_minishell;
+
 t_node					*create_node(t_lexer *lexer, t_lexer *end_lexer);
 
 t_opp					*create_opp(t_lexer *lexer, t_lexer *end_lexer);
@@ -170,8 +177,8 @@ t_env					*new_env(char *var);
 void					env_addback(t_env **root, t_env *new);
 
 
-int ft_is_builtin(t_lcmd *cmd, t_env *env);
-void    process_tree(t_node *tree, t_env *envdeeznuts);
+int						ft_is_builtin(t_lcmd *cmd, t_env *env);
+void					process_tree(t_node *tree, t_env *envdeeznuts);
 
 /*----------------------Utils-----------------------*/
 char					*ft_strdup(const char *s);
@@ -183,4 +190,15 @@ char					*ft_substr(char const *s, unsigned int start,
 							size_t len);
 char					*join_args(t_lexer *lexer);
 void					my_bbsort(char **tab);
+void					*ms_calloc(unsigned int to_malloc, t_minishell ms);
+
+/*---------------------Free--------------------------*/
+void	free_ms(t_minishell ms);
+void	free_node(t_node *node);
+void	free_cmd(t_lcmd *lcmd);
+void	free_ioe(t_ioeput *ioe);
+void	free_split(char **split);
+void	free_env(t_env *env);
+
+
 #endif
