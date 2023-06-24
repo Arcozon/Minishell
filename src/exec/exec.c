@@ -226,7 +226,8 @@ void    process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
         process_file(tmp);
         if (pipe(p) == -1)
             exit(73);
-        ft_child(tmp, p[1], lastdeeznuts, envdeeznuts);
+        if (!ft_is_builtin(tmp, envdeeznuts))
+            ft_child(tmp, p[1], lastdeeznuts, envdeeznuts);
         close(p[1]);
         if (lastdeeznuts > 2)
             close(lastdeeznuts);

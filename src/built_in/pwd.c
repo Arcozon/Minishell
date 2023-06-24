@@ -35,7 +35,7 @@ char	*get_pwd(void)
 }
 
 // Returns 0 on succes 1 on error
-int	pwd(t_lcmd *lcmd, char **env)
+int	bi_pwd(t_lcmd *lcmd, t_env **env)
 {
 	char	*pwd;
 

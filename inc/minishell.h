@@ -116,7 +116,6 @@ typedef struct s_lcmd
 	t_lexer				*start_lexer;
 	t_lexer				*end_lexer;
 	char				**cmd;
-    int                 pid;
 	struct s_lcmd		*next;
 }						t_lcmd;
 
@@ -157,25 +156,22 @@ void					print_lcmd(t_lcmd *lcmd, int count);
 void					print_ioeput(t_ioe_put *ioeput);
 
 /*---------------------Built ins----------------------*/
-<<<<<<< HEAD
-int						bi_cd(char **av, t_env *env);
-=======
 int						bi_echo(t_lcmd *lcmd, t_env *env);
-int						bi_pwd(t_lcmd *lcmd, t_env *env);
+int						bi_pwd(t_lcmd *lcmd, t_env **env);
 int						bi_cd(t_lcmd *lcmd, t_env *env);
 int						bi_env(t_lcmd *lcmd, t_env *env);
 int						bi_export(t_lcmd *lcmd, t_env **env);
->>>>>>> 6f558ef (added cd)
 int						bi_unset(t_lcmd *lcmd, t_env **env);
-<<<<<<< HEAD
-=======
 int						owo(t_lcmd *lcmd, t_env *env);
->>>>>>> 450ac21 (Added OwO and fixed error output of cd)
 void					bi_exit(void);
 
 char					*get_pwd(void);
 t_env					*new_env(char *var);
 void					env_addback(t_env **root, t_env *new);
+
+
+int ft_is_builtin(t_lcmd *cmd, t_env *env);
+void    process_tree(t_node *tree, t_env *envdeeznuts);
 
 /*----------------------Utils-----------------------*/
 char					*ft_strdup(const char *s);

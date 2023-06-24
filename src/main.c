@@ -39,6 +39,7 @@ int	main(int ac, char **av, char **_env)
 		tree = create_node(root_lexer, 0);
 		print_tree(tree, 0);
 		// printf("Syntax: %d\n", syntax(root_lexer));
+        process_tree(tree, env);
 		free_lexer(root_lexer);
 	}
 	bi_exit();
