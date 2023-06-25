@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 09:33:28 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 09:58:54 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void					lexer_add_back(t_lexer **root, t_lexer *new);
 t_lexer					*lexer_new(int type, char *content);
 t_lexer					*lexer(const char *line);
 void					get_text(const char *line, int *start, t_lexer **root);
-void					aff_lexer(t_lexer *root);
+void					aff_lexer(t_lexer *root, t_lexer *end_lexer);
 void					change_space(t_lexer **root);
 void					change_text(t_lexer *root, t_lexer *end_lexer);
 void					change_text_into_cmd_args(t_lexer *root,

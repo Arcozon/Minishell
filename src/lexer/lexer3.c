@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:16:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/16 20:28:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 10:16:01 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	i_m_text(int pre_type, int next_type)
 {
 	static int	trad_pre[] = {TEXT, FILE_INPUT, FILE_OUTPUT, FILE_ERROR,
-		ARGS, ARGS, ARGS, ARGS, FILE_INPUT, HEREDOC_EOF, CMD, FILE_OUTPUT,
-		FILE_OUTPUT, FILE_ERROR, CMD, TEXT, TEXT, TEXT, TEXT};
+		TEXT, TEXT, TEXT, TEXT, FILE_INPUT, HEREDOC_EOF, HEREDOC_EOF,
+		FILE_OUTPUT, FILE_OUTPUT, FILE_ERROR, CMD, TEXT, TEXT, TEXT, TEXT};
 	static int	trad_next[] = {TEXT, FILE_INPUT, FILE_OUTPUT, FILE_ERROR,
-		ERROR, TEXT, TEXT, TEXT, TEXT, TEXT, ERROR, TEXT, TEXT, TEXT, TEXT,
-		TEXT, TEXT, TEXT, TEXT, TEXT};
+		TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, HEREDOC_EOF, TEXT, TEXT, TEXT,
+		TEXT, TEXT, TEXT, TEXT, TEXT, TEXT};
 	int			mytype;
 
 	mytype = TEXT;
@@ -33,21 +33,19 @@ int	i_m_text(int pre_type, int next_type)
 
 void	change_text(t_lexer *root, t_lexer *end_lexer)
 {
-	t_lexer	*actual_chain;
 	int		pre_type;
 	int		next_type;
 
 	pre_type = UNDEFINED_TYPE;
-	actual_chain = root;
-	while (actual_chain && actual_chain != end_lexer)
+	while (root && root != end_lexer)
 	{
 		next_type = UNDEFINED_TYPE;
-		if (actual_chain->next)
-			next_type = actual_chain->next->type;
-		if (actual_chain->type == TEXT)
-			actual_chain->type = i_m_text(pre_type, next_type);
-		pre_type = actual_chain->type;
-		actual_chain = actual_chain->next;
+		if (root->next)
+			next_type = root->next->type;
+		if (root->type == TEXT)
+			root->type = i_m_text(pre_type, next_type);
+		pre_type = root->type;
+		root = root->next;
 	}
 }
 

@@ -6,13 +6,13 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:05:21 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/16 20:25:38 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 10:22:30 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	aff_lexer(t_lexer *root)
+void	aff_lexer(t_lexer *root, t_lexer *end_lexer)
 {
 	static char	*trad[] = {"TEXT", "FILE_INPUT", "FILE_OUTPUT", "FILE_ERROR",
 		"CMD", "ARGS", "TEXT_SQ", "TEXT_DQ", "INPUT_REDIR",
@@ -20,7 +20,7 @@ void	aff_lexer(t_lexer *root)
 		"ERROR_REDIR", "PIPE", "AND", "OR", "OPEN_PAR", "CLOSE_PAR",
 		"SPACE"};
 
-	while (root)
+	while (root && root != end_lexer)
 	{
 		if (root->type >= 0 && root->type <= MAX_TYPE)
 			printf("%s>%s<\n", trad[root->type], root->content);
@@ -85,12 +85,14 @@ void	change_text_into_cmd_args(t_lexer *root, t_lexer *end_lexer)
 		if (root->type == TEXT && !i_m_in_cmd)
 		{
 			root->type = CMD;
-			while (root && root->type != SPACE_)
+			while (root && root != end_lexer && root->type != SPACE_)
 			{
 				if (root->type == TEXT)
 					root->type = CMD;
 				root = root->next;
 			}
+			if (!root || root == end_lexer)
+				break ;
 			i_m_in_cmd = 1;
 		}
 		else if (root->type == TEXT && i_m_in_cmd)

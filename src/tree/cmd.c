@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 23:16:00 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 09:33:08 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 09:52:53 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,12 @@ t_ioe_put	*create_ioeput(t_lexer *lexer, t_lexer *end_lexer)
 	t_lexer		*end_cmd;
 	t_ioe_put	*ioe_put;
 
-	end_cmd = look_for_end_cmd(lexer, end_lexer);
 	if (!is_there_ioe(lexer, end_lexer))
 		return (0);
 	ioe_put = malloc(sizeof(t_ioe_put));
 	if (!ioe_put)
 		exit(1);
+	end_cmd = look_for_end_cmd(lexer, end_lexer);
 	while (lexer != end_cmd)
 	{
 		if (is_ioe[lexer->type])

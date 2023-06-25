@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 01:08:20 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 05:34:02 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 10:00:02 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_lexer	**expand_text(t_lexer **root, t_env *env)
 	what_i_find = 0;
 	while ((*root)->content[++i] && !(what_i_find & 1))
 		what_i_find |= (((*root)->content[i] == '$') + 2
-			* ((*root)->content[i] == '*'));
+				* ((*root)->content[i] == '*'));
 	if (what_i_find & 1)
 	{
 		buffer = (*root)->content;
