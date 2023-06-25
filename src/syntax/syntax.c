@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/20 21:02:17 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 10:27:58 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ int	syntax(t_lexer *root)
 		return (write(2, "Minishell: Syntax error: Missing file or command\n",
 				48), 0);
 	if (!check_redirect(root))
-		return (write(2, "Minishell: Syntax error: Ambigous redirect\n", 41), 0);
+		return (write(2, "Minishell: Syntax error: Ambigous redirect\n", 43), 0);
 	return (1);
 }

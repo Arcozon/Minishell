@@ -10,8 +10,8 @@ S_EXPAND =  double_quote.c  expand_cmd.c  expand_var.c  single_quote.c  text.c  
 D_EXPAND = expand2/
 SRC_EXPAND = $(addprefix ${D_EXPAND}, ${S_EXPAND})
 
-S_SYNTAX =  
-D_SYNTAX = 
+S_SYNTAX =  syntax.c
+D_SYNTAX =	syntax/
 SRC_SYNTAX = $(addprefix ${D_SYNTAX}, ${S_SYNTAX})
 
 S_TREE =  cmd.c  node.c  opp.c  utils.c  utils2.c  debug.c
