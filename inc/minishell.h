@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/24 12:48:37 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 07:59:07 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_minishell
 	t_lexer	*lexer;
 	t_node	*tree;
 	t_env	*env;
+	int		euthanasia_pid;
 }	t_minishell;
 
 t_node					*create_node(t_lexer *lexer, t_lexer *end_lexer);
@@ -175,7 +176,6 @@ void					bi_exit(void);
 char					*get_pwd(void);
 t_env					*new_env(char *var);
 void					env_addback(t_env **root, t_env *new);
-
 
 int						ft_is_builtin(t_lcmd *cmd, t_env *env);
 void					process_tree(t_node *tree, t_env *envdeeznuts);

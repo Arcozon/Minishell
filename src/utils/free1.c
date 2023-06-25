@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 12:03:34 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/24 12:13:16 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 07:41:20 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,29 @@ void	free_split(char **split)
 
 void	free_ioe(t_ioe_put *ioe)
 {
-	if (!ioe)
-		return ;
-	if (ioe->next)
-		free_ioe(ioe->next);
-	free(ioe->name);
-	free(ioe);
+	t_ioe_put	*next;
+
+	while (ioe)
+	{
+		next = ioe->next;
+		free(ioe->name);
+		free(ioe);
+		ioe = next;
+	}
 }
 
 void	free_cmd(t_lcmd *lcmd)
 {
-	if (!lcmd)
-		return ;
-	if (lcmd->next)
-		free_cmd(lcmd->next);
-	free_ioe(lcmd->ioe_put);
+	t t_lcmd	*next;
+
+	while (lcmd)
+	{
+		next = lcmd->next;
+		free_ioe(lcmd->ioe_put);
+		free_split(lcmd->cmd);
+		free(lcmd);
+		lcmd = next;
+	}
 }
 
 void	free_node(t_node *node)
