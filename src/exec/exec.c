@@ -437,57 +437,58 @@ void    process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
 	t_lcmd *tmp;
 	char   **path;
 
-	lastdeeznuts = 0;
-	tmp = cmd;
-	while (tmp)
-	{
-		process_file(tmp);
-		expand_cmd_ioe(tmp, envdeeznuts);
-		if (tmp->next)
-		{
-			if (pipe(p) == -1)
-				exit(66);
-			if (tmp->input > 2)
-				close(tmp->input);
-			if (tmp->output > 2)
-				close(tmp->output);
-			tmp->input = lastdeeznuts;
-			tmp->output = p[1];
-			if (!ft_is_builtin(tmp, envdeeznuts))
-			{
-				path = ft_get_path(envdeeznuts);
-				ft_get_working_path(path, &(*(tmp->cmd)));
-				ft_child(tmp, envdeeznuts);
-				ft_free_strr(path);
-			}
-			close(p[1]);
-			if (lastdeeznuts > 2)
-				close(lastdeeznuts);
-			lastdeeznuts = p[0];
-		}
-		else
-		{
-			if (lastdeeznuts > 2)
-			{
-				if (tmp->input > 2)
-					close(tmp->input);
-				tmp->input = lastdeeznuts;
-			}
-			if (!ft_is_builtin(tmp, envdeeznuts))
-			{
-				path = ft_get_path(envdeeznuts);
-				ft_get_working_path(path, &(*(tmp->cmd)));
-				ft_child(tmp, envdeeznuts);
-				ft_free_strr(path);
-			}
-		}
-		tmp = tmp->next;
-	}
-	cmd_wait(cmd);
-	if (lastdeeznuts > 2)
-		close(lastdeeznuts);
+    lastdeeznuts = 0;
+    tmp = cmd;
+    while (tmp)
+    {
+        expand_cmd_ioe(tmp, envdeeznuts);
+        process_file(tmp);
+        if (tmp->next)
+        {
+            if (pipe(p) == -1)
+                exit(66);
+            if (tmp->input > 2 && lastdeeznuts > 0)
+            {
+                close(tmp->input);
+                tmp->input = lastdeeznuts;
+            }
+            if (tmp->output > 2)
+                close(tmp->output);
+            tmp->output = p[1];
+            if (!ft_is_builtin(tmp, envdeeznuts))
+            {
+                path = ft_get_path(envdeeznuts);
+                ft_get_working_path(path, &(*(tmp->cmd)));
+                ft_child(tmp, envdeeznuts);
+                ft_free_strr(path);
+            }
+            close(p[1]);
+            if (lastdeeznuts > 2)
+                close(lastdeeznuts);
+            lastdeeznuts = p[0];
+        }
+        else
+        {
+            if (lastdeeznuts > 2)
+            {
+                if (tmp->input > 2)
+                    close(tmp->input);
+                tmp->input = lastdeeznuts;
+            }
+            if (!ft_is_builtin(tmp, envdeeznuts))
+            {
+                path = ft_get_path(envdeeznuts);
+                ft_get_working_path(path, &(*(tmp->cmd)));
+                ft_child(tmp, envdeeznuts);
+                ft_free_strr(path);
+            }
+        }
+        tmp = tmp->next;
+    }
+    cmd_wait(cmd);
+    if (lastdeeznuts > 2)
+        close(lastdeeznuts);
 }
-
 
 void    process_tree(t_node *tree, t_env *envdeeznuts)
 {
@@ -510,3 +511,5 @@ void    process_tree(t_node *tree, t_env *envdeeznuts)
 	else
 		exit(69);
 }
+
+
