@@ -22,7 +22,7 @@ void ft_exec_builtin(t_lcmd *cmd, t_env *env, int nbr)
 {
     if (nbr == 0)
     {
-        if ((bi_func[nbr])(cmd->cmd, env))
+        if ((bi_func[nbr])(cmd, env))
             exit(747);
     } 
     else if (nbr > 0 && nbr <= BUILTINSPLIT)

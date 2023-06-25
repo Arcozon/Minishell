@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:43 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 01:24:34 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 03:56:58 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ int	bi_pwd(t_lcmd *lcmd, t_env **env)
 	write(lcmd->output, pwd, ft_strlen(pwd));
 	write(lcmd->output, "\n", 1);
 	free(pwd);
-	return (1);
+	return (0);
 }
