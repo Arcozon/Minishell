@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 07:59:07 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 09:33:28 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int						syntax(t_lexer *root);
 typedef struct s_ioe_put
 {
 	int					type;
+	char				*herename;
 	char				*name;
 	struct s_ioe_put	*next;
 }						t_ioe_put;

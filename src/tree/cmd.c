@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 23:16:00 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/16 20:15:03 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 09:33:08 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_lcmd	*create_lcmd(t_lexer *lexer, t_lexer *end_lexer)
 	lcmd = malloc(sizeof(t_lcmd));
 	if (!lcmd)
 		exit(1);
+	lcmd->pid = 0;
 	lcmd->input = 0;
 	lcmd->output = 1;
 	lcmd->error = 2;
@@ -116,6 +117,7 @@ t_ioe_put	*create_ioeput(t_lexer *lexer, t_lexer *end_lexer)
 		if (is_ioe[lexer->type])
 		{
 			ioe_put->type = lexer->type;
+			ioe_put->herename = 0;
 			ioe_put->name = join_same_type(lexer->next);
 			if (!ioe_put->name)
 				exit(1);
