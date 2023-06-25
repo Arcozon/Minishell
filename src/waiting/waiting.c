@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 02:34:49 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/21 03:43:51 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 05:40:09 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 #include <signal.h>
 
 struct mytimespec{
-    long int sec;
+    unsigned long int sec;
     long int nano;
-    int:32;
 };
 
 void myusleep(struct mytimespec *var)
@@ -31,26 +30,7 @@ void myusleep(struct mytimespec *var)
 
 void    handler(int sig)
 {
-    static int  toggle = 0;
-    static int  i = 0;
-    static char *loading = "|/-\\";
-
-    if (sig == SIGUSR1)
-    {
-        toggle ^= 1;
-        if (toggle)
-            write(1, "\033[?25l\\", 7);
-        else
-            write(1, "\x8\033[?25h", 7);
-            
-    }
-    else if (toggle)
-    {
-        write(1, "\x8",1);
-        write(1, loading + i, 1);
-        ++i;
-        i %= 4;
-    }
+    (void)sig;
 }
 
 __attribute__((constructor))
@@ -71,8 +51,5 @@ int main(void)
     one_sec.sec = 1;
     one_sec.nano = 0;
     while (1)
-    {
         myusleep(&one_sec);
-        handler(-1);
-    }
 }
