@@ -30,7 +30,11 @@ S_UTILS =  utils.c  utils2.c free1.c free2.c ms_calloc.c
 D_UTILS = utils/
 SRC_UTILS = $(addprefix ${D_UTILS}, ${S_UTILS})
 
-S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}  ${SRC_EXPAND}  ${SRC_TREE} ${SRC_EXEC} $(SRC_GNL)
+S_RAND = rand.c
+D_RAND = rand/
+SRC_RAND = $(addprefix $(D_RAND), $(S_RAND))
+
+S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}  ${SRC_EXPAND}  ${SRC_TREE} ${SRC_EXEC} $(SRC_GNL) $(SRC_RAND)
 D_SRC = ./src/
 SRC = $(addprefix ${D_SRC}, ${S_SRC})
 
@@ -69,6 +73,7 @@ ${D_OBJ}:
 	mkdir -p ${D_OBJ}${D_TREE}
 	mkdir -p ${D_OBJ}${D_EXEC}
 	mkdir -p $(D_OBJ)$(D_GNL)
+	mkdir -p $(D_OBJ)$(D_RAND)
 
 clean :
 	rm -f ${OBJ}

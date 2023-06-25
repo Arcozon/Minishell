@@ -33,7 +33,8 @@ char	*strnrand(int len)
 	out = malloc(sizeof(char) * (len + 1));
 	if (!out)
 		return (0);
-	i = 0;
+    out[0] = '.';
+	i = 1;
 	while (i < len)
 	{
 		if (read(fd, &b, 1) < 1)

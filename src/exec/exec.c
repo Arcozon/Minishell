@@ -68,11 +68,12 @@ int ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
 
 int   ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
 {
-	if (ft_open_file(".heredoc", &cmd->input, O_CREAT | O_WRONLY | O_TRUNC, 0644))
+    ioe->herename = strnrand(8);
+	if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC, 0644))
 		return (1);
 	if (ft_heredoc_sub(cmd, ioe))
 		return (1);
-	if (ft_open_file(".heredoc", &cmd->input, O_RDONLY, 0))
+	if (ft_open_file(ioe->herename, &cmd->input, O_RDONLY, 0))
 		return (1);
 	return (0);
 }
@@ -430,6 +431,23 @@ void    cmd_wait(t_lcmd *cmd)
 	g_cmd_exit = WEXITSTATUS(status);
 }
 
+void  here_unlink(t_lcmd *cmd)
+{
+    t_ioe_put *tmp;
+
+    while (cmd)
+    {
+        tmp = cmd->ioe_put;
+        while (tmp)
+        {
+            if (tmp->type == INPUT_HEREDOC && tmp->herename)
+                unlink(tmp->herename);
+            tmp = tmp->next;
+        }
+        cmd = cmd->next;
+    }
+}
+
 void    process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
 {
 	int    p[2];
@@ -486,6 +504,7 @@ void    process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
         tmp = tmp->next;
     }
     cmd_wait(cmd);
+    here_unlink(cmd);
     if (lastdeeznuts > 2)
         close(lastdeeznuts);
 }
