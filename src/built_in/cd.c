@@ -6,14 +6,14 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:46 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 03:53:49 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 09:11:40 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #define HOME "HOME"
 
-static char *dup_home(t_env *env)
+static char	*dup_home(t_env *env)
 {
 	while (env && ft_strcmp(env->var_name, HOME))
 		env = env->next;
