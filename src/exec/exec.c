@@ -410,6 +410,7 @@ void    ft_child(t_lcmd *cmd, t_env *env)
         execve(*(cmd->cmd), cmd->cmd, envstrr);
         perror(*(cmd->cmd));
         ft_free_strr(envstrr);
+        exit(0);
     }
 }
 
@@ -420,7 +421,8 @@ void    cmd_wait(t_lcmd *cmd)
     status = 0;
     while (cmd)
     {
-        waitpid(cmd->pid, &status, 0);
+        if (cmd->pid > 0)
+            waitpid(cmd->pid, &status, 0);
         cmd = cmd->next;
     }
     g_cmd_exit = WEXITSTATUS(status);

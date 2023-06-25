@@ -39,7 +39,7 @@ void	free_ioe(t_ioe_put *ioe)
 
 void	free_cmd(t_lcmd *lcmd)
 {
-	t t_lcmd	*next;
+	 t_lcmd	*next;
 
 	while (lcmd)
 	{

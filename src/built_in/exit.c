@@ -15,6 +15,6 @@
 //Return nothing
 void	bi_exit(void)
 {
-	rl_clear_history();
+//	rl_clear_history();
 	exit (0);
 }
