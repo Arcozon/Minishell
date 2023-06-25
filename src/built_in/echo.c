@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 08:44:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 01:24:06 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 04:01:31 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	bi_echo(t_lcmd *lcmd, t_env *env)
 			if (lcmd->cmd[i][j])
 				break ;
 		}
+		else
+			break ;
 	}
 	while (lcmd->cmd[i])
 	{
