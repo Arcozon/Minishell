@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 05:09:43 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/16 20:20:25 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 05:35:07 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@ static int	check_patern(char *patern, char *str)
 	return (0);
 }
 
-static char	*gimme_next_file_name(DIR *dir, char *patern)
-{
-	struct dirent	*f;
-
-	f = readdir(dir);
-	while (f && (f->d_name[0] == '.' || !check_patern(patern, f->d_name)))
-		f = readdir(dir);
-	if (!f)
-		return (0);
-	return (ft_strdup(f->d_name));
-}
-
 int	count_match(char *patern)
 {
 	struct dirent	*f;
@@ -48,45 +36,60 @@ int	count_match(char *patern)
 	int				count;
 
 	pwd = get_pwd();
-	count = 0;
 	if (!pwd)
 		return (write(2, "Minishell: wildcard: can't find pwd\n", 36), 0);
 	dir = opendir(pwd);
 	if (!dir)
 		return (write(2, "Minishell: wildcard: can't open directory\n", 6),
 			free(pwd), 0);
+	count = 0;
 	f = readdir(dir);
-	while (f && (f->d_name[0] == '.' || !check_patern(patern, f->d_name)))
+	while (f)
 	{
-		++count;
+		if (f->d_name[0] != '.' && check_patern(patern, f->d_name))
+			++count;
 		f = readdir(dir);
 	}
-	closedir(dir);
+	(closedir(dir), free(pwd));
 	return (count);
+}
+
+static char	*gimme_next_file_name(DIR *dir, char *patern)
+{
+	struct dirent	*f;
+
+	f = readdir(dir);
+	while (f && (f->d_name[0] == '.' || !check_patern(patern, f->d_name)))
+		f = readdir(dir);
+	if (f)
+		return (ft_strdup(f->d_name));
+	return (0);
 }
 
 static char	**i_found_one(char *patern, int count)
 {
 	DIR		*dir;
 	char	*pwd;
-	char	**res;
+	char	**cres;
 
-	res = malloc (sizeof(char *) * (count + 1));
-	if (!res)
+	cres = malloc (sizeof(char *) * (count + 1));
+	if (!cres)
 		return (write(2, "Minishell: wildcard: Malloc error\n", 34),
 			(char **)0);
-	res[count] = 0;
+	cres[count] = 0;
 	pwd = get_pwd();
 	if (!pwd)
-		return (free(res), (char **)0);
+		return (free(cres), (char **)0);
 	dir = opendir(pwd);
 	if (!dir)
-		return (free(res), free(pwd), (char **)0);
+		return (free(cres), free(pwd), (char **)0);
 	while (--count >= 0)
-		res[count] = gimme_next_file_name(dir, patern);
+	{
+		cres[count] = gimme_next_file_name(dir, patern);
+	}
 	free(pwd);
 	closedir(dir);
-	return (res);
+	return (cres);
 }
 
 t_lexer	*expand_wc_v2(char *patern)
@@ -107,12 +110,14 @@ t_lexer	*expand_wc_v2(char *patern)
 		res[1] = 0;
 	}
 	else
+	{
 		res = i_found_one(patern, count);
-	my_bbsort(res);
+		my_bbsort(res);
+	}
 	i = -1;
 	lres = 0;
 	while (res[++i])
-		(lexer_add_back(&lres, lexer_new(ARGS, res[i])),
+		(lexer_add_back(&lres, lexer_new(TEXT, res[i])),
 			lexer_add_back(&lres, lexer_new(SPACE_, 0)));
 	free(res);
 	return (lres);

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 08:39:25 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/16 20:20:54 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/25 05:35:23 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	my_bbsort(char **tab)
 		j = i + 1;
 		while (tab[j])
 		{
-			if (ft_strcmpup1low2(tab[i], tab[j]) < 0)
+			if (ft_strcmpup1low2(tab[i], tab[j]) > 0)
 			{
 				buff = tab[j];
 				tab[j] = tab[i];
