@@ -21,20 +21,11 @@ int ft_strcmp(char *str1, char *str2)
 void ft_exec_builtin(t_lcmd *cmd, t_env *env, int nbr)
 {
     if (nbr == 0)
-    {
-        if ((bi_func[nbr])(cmd, env))
-            exit(747);
-    } 
+        g_cmd_exit = (bi_func[nbr])(cmd, env)
     else if (nbr > 0 && nbr <= BUILTINSPLIT)
-    {
-        if ((bi_func[nbr])(cmd, &env))
-            exit(748);
-    }
+        g_cmd_exit = (bi_func[nbr])(cmd, &env)
     else if (nbr > BUILTINSPLIT && nbr < BUILTINNBR - 1)
-    {
-        if ((bi_func[nbr])(cmd, env))
-            exit(749);
-    }
+        g_cmd_exit = (bi_func[nbr])(cmd, env);
     else if (nbr == BUILTINNBR - 1)
         bi_exit();
 }
