@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 02:34:49 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 09:11:28 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 09:39:11 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ void	handle(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
 	if (sig == SIGUSR1)
+	{
 		kill(info->si_pid, SIGKILL);
-	exit(0);
+		exit(0);
+	}
 }
 
 // __attribute__((constructor))

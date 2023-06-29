@@ -6,13 +6,11 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 11:51:11 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/24 11:51:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 09:56:24 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "minishell.h"
 
 static inline int	is_alphanum(char c)
 {
@@ -32,8 +30,9 @@ char	*strnrand(int len)
 		return (0);
 	out = malloc(sizeof(char) * (len + 1));
 	if (!out)
-		return (0);
-    out[0] = '.';
+		return (close(fd), out);
+	out[0] = '.';
+	out[len] = 0;
 	i = 1;
 	while (i < len)
 	{

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 09:14:32 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 09:41:10 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int ac, char **av, char **cenv)
 		process_tree(ms.tree, ms.env);
 		free_lexer(ms.lexer);
 	}
+	kill(ms.euthanasia_pid, SIGUSR1);
 	bi_exit();
 	return (0);
 }

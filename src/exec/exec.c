@@ -1,15 +1,15 @@
-#include "../../inc/minishell.h"
 #include "../../inc/get_next_line.h"
+#include "../../inc/minishell.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/wait.h>
 #include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-int    ft_open_file_(char *str, int oflag, int mode)
+int	ft_open_file_(char *str, int oflag, int mode)
 {
-	int fd;
+	int	fd;
 
 	fd = open(str, oflag, mode);
 	if (fd == -1)
@@ -17,9 +17,9 @@ int    ft_open_file_(char *str, int oflag, int mode)
 	return (fd);
 }
 
-int    ft_open_file(char *name, int *fd, int oflag, int mode)
+int	ft_open_file(char *name, int *fd, int oflag, int mode)
 {
-	int    tmp;
+	int	tmp;
 
 	if (*fd > 2)
 		close(*fd);
@@ -30,18 +30,16 @@ int    ft_open_file(char *name, int *fd, int oflag, int mode)
 	return (0);
 }
 
-int ft_write_to_fd(int fd, char *str, int len)
+int	ft_write_to_fd(int fd, char *str, int len)
 {
-	if (write(fd, str, len) != len)
-		return (1);
-	return (0);
+	return (write(fd, str, len) != len);
 }
 
-int ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
+int	ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
 {
-	char    *buf;
-	int    len2;
-	int    len;
+	char	*buf;
+	int		len2;
+	int		len;
 
 	len = ft_strlen(ioe->name);
 	write(1, "> ", 2);
@@ -56,7 +54,7 @@ int ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
 		}
 		len2 = ft_strlen(buf) - 1;
 		if (len == len2 && !ft_strncmp(buf, ioe->name, len))
-				break ;
+			break ;
 		if (len2 + 1 > 0)
 			write(1, "> ", 2);
 		if (ft_write_to_fd(cmd->input, buf, len2 + 1))
@@ -66,10 +64,11 @@ int ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
 	return (free(buf), 0);
 }
 
-int   ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
+int	ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
 {
-    ioe->herename = strnrand(8);
-	if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC, 0644))
+	ioe->herename = strnrand(8);
+	if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC,
+			0644))
 		return (1);
 	if (ft_heredoc_sub(cmd, ioe))
 		return (1);
@@ -77,22 +76,26 @@ int   ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
 		return (1);
 	return (0);
 }
-int    process_file(t_lcmd *cmd)
+int	process_file(t_lcmd *cmd)
 {
-	t_ioe_put    *tmp;
+	t_ioe_put	*tmp;
 
 	tmp = cmd->ioe_put;
 	while (tmp)
 	{
-		if (tmp->type == INPUT_REDIR && !ft_open_file(tmp->name, &cmd->input, O_RDONLY, 0))
+		if (tmp->type == INPUT_REDIR && !ft_open_file(tmp->name, &cmd->input,
+				O_RDONLY, 0))
 			;
-		else if (tmp->type == OUTPUT_REDIR && !ft_open_file(tmp->name, &cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 0622))
+		else if (tmp->type == OUTPUT_REDIR && !ft_open_file(tmp->name,
+					&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 0622))
 			;
-		else if (tmp->type == OUTPUT_HAPPEND_REDIR && !ft_open_file(tmp->name, &cmd->output, O_CREAT | O_WRONLY | O_APPEND, 0622))
+		else if (tmp->type == OUTPUT_HAPPEND_REDIR && !ft_open_file(tmp->name,
+					&cmd->output, O_CREAT | O_WRONLY | O_APPEND, 0622))
 			;
 		else if (tmp->type == INPUT_HEREDOC && !ft_heredoc(cmd, tmp))
 			;
-		else if (tmp->type == ERROR_REDIR && !ft_open_file(tmp->name, &cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 0622))
+		else if (tmp->type == ERROR_REDIR && !ft_open_file(tmp->name,
+					&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 0622))
 			;
 		else
 			return (1);
@@ -101,7 +104,7 @@ int    process_file(t_lcmd *cmd)
 	return (0);
 }
 
-void    set_up_dup(t_lcmd *cmd)
+void	set_up_dup(t_lcmd *cmd)
 {
 	if (cmd->input != STDIN_FILENO)
 		dup2(cmd->input, STDIN_FILENO);
@@ -138,9 +141,9 @@ char	*ft_strjoin_weq(char const *s1, char const *s2)
 	return (ptr);
 }
 
-int    t_env_len(t_env *env)
+int	t_env_len(t_env *env)
 {
-	int    n;
+	int	n;
 
 	n = 0;
 	while (env)
@@ -151,11 +154,11 @@ int    t_env_len(t_env *env)
 	return (n);
 }
 
-char    **t_env_to_charr(t_env *env)
+char	**t_env_to_charr(t_env *env)
 {
-	int    len;
-	int    i;
-	char    **out;
+	int		len;
+	int		i;
+	char	**out;
 
 	if (!env)
 		return (0);
@@ -176,9 +179,9 @@ char    **t_env_to_charr(t_env *env)
 	return (out);
 }
 
-void    ft_free_strr(char **str)
+void	ft_free_strr(char **str)
 {
-	int    i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -317,7 +320,7 @@ char	**ft_get_path(t_env *env)
 
 	if (!env)
 		return (0);
-	path =  0;
+	path = 0;
 	while (env)
 	{
 		if (!ft_strcmp(env->var_name, "PATH"))
@@ -389,9 +392,9 @@ void	ft_get_working_path(char **path, char **cmd)
 	}
 }
 
-void    ft_child(t_lcmd *cmd, t_env *env)
+void	ft_child(t_lcmd *cmd, t_env *env)
 {
-	char    **envstrr;
+	char	**envstrr;
 
 	cmd->pid = fork();
 	if (cmd->pid == -1)
@@ -415,9 +418,9 @@ void    ft_child(t_lcmd *cmd, t_env *env)
 	}
 }
 
-void    cmd_wait(t_lcmd *cmd)
+void	cmd_wait(t_lcmd *cmd)
 {
-	int status;
+	int	status;
 
 	status = 0;
 	while (cmd)
@@ -431,85 +434,85 @@ void    cmd_wait(t_lcmd *cmd)
 	g_cmd_exit = WEXITSTATUS(status);
 }
 
-void  here_unlink(t_lcmd *cmd)
+void	here_unlink(t_lcmd *cmd)
 {
-    t_ioe_put *tmp;
+	t_ioe_put	*tmp;
 
-    while (cmd)
-    {
-        tmp = cmd->ioe_put;
-        while (tmp)
-        {
-            if (tmp->type == INPUT_HEREDOC && tmp->herename)
-                unlink(tmp->herename);
-            tmp = tmp->next;
-        }
-        cmd = cmd->next;
-    }
+	while (cmd)
+	{
+		tmp = cmd->ioe_put;
+		while (tmp)
+		{
+			if (tmp->type == INPUT_HEREDOC && tmp->herename)
+				unlink(tmp->herename);
+			tmp = tmp->next;
+		}
+		cmd = cmd->next;
+	}
 }
 
-void    process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
+void	process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
 {
-	int    p[2];
-	int    lastdeeznuts;
-	t_lcmd *tmp;
-	char   **path;
+	int		p[2];
+	int		lastdeeznuts;
+	t_lcmd	*tmp;
+	char	**path;
 
-    lastdeeznuts = 0;
-    tmp = cmd;
-    while (tmp)
-    {
-        expand_cmd_ioe(tmp, envdeeznuts);
-        process_file(tmp);
-        if (tmp->next)
-        {
-            if (pipe(p) == -1)
-                exit(66);
-            if (tmp->input > 2 && lastdeeznuts > 0)
-            {
-                close(tmp->input);
-                tmp->input = lastdeeznuts;
-            }
-            if (tmp->output > 2)
-                close(tmp->output);
-            tmp->output = p[1];
-            if (!ft_is_builtin(tmp, envdeeznuts))
-            {
-                path = ft_get_path(envdeeznuts);
-                ft_get_working_path(path, &(*(tmp->cmd)));
-                ft_child(tmp, envdeeznuts);
-                ft_free_strr(path);
-            }
-            close(p[1]);
-            if (lastdeeznuts > 2)
-                close(lastdeeznuts);
-            lastdeeznuts = p[0];
-        }
-        else
-        {
-            if (lastdeeznuts > 2)
-            {
-                if (tmp->input > 2)
-                    close(tmp->input);
-                tmp->input = lastdeeznuts;
-            }
-            if (!ft_is_builtin(tmp, envdeeznuts))
-            {
-                path = ft_get_path(envdeeznuts);
-                ft_get_working_path(path, &(*(tmp->cmd)));
-                ft_child(tmp, envdeeznuts);
-                ft_free_strr(path);
-            }
-        }
-        tmp = tmp->next;
-    }
-    cmd_wait(cmd);
-    here_unlink(cmd);
-    if (lastdeeznuts > 2)
-        close(lastdeeznuts);
+	lastdeeznuts = 0;
+	tmp = cmd;
+	while (tmp)
+	{
+		expand_cmd_ioe(tmp, envdeeznuts);
+		process_file(tmp);
+		if (tmp->next)
+		{
+			if (pipe(p) == -1)
+				exit(66);
+			if (tmp->input > 2 && lastdeeznuts > 0)
+			{
+				close(tmp->input);
+				tmp->input = lastdeeznuts;
+			}
+			if (tmp->output > 2)
+				close(tmp->output);
+			tmp->output = p[1];
+			if (!ft_is_builtin(tmp, envdeeznuts))
+			{
+				path = ft_get_path(envdeeznuts);
+				ft_get_working_path(path, &(*(tmp->cmd)));
+				ft_child(tmp, envdeeznuts);
+				ft_free_strr(path);
+			}
+			close(p[1]);
+			if (lastdeeznuts > 2)
+				close(lastdeeznuts);
+			lastdeeznuts = p[0];
+		}
+		else
+		{
+			if (lastdeeznuts > 2)
+			{
+				if (tmp->input > 2)
+					close(tmp->input);
+				tmp->input = lastdeeznuts;
+			}
+			if (!ft_is_builtin(tmp, envdeeznuts))
+			{
+				path = ft_get_path(envdeeznuts);
+				ft_get_working_path(path, &(*(tmp->cmd)));
+				ft_child(tmp, envdeeznuts);
+				ft_free_strr(path);
+			}
+		}
+		tmp = tmp->next;
+	}
+	cmd_wait(cmd);
+	here_unlink(cmd);
+	if (lastdeeznuts > 2)
+		close(lastdeeznuts);
 }
 
-void    process_tree(t_node *tree, t_env *envdeeznuts)
+void	process_tree(t_node *tree, t_env *envdeeznuts)
 {
 	if (!tree)
 		exit(69);
@@ -530,5 +533,3 @@ void    process_tree(t_node *tree, t_env *envdeeznuts)
 	else
 		exit(69);
 }
-
-
