@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:56:07 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/24 12:12:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 12:22:33 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	add_chain2(t_lexer **root, const char *line, int *start)
 		short_add_chain(root, line, start, CLOSE_PAR);
 	else
 		get_text(line, start, root);
+	awaiting_death(!(*root)->content, ms);
 }
 
 void	add_chain(t_lexer **root, const char *line, int *start)
@@ -43,11 +44,7 @@ void	add_chain(t_lexer **root, const char *line, int *start)
 	while (*root)
 		root = &((*root)->next);
 	*root = malloc(sizeof(t_lexer));
-	if (!*root)
-	{
-		write(2, "Minishel: lexer: malloc error\n", 30);
-		return ;
-	}
+	awaiting_death(!*root, ms)
 	(*root)->content = 0;
 	(*root)->type = ERROR;
 	(*root)->next = 0;
@@ -65,7 +62,7 @@ void	add_chain(t_lexer **root, const char *line, int *start)
 		add_chain2(root, line, start);
 }
 
-t_lexer	*lexer(const char *line)
+t_lexer	*lexer(const char *line, t_minishell ms)
 {
 	t_lexer	*root;
 	int		start;

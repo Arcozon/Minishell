@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 09:52:16 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 12:08:30 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_lexer
 
 void					lexer_add_back(t_lexer **root, t_lexer *new);
 t_lexer					*lexer_new(int type, char *content);
-t_lexer					*lexer(const char *line);
+t_lexer					*lexer(const char *line, t_minishell ms);
 void					get_text(const char *line, int *start, t_lexer **root);
 void					aff_lexer(t_lexer *root, t_lexer *end_lexer);
 void					change_space(t_lexer **root);
@@ -215,5 +215,6 @@ void					free_split(char **split);
 void					free_env(t_env *env);
 void					free_lexer(t_lexer *root);
 int						euthanasia(void);
+void					awaiting_death(int test, t_minishell ms);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 02:34:49 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 11:23:52 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 12:10:13 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,14 @@ int	euthanasia(void)
 	while (1)
 		myusleep(&one_sec);
 	return (0);
+}
+
+void	awaiting_death(int test, t_minishell ms)
+{
+	if (test)
+	{
+		kill(ms->euthanasia_pid, SIGUSR1);
+		while (1)
+			;
+	}
 }
