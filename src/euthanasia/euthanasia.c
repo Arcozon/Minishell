@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 02:34:49 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 09:39:11 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:23:52 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ void	handle(int sig, siginfo_t *info, void *context)
 		kill(info->si_pid, SIGKILL);
 		exit(0);
 	}
+	else if (sig == SIGUSR2)
+	{
+		exit(0);
+	}
 }
 
 // __attribute__((constructor))
@@ -46,6 +50,8 @@ void	sig_eutanasia(void)
 	sigusr.sa_sigaction = handle;
 	sigemptyset(&sigusr.sa_mask);
 	if (sigaction(SIGUSR1, &sigusr, 0))
+		exit(0);
+	if (sigaction(SIGUSR2, &sigusr, 0))
 		exit(0);
 	if (sigaction(SIGQUIT, &sigusr, 0))
 		exit(0);
