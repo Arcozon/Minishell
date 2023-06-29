@@ -6,13 +6,13 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 05:02:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 09:57:34 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 13:41:39 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	expand_cmd_ioe(t_lcmd *lcmd, t_env *env)
+void	expand_cmd_ioe(t_lcmd *lcmd, t_minishell *ms)
 {
 	t_lexer	**root;
 
@@ -21,16 +21,16 @@ void	expand_cmd_ioe(t_lcmd *lcmd, t_env *env)
 	{
 		if ((*root)->type == TEXT_SQ)
 		{
-			expand_sq(*root, env);
+			expand_sq(*root, ms);
 			root = &((*root)->next);
 		}
 		else if ((*root)->type == TEXT_DQ)
 		{
-			expand_dq(*root, env);
+			expand_dq(*root, ms);
 			root = &((*root)->next);
 		}
 		else if ((*root)->type == TEXT)
-			root = expand_text(root, env);
+			root = expand_text(root, ms);
 		else
 			root = &((*root)->next);
 	}

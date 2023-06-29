@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 11:40:34 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 14:01:25 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int ac, char **av, char **cenv)
 		set_sig_exec();
 		if (!ms.line)
 			break ;
-		ms.lexer = lexer(ms.line, ms);
+		ms.lexer = lexer(ms.line, &ms);
 		if (ms.lexer)
 			add_history(ms.line);
 		else

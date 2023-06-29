@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:56:07 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 12:22:33 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 14:00:59 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static void	add_chain2(t_lexer **root, const char *line, int *start)
 	awaiting_death(!(*root)->content, ms);
 }
 
-void	add_chain(t_lexer **root, const char *line, int *start)
+void	add_chain(t_lexer **root, const char *line, int *start,
+	t_minishell *ms)
 {
 	while (*root)
 		root = &((*root)->next);
@@ -58,11 +59,10 @@ void	add_chain(t_lexer **root, const char *line, int *start)
 		short_add_chain(root, line, start, OUTPUT_REDIR);
 	else if (line[*start] == '<')
 		short_add_chain(root, line, start, INPUT_REDIR);
-	else
-		add_chain2(root, line, start);
+	add_chain2(root, line, start);
 }
 
-t_lexer	*lexer(const char *line, t_minishell ms)
+t_lexer	*lexer(const char *line, t_minishell *ms)
 {
 	t_lexer	*root;
 	int		start;
@@ -70,7 +70,7 @@ t_lexer	*lexer(const char *line, t_minishell ms)
 	start = 0;
 	root = 0;
 	while (line[start])
-		add_chain(&root, line, &start);
+		add_chain(&root, line, &start, ms);
 	change_space(&root);
 	return (root);
 }

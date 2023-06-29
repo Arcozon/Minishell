@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:44:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 05:25:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 13:48:09 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static char	*hey_i_found_one_euro(char *text, int i[2], char *return_str,
 	return (return_str);
 }
 
-char	*expand_dollar_sign(char *text, t_env *env)
+char	*expand_dollar_sign(char *text, t_env *env, t_minishell *ms)
 {
 	char	*return_str;
 	char	*buffer;
@@ -102,17 +102,20 @@ char	*expand_dollar_sign(char *text, t_env *env)
 	i[0] = 0;
 	i[1] = 0;
 	return_str = ft_strdup("");
+	awaiting_death(!return_str, ms);
 	while (text[i[0]])
 	{
 		if (text[i[0]] == '$')
 			return_str = hey_i_found_one_euro(text, i, return_str, env);
 		else
 			i[0] += (i[1]++, 1);
+		awaiting_death(!return_str, ms);
 	}
 	if (i[1])
 	{
 		buffer = return_str;
 		return_str = ft_strjoin(return_str, text + i[0] - i[1]);
+		awaiting_death(!return_str, ms);
 		free(buffer);
 	}
 	return (return_str);

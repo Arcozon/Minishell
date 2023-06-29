@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 05:09:43 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 05:35:07 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 13:56:22 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,10 @@ t_lexer	*expand_wc_v2(char *patern)
 			return (write(2, "Minishell: wildcard: Malloc error\n", 34),
 				(t_lexer *)0);
 		res[0] = ft_strdup(patern);
-		res[1] = 0;
+		return (res[1] = 0, res);
 	}
-	else
-	{
-		res = i_found_one(patern, count);
-		my_bbsort(res);
-	}
+	res = i_found_one(patern, count);
+	my_bbsort(res);
 	i = -1;
 	lres = 0;
 	while (res[++i])

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 12:08:30 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 14:00:28 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,34 +72,6 @@ typedef struct s_lexer
 	struct s_lexer		*next;
 }						t_lexer;
 
-void					lexer_add_back(t_lexer **root, t_lexer *new);
-t_lexer					*lexer_new(int type, char *content);
-t_lexer					*lexer(const char *line, t_minishell ms);
-void					get_text(const char *line, int *start, t_lexer **root);
-void					aff_lexer(t_lexer *root, t_lexer *end_lexer);
-void					change_space(t_lexer **root);
-void					change_text(t_lexer *root, t_lexer *end_lexer);
-void					change_text_into_cmd_args(t_lexer *root,
-							t_lexer *end_lexer);
-void					free_lexer(t_lexer *root);
-
-//ls | xargs -I var find var -name "PATERN" -not -path '* /\.*' | grep -v /
-/*---------------------Expand-----------------------*/
-void					expand_me_onee_chan(t_lexer **root, t_env *env);
-void					expand_sq(t_lexer *root, t_env *env);
-void					expand_dq(t_lexer *root, t_env *env);
-t_lexer					**expand_text(t_lexer **root, t_env *env);
-t_lexer					*expand_wc_v2(char *patern);
-char					*expand_var_name(char *text, int *start, t_env *env);
-char					*expand_dollar_sign(char *text, t_env *env);
-
-/*---------------------Syntax-----------------------*/
-int						check_parenthesis(t_lexer *root);
-int						check_special(t_lexer *root);
-int						check_quote(t_lexer *root);
-int						check_cmd(t_lexer *root);
-int						syntax(t_lexer *root);
-
 /*--------------------WTF Binary Tree-----------------------*/
 typedef struct s_ioe_put
 {
@@ -145,6 +117,39 @@ typedef struct s_minishell
 	char				*line;
 	int					euthanasia_pid;
 }						t_minishell;
+
+void					lexer_add_back(t_lexer **root, t_lexer *new);
+t_lexer					*lexer_new(int type, char *content);
+t_lexer					*lexer(const char *line, t_minishell *ms);
+void					get_text(const char *line, int *start, t_lexer **root);
+void					aff_lexer(t_lexer *root, t_lexer *end_lexer);
+void					change_space(t_lexer **root);
+void					change_text(t_lexer *root, t_lexer *end_lexer);
+void					change_text_into_cmd_args(t_lexer *root,
+							t_lexer *end_lexer);
+void					free_lexer(t_lexer *root);
+
+//ls | xargs -I var find var -name "PATERN" -not -path '* /\.*' | grep -v /
+/*---------------------Expand-----------------------*/
+void					expand_me_onee_chan(t_lexer **root, t_env *env);
+void					expand_sq(t_lexer *root, t_env *env, t_minishell *ms);
+void					expand_dq(t_lexer *root, t_env *env, t_minishell *ms);
+t_lexer					**expand_text(t_lexer **root, t_env *env,
+							t_minishell *ms);
+t_lexer					*expand_wc_v2(char *patern,
+							t_minishell *ms);
+char					*expand_var_name(char *text, int *start, t_env *env,
+							t_minishell *ms);
+char					*expand_dollar_sign(char *text, t_env *env,
+							t_minishell *ms);
+
+/*---------------------Syntax-----------------------*/
+int						check_parenthesis(t_lexer *root);
+int						check_special(t_lexer *root);
+int						check_quote(t_lexer *root);
+int						check_cmd(t_lexer *root);
+int						syntax(t_lexer *root);
+
 
 t_node					*create_node(t_lexer *lexer, t_lexer *end_lexer);
 
@@ -215,6 +220,6 @@ void					free_split(char **split);
 void					free_env(t_env *env);
 void					free_lexer(t_lexer *root);
 int						euthanasia(void);
-void					awaiting_death(int test, t_minishell ms);
+void					awaiting_death(int test, t_minishell *ms);
 
 #endif
