@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 10:25:17 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 09:14:32 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,32 @@
 
 int	g_cmd_exit = 0;
 
-int	main(int ac, char **av, char **_env)
+int	main(int ac, char **av, char **cenv)
 {
-	t_env	*env;
-	char	*line;
-	t_lexer	*root_lexer;
-	t_node	*tree;
+	t_minishell	ms;
 
-	(void)ac;
-	(void)av;
-	env = cpy_env(_env);
-	line = 0;
+	((void)ac, (void)av);
+	ms.euthanasia_pid = euthanasia();
+	ms.env = cpy_env(cenv);
 	while (1)
 	{
-		line = readline(PROMPT);
-		if (!line)
+		set_sig_routine();
+		ms.line = readline(PROMPT);
+		set_sig_exec();
+		if (!ms.line)
 			break ;
-		root_lexer = lexer(line);
-		if (root_lexer)
-			add_history(line);
+		ms.lexer = lexer(ms.line);
+		if (ms.lexer)
+			add_history(ms.line);
 		else
 			continue ;
-		if (!syntax(root_lexer))
+		if (!syntax(ms.lexer))
 			continue ;
 		// aff_lexer(root_lexer, 0);
-		tree = create_node(root_lexer, 0);
+		ms.tree = create_node(ms.lexer, 0);
 		// print_tree(tree, 0);
-		process_tree(tree, env);
-		free_lexer(root_lexer);
+		process_tree(ms.tree, ms.env);
+		free_lexer(ms.lexer);
 	}
 	bi_exit();
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 10:25:53 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/29 09:15:26 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <signal.h>
 
 # define PROMPT ">Minishell:"
 # define RETURN_VAR "?"
@@ -137,11 +138,12 @@ typedef struct s_node
 
 typedef struct s_minishell
 {
-	t_lexer	*lexer;
-	t_node	*tree;
-	t_env	*env;
-	int		euthanasia_pid;
-}	t_minishell;
+	t_env				*env;
+	t_lexer				*lexer;
+	t_node				*tree;
+	char				*line;
+	int					euthanasia_pid;
+}						t_minishell;
 
 t_node					*create_node(t_lexer *lexer, t_lexer *end_lexer);
 
@@ -180,10 +182,10 @@ void					env_addback(t_env **root, t_env *new);
 
 int						ft_is_builtin(t_lcmd *cmd, t_env *env);
 void					process_tree(t_node *tree, t_env *envdeeznuts);
-void	expand_cmd_ioe(t_lcmd *lcmd, t_env *env);
-void    set_up_dup(t_lcmd *cmd);
-char    **t_env_to_charr(t_env *env);
-void    ft_free_strr(char **str);
+void					expand_cmd_ioe(t_lcmd *lcmd, t_env *env);
+void					set_up_dup(t_lcmd *cmd);
+char					**t_env_to_charr(t_env *env);
+void					ft_free_strr(char **str);
 
 /*----------------------Utils-----------------------*/
 char					*ft_strdup(const char *s);
@@ -196,17 +198,21 @@ char					*ft_substr(char const *s, unsigned int start,
 char					*join_args(t_lexer *lexer);
 void					my_bbsort(char **tab);
 void					*ms_calloc(unsigned int to_malloc, t_minishell ms);
-char	*strnrand(int len);
-int ft_strcmp(char *str1, char *str2);
+char					*strnrand(int len);
+int						ft_strcmp(char *str1, char *str2);
+
+/*----------------------Signal-----------------------*/
+void					set_sig_exec(void);
+void					set_sig_routine(void);
 
 /*---------------------Free--------------------------*/
-void	free_ms(t_minishell ms);
-void	free_node(t_node *node);
-void	free_cmd(t_lcmd *lcmd);
-void	free_ioe(t_ioe_put *ioe);
-void	free_split(char **split);
-void	free_env(t_env *env);
-void	free_lexer(t_lexer *root);
-
+void					free_ms(t_minishell ms);
+void					free_node(t_node *node);
+void					free_cmd(t_lcmd *lcmd);
+void					free_ioe(t_ioe_put *ioe);
+void					free_split(char **split);
+void					free_env(t_env *env);
+void					free_lexer(t_lexer *root);
+int						euthanasia(void);
 
 #endif
