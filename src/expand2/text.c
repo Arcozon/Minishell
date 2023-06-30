@@ -6,13 +6,13 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 01:08:20 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 10:00:02 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/30 09:41:59 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lexer	**expand_text(t_lexer **root, t_env *env)
+t_lexer	**expand_text(t_lexer **root, t_minishell *ms)
 {
 	int		i;
 	int		what_i_find;
@@ -27,13 +27,13 @@ t_lexer	**expand_text(t_lexer **root, t_env *env)
 	if (what_i_find & 1)
 	{
 		buffer = (*root)->content;
-		(*root)->content = expand_dollar_sign((*root)->content, env);
+		(*root)->content = expand_dollar_sign((*root)->content, ms);
 		free(buffer);
 	}
 	else if (what_i_find & 2)
 	{
 		next = &((*root)->next);
-		*root = expand_wc_v2((*root)->content);
+		*root = expand_wc_v2((*root)->content, ms);
 		lexer_add_back(root, *next);
 		return (next);
 	}

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:56:07 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 14:00:59 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/30 09:29:46 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void	short_add_chain(t_lexer **root, const char *line, int *start, int t)
 	(*start) += len[t];
 }
 
-static void	add_chain2(t_lexer **root, const char *line, int *start)
+static void	add_chain2(t_lexer **root, const char *line, int *start,
+	t_minishell *ms)
 {
 	if (!ft_strncmp(line + *start, "&&", 2))
 		short_add_chain(root, line, start, AND);
@@ -45,7 +46,7 @@ void	add_chain(t_lexer **root, const char *line, int *start,
 	while (*root)
 		root = &((*root)->next);
 	*root = malloc(sizeof(t_lexer));
-	awaiting_death(!*root, ms)
+	awaiting_death(!*root, ms);
 	(*root)->content = 0;
 	(*root)->type = ERROR;
 	(*root)->next = 0;
@@ -59,7 +60,7 @@ void	add_chain(t_lexer **root, const char *line, int *start,
 		short_add_chain(root, line, start, OUTPUT_REDIR);
 	else if (line[*start] == '<')
 		short_add_chain(root, line, start, INPUT_REDIR);
-	add_chain2(root, line, start);
+	add_chain2(root, line, start, ms);
 }
 
 t_lexer	*lexer(const char *line, t_minishell *ms)

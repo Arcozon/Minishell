@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 05:09:43 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 13:56:22 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/30 09:48:15 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,13 @@ static char	**i_found_one(char *patern, int count)
 	if (!dir)
 		return (free(cres), free(pwd), (char **)0);
 	while (--count >= 0)
-	{
 		cres[count] = gimme_next_file_name(dir, patern);
-	}
 	free(pwd);
 	closedir(dir);
 	return (cres);
 }
 
-t_lexer	*expand_wc_v2(char *patern)
+t_lexer	*expand_wc_v2(char *patern, t_minishell *ms)
 {
 	char	**res;
 	t_lexer	*lres;
@@ -100,19 +98,20 @@ t_lexer	*expand_wc_v2(char *patern)
 	int		count;
 
 	count = count_match(patern);
+	lres = 0;
 	if (!count)
 	{
-		res = malloc(sizeof(char *) * 2);
-		if (!res)
-			return (write(2, "Minishell: wildcard: Malloc error\n", 34),
-				(t_lexer *)0);
-		res[0] = ft_strdup(patern);
-		return (res[1] = 0, res);
+		return (write(2, "Minishell: wildcard: Malloc error\n", 34),
+			(t_lexer *)0);
+		lexer_add_back(&lres, lexer_new(TEXT, ft_strdup(patern)));
+		awaiting_death(!lres, ms);
+		awaiting_death(!lres->content, ms);
+		return (lres);
 	}
 	res = i_found_one(patern, count);
+	awaiting_death(!res, ms);
 	my_bbsort(res);
 	i = -1;
-	lres = 0;
 	while (res[++i])
 		(lexer_add_back(&lres, lexer_new(TEXT, res[i])),
 			lexer_add_back(&lres, lexer_new(SPACE_, 0)));

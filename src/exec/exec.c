@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/30 09:55:29 by geudes            #+#    #+#             */
+/*   Updated: 2023/06/30 09:55:30 by geudes           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/get_next_line.h"
 #include "../../inc/minishell.h"
 #include <fcntl.h>
@@ -373,9 +385,7 @@ void	ft_get_working_path(char **path, char **cmd)
 	char	*tmp;
 	int		i;
 
-	if (!path)
-		return ;
-	if (ft_strchr(*cmd, '/'))
+	if (!path || ft_strchr(*cmd, '/'))
 		return ;
 	i = 0;
 	while (path[i])

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:44:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 13:48:09 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/30 09:40:09 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ char	*expand_var_name(char *text, int *start, t_env *env)
 			+ i] != '\t' && text[*start + i] != '\n' && text[*start + i] != '$')
 		i++;
 	var_name = ft_substr(text, *start, i);
+	if (!var_name)
+		return (0);
 	*start += i;
 	if (!ft_strncmp(var_name, RETURN_VAR, ft_strlen(RETURN_VAR) + 1))
 		return (free(var_name), dup_return_value());
@@ -75,7 +77,7 @@ char	*expand_var_name(char *text, int *start, t_env *env)
 
 //They actually found a dollar
 static char	*hey_i_found_one_euro(char *text, int i[2], char *return_str,
-		t_env *env)
+		t_minishell *ms)
 {
 	char	*buffer;
 	char	*var_value;
@@ -86,14 +88,15 @@ static char	*hey_i_found_one_euro(char *text, int i[2], char *return_str,
 	(free(buffer), free(var_value));
 	i[0]++;
 	i[1] = 0;
-	var_value = expand_var_name(text, i, env);
+	var_value = expand_var_name(text, i, ms->env);
+	awaiting_death(!var_value, ms);
 	buffer = return_str;
 	return_str = ft_strjoin(return_str, var_value);
 	(free(buffer), free(var_value));
 	return (return_str);
 }
 
-char	*expand_dollar_sign(char *text, t_env *env, t_minishell *ms)
+char	*expand_dollar_sign(char *text, t_minishell *ms)
 {
 	char	*return_str;
 	char	*buffer;
@@ -106,7 +109,7 @@ char	*expand_dollar_sign(char *text, t_env *env, t_minishell *ms)
 	while (text[i[0]])
 	{
 		if (text[i[0]] == '$')
-			return_str = hey_i_found_one_euro(text, i, return_str, env);
+			return_str = hey_i_found_one_euro(text, i, return_str, ms);
 		else
 			i[0] += (i[1]++, 1);
 		awaiting_death(!return_str, ms);

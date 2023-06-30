@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 14:00:28 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/30 09:38:59 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,17 +131,14 @@ void					free_lexer(t_lexer *root);
 
 //ls | xargs -I var find var -name "PATERN" -not -path '* /\.*' | grep -v /
 /*---------------------Expand-----------------------*/
-void					expand_me_onee_chan(t_lexer **root, t_env *env);
-void					expand_sq(t_lexer *root, t_env *env, t_minishell *ms);
-void					expand_dq(t_lexer *root, t_env *env, t_minishell *ms);
-t_lexer					**expand_text(t_lexer **root, t_env *env,
-							t_minishell *ms);
-t_lexer					*expand_wc_v2(char *patern,
-							t_minishell *ms);
-char					*expand_var_name(char *text, int *start, t_env *env,
-							t_minishell *ms);
-char					*expand_dollar_sign(char *text, t_env *env,
-							t_minishell *ms);
+void					expand_sq(t_lexer *root, t_minishell *ms);
+void					expand_dq(t_lexer *root, t_minishell *ms);
+t_lexer					**expand_text(t_lexer **root, t_minishell *ms);
+t_lexer					*expand_wc_v2(char *patern, t_minishell *ms);
+char					*expand_var_name(char *text, int *start, t_env *env);
+char					*expand_dollar_sign(char *text, t_minishell *ms);
+void					expand_cmd_ioe(t_lcmd *lcmd, t_minishell *ms);
+
 
 /*---------------------Syntax-----------------------*/
 int						check_parenthesis(t_lexer *root);
@@ -188,7 +185,6 @@ void					env_addback(t_env **root, t_env *new);
 
 int						ft_is_builtin(t_lcmd *cmd, t_env *env);
 void					process_tree(t_node *tree, t_env *envdeeznuts);
-void					expand_cmd_ioe(t_lcmd *lcmd, t_env *env);
 void					set_up_dup(t_lcmd *cmd);
 char					**t_env_to_charr(t_env *env);
 void					ft_free_strr(char **str);
