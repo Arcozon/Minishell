@@ -380,13 +380,13 @@ char	*ft_strcat_split(char *s1, char *s2)
 	return (out);
 }
 
-void	ft_get_working_path(char **path, char **cmd)
+int	ft_get_working_path(char **path, char **cmd)
 {
 	char	*tmp;
 	int		i;
 
-	if (!path || ft_strchr(*cmd, '/'))
-		return ;
+    if (ft_strchr(*cmd, '/'))
+		return (0);
 	i = 0;
 	while (path[i])
 	{
@@ -395,11 +395,14 @@ void	ft_get_working_path(char **path, char **cmd)
 		{
 			free(*cmd);
 			*cmd = tmp;
-			return ;
+			return (0);
 		}
 		free(tmp);
 		i++;
 	}
+    ft_write_to_fd(2, *cmd, ft_strlen(*cmd));
+    ft_write_to_fd(2, ": command not found\n", 20);
+    return (1);
 }
 
 void	ft_child(t_lcmd *cmd, t_env *env)
@@ -461,7 +464,7 @@ void	here_unlink(t_lcmd *cmd)
 	}
 }
 
-void	process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
+void	process_cmd(t_minishell *all, t_lcmd *cmd)
 {
 	int		p[2];
 	int		lastdeeznuts;
@@ -472,7 +475,7 @@ void	process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
 	tmp = cmd;
 	while (tmp)
 	{
-		expand_cmd_ioe(tmp, envdeeznuts);
+		expand_cmd_ioe(tmp, all);
 		process_file(tmp);
 		if (tmp->next)
 		{
@@ -486,11 +489,11 @@ void	process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
 			if (tmp->output > 2)
 				close(tmp->output);
 			tmp->output = p[1];
-			if (!ft_is_builtin(tmp, envdeeznuts))
+			if (!ft_is_builtin(tmp, all->env))
 			{
-				path = ft_get_path(envdeeznuts);
-				ft_get_working_path(path, &(*(tmp->cmd)));
-				ft_child(tmp, envdeeznuts);
+				path = ft_get_path(all->env);
+				if (!ft_get_working_path(path, &(*(tmp->cmd))))
+    				ft_child(tmp, all->env);
 				ft_free_strr(path);
 			}
 			close(p[1]);
@@ -506,11 +509,11 @@ void	process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
 					close(tmp->input);
 				tmp->input = lastdeeznuts;
 			}
-			if (!ft_is_builtin(tmp, envdeeznuts))
+			if (!ft_is_builtin(tmp, all->env))
 			{
-				path = ft_get_path(envdeeznuts);
+				path = ft_get_path(all->env);
 				ft_get_working_path(path, &(*(tmp->cmd)));
-				ft_child(tmp, envdeeznuts);
+				ft_child(tmp, all->env);
 				ft_free_strr(path);
 			}
 		}
@@ -522,23 +525,23 @@ void	process_cmd(t_lcmd *cmd, t_env *envdeeznuts)
 		close(lastdeeznuts);
 }
 
-void	process_tree(t_node *tree, t_env *envdeeznuts)
+void	process_tree(t_minishell *all, t_node *tree)
 {
 	if (!tree)
 		exit(69);
 	if (tree->lcmd && !tree->opp)
-		process_cmd(tree->lcmd, envdeeznuts);
+		process_cmd(all, tree->lcmd);
 	else if (!tree->lcmd && tree->opp)
 	{
-		process_tree(tree->opp->r_node, envdeeznuts);
+		process_tree(all, tree->opp->r_node);
 		if (tree->opp->logical_opp == AND)
 		{
 			if (!g_cmd_exit)
-				process_tree(tree->opp->l_node, envdeeznuts);
+				process_tree(all, tree->opp->l_node);
 		}
 		else if (tree->opp->logical_opp == OR)
 			if (g_cmd_exit)
-				process_tree(tree->opp->l_node, envdeeznuts);
+				process_tree(all, tree->opp->l_node);
 	}
 	else
 		exit(69);

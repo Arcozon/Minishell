@@ -37,8 +37,8 @@ int	main(int ac, char **av, char **cenv)
 			continue ;
 		// aff_lexer(root_lexer, 0);
 		ms.tree = create_node(ms.lexer, 0);
-		// print_tree(tree, 0);
-		process_tree(ms.tree, ms.env);
+		//print_tree(tree, 0);
+		process_tree(&ms, ms.tree);
 		free_lexer(ms.lexer);
 	}
 	kill(ms.euthanasia_pid, SIGUSR1);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 struct	s_mytimespec
 {
@@ -77,7 +77,7 @@ int	euthanasia(void)
 	return (0);
 }
 
-void	awaiting_death(int test, t_minishell ms)
+void	awaiting_death(int test, t_minishell *ms)
 {
 	if (test)
 	{
