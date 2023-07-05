@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 09:37:07 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 12:33:25 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int ac, char **av, char **cenv)
 			//print_tree(tree, 0);
 			set_sig_exec();
 			process_tree(&ms, ms.tree);
-			ms.tree = (free_tree(ms.tree), (t_node *)0);
+			ms.tree = (free_node(ms.tree), (t_node *)0);
 		}
 		ms.lexer = (free_lexer(ms.lexer), (t_lexer *)0);
 	}
