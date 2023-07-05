@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 09:37:07 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:08:46 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,23 @@
 
 int	g_cmd_exit = 0;
 
+static t_minishell	init_ms(char **cenv)
+{
+	t_minishell	ms;
+
+	ms.euthanasia_pid = euthanasia();
+	ms.env = cpy_env(cenv);
+	ms.lexer = 0;
+	ms.tree = 0;
+	return (ms);
+}
+
 int	main(int ac, char **av, char **cenv)
 {
 	t_minishell	ms;
 
 	((void)ac, (void)av);
-	ms.euthanasia_pid = euthanasia();
-	ms.env = cpy_env(cenv);
+	ms = init_ms(cenv);
 	while (1)
 	{
 		set_sig_routine();
@@ -34,11 +44,8 @@ int	main(int ac, char **av, char **cenv)
 			continue ;
 		if (syntax(ms.lexer))
 		{
-			// aff_lexer(root_lexer, 0);
-			ms.tree = create_node(ms.lexer, 0);
-			//print_tree(tree, 0);
-			set_sig_exec();
-			process_tree(&ms, ms.tree);
+			ms.tree = create_node(ms.lexer, 0, &ms);
+			(set_sig_exec(), process_tree(&ms, ms.tree));
 			ms.tree = (free_node(ms.tree), (t_node *)0);
 		}
 		ms.lexer = (free_lexer(ms.lexer), (t_lexer *)0);

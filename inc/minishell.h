@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 09:30:44 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:25:34 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define MINISHELL_H
 
 # include <dirent.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <signal.h>
-# include <fcntl.h>
 
 # define PROMPT ">Minishell:"
 # define RETURN_VAR "?"
@@ -147,14 +147,18 @@ int						check_quote(t_lexer *root);
 int						check_cmd(t_lexer *root);
 int						syntax(t_lexer *root);
 
+t_node					*create_node(t_lexer *lexer, t_lexer *end_lexer,
+							t_minishell *ms);
 
-t_node					*create_node(t_lexer *lexer, t_lexer *end_lexer);
+t_opp					*create_opp(t_lexer *lexer, t_lexer *end_lexer,
+							t_minishell *ms);
 
-t_opp					*create_opp(t_lexer *lexer, t_lexer *end_lexer);
-
-t_lcmd					*create_lcmd(t_lexer *lexer, t_lexer *end_lexer);
-char					**create_cmd(t_lexer *lexer, t_lexer *end_lexer);
-t_ioe_put				*create_ioeput(t_lexer *lexer, t_lexer *end_lexer);
+t_lcmd					*create_lcmd(t_lexer *lexer, t_lexer *end_lexer,
+							t_minishell *ms);
+char					**create_cmd(t_lexer *lexer, t_lexer *end_lexer,
+							t_minishell *ms);
+t_ioe_put				*create_ioeput(t_lexer *lexer, t_lexer *end_lexer,
+							t_minishell *ms);
 
 t_lexer					*look_for_first_opp(t_lexer *lexer, t_lexer *end_lexer);
 t_lexer					*look_for_mid_opp(t_lexer *lexer, t_lexer *end_lexer);
@@ -176,10 +180,10 @@ int						bi_cd(t_lcmd *lcmd, t_minishell *ms);
 int						bi_env(t_lcmd *lcmd, t_minishell *ms);
 int						bi_export(t_lcmd *lcmd, t_minishell *ms);
 int						bi_unset(t_lcmd *lcmd, t_minishell *ms);
-int                     bi_clear(t_lcmd *lcmd, t_minishell *ms);
+int						bi_clear(t_lcmd *lcmd, t_minishell *ms);
 int						bi_owo(t_lcmd *lcmd, t_minishell *ms);
-int	                    bi_which(t_lcmd *lcmd, t_minishell *ms);
-int				    	bi_exit(t_lcmd *lcmd, t_minishell *ms);
+int						bi_which(t_lcmd *lcmd, t_minishell *ms);
+int						bi_exit(t_lcmd *lcmd, t_minishell *ms);
 
 char					*get_pwd(void);
 t_env					*new_env(char *var);
