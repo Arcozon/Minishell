@@ -453,7 +453,7 @@ void	ft_child(t_lcmd *cmd, t_minishell *all)
 		envstrr = t_env_to_charr(all->env);
 		if (!envstrr)
             ft_exit_safely(all);
-        ft_close_all_pipes(cmd);
+        ft_close_all_pipes(all->tree->lcmd);
 		execve(*(cmd->cmd), cmd->cmd, envstrr);
 		perror(*(cmd->cmd));
 		ft_free_strr(envstrr);
@@ -465,10 +465,12 @@ void	cmd_wait(t_lcmd *cmd)
 {
 	int	status;
 
-	status = 0;
+	status = g_cmd_exit;
 	while (cmd)
 	{
-		if (cmd->pid > 0)
+		if (cmd->pid > 0 && cmd->next)
+			waitpid(cmd->pid, 0, 0);
+        else if (cmd->pid > 0)
 			waitpid(cmd->pid, &status, 0);
 		cmd = cmd->next;
 	}

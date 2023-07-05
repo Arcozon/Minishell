@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
+#include <readline/readline.h>
+#include <signal.h>
 
 void	sig_routine(int sig)
 {
@@ -21,11 +23,6 @@ void	sig_routine(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 		g_cmd_exit = 130;
-	}
-	else if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
 	}
 }
 
@@ -50,6 +47,7 @@ void	set_sig_routine(void)
 	sigemptyset(&s_routine.sa_mask);
 	if (sigaction(SIGINT, &s_routine, 0))
 		exit(1);
+	s_routine.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &s_routine, 0))
 		exit(1);
 }
