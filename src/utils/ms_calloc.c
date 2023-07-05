@@ -6,13 +6,13 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 11:46:49 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/24 12:10:35 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 09:22:27 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*ms_calloc(unsigned int to_malloc, t_minishell ms)
+void	*ms_calloc(unsigned int to_malloc, t_minishell *ms)
 {
 	unsigned int	i;
 	void			*res;

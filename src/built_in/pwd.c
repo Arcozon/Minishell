@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:43 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 03:56:58 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 09:01:42 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,18 @@ char	*get_pwd(void)
 }
 
 // Returns 0 on succes 1 on error
-int	bi_pwd(t_lcmd *lcmd, t_env **env)
+int	bi_pwd(t_lcmd *lcmd, t_minishell *ms)
 {
 	char	*pwd;
 
-	(void)env;
+	(void)ms;
 	pwd = get_pwd();
 	if (!pwd)
 		return (write(lcmd->error, "Minishell: pwd: malloc error", 28), 0);
-	write(lcmd->output, pwd, ft_strlen(pwd));
-	write(lcmd->output, "\n", 1);
+	if (write(lcmd->output, pwd, ft_strlen(pwd)) != (ssize_t)ft_strlen(pwd)
+		|| write(lcmd->output, "\n", 1) != 1)
+		return (free(pwd), write(lcmd->error,
+				"Minishell: pwd: write error\n", 28), 1);
 	free(pwd);
 	return (0);
 }

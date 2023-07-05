@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:33:08 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 03:41:38 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 09:18:34 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 // Returns 0 on succes 1 on error
 // Av is a Null terminated char** with av[0] being the name of the function,
 // and av[1]...av[n] the arguments
-int	bi_env(t_lcmd *lcmd, t_env *env)
+int	bi_env(t_lcmd *lcmd, t_minishell *ms)
 {
+	t_env	*env;
+
+	env = ms->env;
 	while (env)
 	{
 		write(lcmd->output, env->var_name, ft_strlen(env->var_name));

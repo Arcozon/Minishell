@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/30 19:42:56 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 09:30:44 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ char					*expand_var_name(char *text, int *start, t_env *env);
 char					*expand_dollar_sign(char *text, t_minishell *ms);
 void					expand_cmd_ioe(t_lcmd *lcmd, t_minishell *ms);
 
-
 /*---------------------Syntax-----------------------*/
 int						check_parenthesis(t_lexer *root);
 int						check_special(t_lexer *root);
@@ -170,14 +169,14 @@ void					print_lcmd(t_lcmd *lcmd, int count);
 void					print_ioeput(t_ioe_put *ioeput);
 
 /*---------------------Built ins----------------------*/
-int						bi_echo(t_lcmd *lcmd, t_env *env);
-int						bi_pwd(t_lcmd *lcmd, t_env **env);
-int						bi_cd(t_lcmd *lcmd, t_env *env);
-int						bi_env(t_lcmd *lcmd, t_env *env);
-int						bi_export(t_lcmd *lcmd, t_env **env);
-int						bi_unset(t_lcmd *lcmd, t_env **env);
-int						owo(t_lcmd *lcmd, t_env *env);
-void					bi_exit(void);
+int						bi_echo(t_lcmd *lcmd, t_minishell *ms);
+int						bi_pwd(t_lcmd *lcmd, t_minishell *ms);
+int						bi_cd(t_lcmd *lcmd, t_minishell *ms);
+int						bi_env(t_lcmd *lcmd, t_minishell *ms);
+int						bi_export(t_lcmd *lcmd, t_minishell *ms);
+int						bi_unset(t_lcmd *lcmd, t_minishell *ms);
+int						owo(t_lcmd *lcmd, t_minishell *ms);
+void					bi_exit(t_lcmd *lcmd, t_minishell *ms);
 
 char					*get_pwd(void);
 t_env					*new_env(char *var);
@@ -199,18 +198,17 @@ char					*ft_substr(char const *s, unsigned int start,
 							size_t len);
 char					*join_args(t_lexer *lexer);
 void					my_bbsort(char **tab);
-void					*ms_calloc(unsigned int to_malloc, t_minishell ms);
+void					*ms_calloc(unsigned int to_malloc, t_minishell *ms);
 char					*strnrand(int len);
 int						ft_strcmp(char *str1, char *str2);
 char					**ft_split(char const *s, char c);
-
 
 /*----------------------Signal-----------------------*/
 void					set_sig_exec(void);
 void					set_sig_routine(void);
 
 /*---------------------Free--------------------------*/
-void					free_ms(t_minishell ms);
+void					free_ms(t_minishell *ms);
 void					free_node(t_node *node);
 void					free_cmd(t_lcmd *lcmd);
 void					free_ioe(t_ioe_put *ioe);

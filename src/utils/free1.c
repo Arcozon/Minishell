@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 12:03:34 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 07:41:20 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 08:52:08 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	free_ioe(t_ioe_put *ioe)
 
 void	free_cmd(t_lcmd *lcmd)
 {
-	 t_lcmd	*next;
+	t_lcmd	*next;
 
 	while (lcmd)
 	{
@@ -65,9 +65,10 @@ void	free_node(t_node *node)
 	free(node);
 }
 
-void	free_ms(t_minishell ms)
+void	free_ms(t_minishell *ms)
 {
-	free_lexer(ms.lexer);
-	free_node(ms.tree);
-	free_env(ms.env);
+	free_lexer(ms->lexer);
+	free_node(ms->tree);
+	free_env(ms->env);
+	kill(ms->euthanasia_pid, SIGUSR2);
 }

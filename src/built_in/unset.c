@@ -6,14 +6,14 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 06:17:37 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 01:29:47 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 09:17:00 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Returns 0 on succes 1 on error
-int	bi_unset(t_lcmd *lcmd, t_env **env)
+int	bi_unset(t_lcmd *lcmd, t_minishell *ms)
 {
 	t_env	**root;
 	t_env	*buff;
@@ -22,7 +22,7 @@ int	bi_unset(t_lcmd *lcmd, t_env **env)
 	i = 1;
 	while (lcmd->cmd[i])
 	{
-		root = env;
+		root = &ms->env;
 		while (*root)
 		{
 			if (!ft_strncmp((*root)->var_name, lcmd->cmd[i],
@@ -37,7 +37,7 @@ int	bi_unset(t_lcmd *lcmd, t_env **env)
 			}
 			root = &((*root)->next);
 		}
-		i++;
+		++i;
 	}
 	return (0);
 }

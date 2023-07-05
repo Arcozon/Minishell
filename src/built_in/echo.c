@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 08:44:42 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 09:02:41 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 08:57:19 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ static int	echo_error(int fd_error)
 }
 
 // Returns 0 on succes 1 on error
-int	bi_echo(t_lcmd *lcmd, t_env *env)
+int	bi_echo(t_lcmd *lcmd, t_minishell *ms)
 {
 	int	i;
 	int	dashn;
 
-	(void)env;
+	(void)ms;
 	dashn = 0;
 	i = get_option(lcmd, &dashn);
 	while (lcmd->cmd[i])

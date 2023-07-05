@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:54:37 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 00:47:55 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 09:00:13 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_env	*new_env(char *var)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (perror("Malloc error during var assigment\n"), (t_env *)0);
+		return (write(2, "Malloc error during var assigment\n", 34), (t_env *)0);
 	new->next = 0;
 	i_equal = 0;
 	while (var[i_equal] && var[i_equal] != '=')
@@ -73,7 +73,7 @@ int	count_equals(char *var)
 }
 
 // Returns 0 on succes 1 on error
-int	bi_export(t_lcmd *lcmd, t_env **env)
+int	bi_export(t_lcmd *lcmd, t_minishell *ms)
 {
 	t_env	*do_i;
 	int		i_equal;
@@ -89,9 +89,9 @@ int	bi_export(t_lcmd *lcmd, t_env **env)
 						"Minishell: export: not a valid identifier\n", 42), 1);
 		if (lcmd->cmd[i][0] == '=' || count_equals(lcmd->cmd[i]) == 0)
 			continue ;
-		do_i = do_i_exist_in_env(lcmd->cmd[i], *env);
+		do_i = do_i_exist_in_env(lcmd->cmd[i], ms->env);
 		if (!do_i)
-			env_addback(env, new_env(lcmd->cmd[i]));
+			env_addback(&ms->env, new_env(lcmd->cmd[i]));
 		if (!do_i)
 			continue ;
 		i_equal = (free(do_i->content), 0);

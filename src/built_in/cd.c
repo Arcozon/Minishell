@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:46 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 09:11:40 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 08:56:57 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ static char	*get_path(t_lcmd *lcmd)
 }
 
 // Returns 0 on succes 1 on error
-int	bi_cd(t_lcmd *lcmd, t_env *env)
+int	bi_cd(t_lcmd *lcmd, t_minishell *ms)
 {
 	char	*path;
 
 	if (!lcmd->cmd[1])
 	{
-		path = dup_home(env);
+		path = dup_home(ms->env);
 		if (!path)
 			return (write(lcmd->error, "Minishell: cd: No HOME\n", 23), 1);
 	}

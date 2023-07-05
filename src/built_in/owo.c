@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 02:42:20 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/15 00:32:29 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 09:01:30 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static const char	*g_lookuptable[128] = {
 [124] = "|", [125] = "}", [126] = "~", [127] = "\x7F"};
 
 // Returns 0 on succes 1 on error
-int	owo(t_lcmd *lcmd, t_env *env)
+int	owo(t_lcmd *lcmd, t_minishell *ms)
 {
 	static const char	*end_str[MAX_EMOJIES] = {"❤💕💜💞💖💙", "(｡♥‿♥｡)",
 		"(⁄ ⁄•⁄ω⁄•⁄ ⁄)", "(◕ᴗ◕✿)", "🌸🌺🌼", "ʕ•́ᴥ•̀ʔっ", "(づ｡◕‿‿◕｡)づ"};
@@ -52,7 +52,7 @@ int	owo(t_lcmd *lcmd, t_env *env)
 	int					j;
 
 	j = 1;
-	(void)env;
+	(void)ms;
 	while (lcmd->cmd[j][0])
 	{
 		i = -1;
