@@ -403,29 +403,57 @@ int	ft_get_working_path(char **path, char **cmd)
 	return (1);
 }
 
-void	ft_child(t_lcmd *cmd, t_env *env)
+void ft_close_all_pipes(t_lcmd *cmd)
+{
+    while (cmd)
+    {
+        close(cmd->pipe[0]);
+        close(cmd->pipe[1]);
+        cmd = cmd->next ;
+    }
+}
+
+void ft_close_all_files(t_lcmd *cmd)
+{
+    while (cmd)
+    {
+        if (cmd->input > 2)
+            close(cmd->input);
+        if (cmd->output > 2)
+            close(cmd->output);
+        if (cmd->error > 2)
+            close(cmd->error);
+        close(cmd->pipe[0]);
+        close(cmd->pipe[1]);
+        cmd = cmd->next;
+    }
+}
+
+void    ft_exit_safely(t_minishell *all)
+{
+	rl_clear_history();
+	free_ms(all);
+	exit (g_cmd_exit);
+}
+
+void	ft_child(t_lcmd *cmd, t_minishell *all)
 {
 	char	**envstrr;
 
 	cmd->pid = fork();
 	if (cmd->pid == -1)
-		exit(75);
+		ft_exit_safely(all);
 	else if (cmd->pid == 0)
 	{
 		set_up_dup(cmd);
-		envstrr = t_env_to_charr(env);
+		envstrr = t_env_to_charr(all->env);
 		if (!envstrr)
-			exit(77);
-		if (cmd->input > 2)
-			close(cmd->input);
-		if (cmd->output > 2)
-			close(cmd->output);
-		if (cmd->error > 2)
-			close(cmd->error);
+            ft_exit_safely(all);
+        ft_close_all_pipes(cmd);
 		execve(*(cmd->cmd), cmd->cmd, envstrr);
 		perror(*(cmd->cmd));
 		ft_free_strr(envstrr);
-		exit(0);
+        ft_exit_safely(all);
 	}
 }
 
@@ -438,8 +466,6 @@ void	cmd_wait(t_lcmd *cmd)
 	{
 		if (cmd->pid > 0)
 			waitpid(cmd->pid, &status, 0);
-		else if (!cmd->next)
-			return ;
 		cmd = cmd->next;
 	}
 	g_cmd_exit = WEXITSTATUS(status);
@@ -462,14 +488,18 @@ void	here_unlink(t_lcmd *cmd)
 	}
 }
 
+static int ft_is_std_fd(int fd)
+{
+    return (fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO);
+}
+
 void	process_cmd(t_minishell *all, t_lcmd *cmd)
 {
-	int		p[2];
 	int		lastdeeznuts;
 	t_lcmd	*tmp;
 	char	**path;
 
-	lastdeeznuts = 0;
+	lastdeeznuts = -1;
 	tmp = cmd;
 	while (tmp)
 	{
@@ -477,21 +507,24 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 		process_file(tmp);
 		if (tmp->next)
 		{
-			if (pipe(p) == -1)
-				exit(66);
-			if (tmp->input > 2 && lastdeeznuts > 0)
+			if (pipe(tmp->pipe) == -1)
+				ft_exit_safely(all);
+			if (lastdeeznuts != -1)
 			{
-				close(tmp->input);
+                if (!ft_is_std_fd(tmp->input))
+                {
+        			close(tmp->input);
+                }
 				tmp->input = lastdeeznuts;
 			}
-			if (tmp->output > 2)
+			if (!ft_is_std_fd(tmp->output))
 				close(tmp->output);
-			tmp->output = p[1];
+			tmp->output = tmp->pipe[1];
 			if (!ft_is_builtin(tmp, all))
 			{
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
-					ft_child(tmp, all->env);
+					ft_child(tmp, all);
                 if (!path && tmp)
                 {
                     ft_write_to_fd(2, *(tmp->cmd), ft_strlen(*(tmp->cmd)));
@@ -499,16 +532,13 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
                 }
 				ft_free_strr(path);
 			}
-			close(p[1]);
-			if (lastdeeznuts > 2)
-				close(lastdeeznuts);
-			lastdeeznuts = p[0];
+			lastdeeznuts = tmp->pipe[0];
 		}
 		else
 		{
-			if (lastdeeznuts > 2)
+			if (lastdeeznuts != -1)
 			{
-				if (tmp->input > 2)
+				if (!ft_is_std_fd(tmp->input))
 					close(tmp->input);
 				tmp->input = lastdeeznuts;
 			}
@@ -516,7 +546,7 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 			{
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
-    				ft_child(tmp, all->env);
+    				ft_child(tmp, all);
                 if (!path && tmp)
                 {
                     ft_write_to_fd(2, *(tmp->cmd), ft_strlen(*(tmp->cmd)));
@@ -527,10 +557,9 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 		}
 		tmp = tmp->next;
 	}
+    ft_close_all_pipes(cmd);
 	cmd_wait(cmd);
 	here_unlink(cmd);
-	if (lastdeeznuts > 2)
-		close(lastdeeznuts);
 }
 
 void	process_tree(t_minishell *all, t_node *tree)
@@ -541,15 +570,15 @@ void	process_tree(t_minishell *all, t_node *tree)
 		process_cmd(all, tree->lcmd);
 	else if (!tree->lcmd && tree->opp)
 	{
-		process_tree(all, tree->opp->r_node);
+		process_tree(all, tree->opp->l_node);
 		if (tree->opp->logical_opp == AND)
 		{
 			if (!g_cmd_exit)
-				process_tree(all, tree->opp->l_node);
+				process_tree(all, tree->opp->r_node);
 		}
 		else if (tree->opp->logical_opp == OR)
 			if (g_cmd_exit)
-				process_tree(all, tree->opp->l_node);
+				process_tree(all, tree->opp->r_node);
 	}
 	else
 		exit(69);

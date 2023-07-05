@@ -91,6 +91,7 @@ typedef struct s_lcmd
 	t_lexer				*start_lexer;
 	t_lexer				*end_lexer;
 	char				**cmd;
+    int                 pipe[2];
 	struct s_lcmd		*next;
 }						t_lcmd;
 
@@ -219,5 +220,8 @@ void					free_env(t_env *env);
 void					free_lexer(t_lexer *root);
 int						euthanasia(void);
 void					awaiting_death(int test, t_minishell *ms);
+void                    ft_exit_safely(t_minishell *all);
+void                    ft_close_all_files(t_lcmd *cmd);
+void                    ft_close_all_pipes(t_lcmd *cmd);
 
 #endif

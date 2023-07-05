@@ -32,6 +32,8 @@ t_lcmd	*create_lcmd(t_lexer *lexer, t_lexer *end_lexer)
 	lcmd->cmd = 0;
 	lcmd->ioe_put = 0;
 	lcmd->next = create_lcmd(look_for_pipe(lexer, end_lexer), end_lexer);
+    lcmd->pipe[0] = -1;
+    lcmd->pipe[1] = -1;
 	return (lcmd);
 }
 
