@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 16:16:45 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 08:29:05 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 16:20:11 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ void	sig_routine(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 		g_cmd_exit = 130;
-	}
-	else if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
 	}
 }
 
@@ -50,6 +45,7 @@ void	set_sig_routine(void)
 	sigemptyset(&s_routine.sa_mask);
 	if (sigaction(SIGINT, &s_routine, 0))
 		exit(1);
+	s_routine.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &s_routine, 0))
 		exit(1);
 }
