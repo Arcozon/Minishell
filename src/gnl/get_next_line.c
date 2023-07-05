@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 10:52:02 by nriviere          #+#    #+#             */
-/*   Updated: 2023/01/07 20:22:46 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/05 20:26:18 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	int			i[4];
 
-	if (fd < 0 || fd > MAXFD)
+	if (fd < 0 || fd >= MAXFD)
 		return (0);
 	i[3] = ft_check_endl(fd_lines[fd]);
 	if (i[3] != -1)
@@ -91,7 +91,7 @@ char	*get_next_line(int fd)
 	i[2] = BUFFER_SIZE;
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
-		return (free(buffer), (char *)0);
+		return (0);
 	if (!get_next_time_sub(i, fd, buffer, fd_lines))
 		return (free(buffer), (char *)0);
 	free(buffer);

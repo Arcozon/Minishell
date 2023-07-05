@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:55:29 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 18:49:20 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 20:27:30 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
 		buf = get_next_line(STDIN_FILENO);
 		if (!buf)
 		{
-			write(2, "Warning : heredoc delimited by EOF (wanted '", 44);
+			write(2, "\nWarning : heredoc delimited by EOF (wanted '", 45);
 			(write(2, ioe->name, len), write(2, "')\n", 3));
 			return (1);
 		}
