@@ -407,8 +407,10 @@ void ft_close_all_pipes(t_lcmd *cmd)
 {
     while (cmd)
     {
-        close(cmd->pipe[0]);
-        close(cmd->pipe[1]);
+        if (cmd->pipe[0] != -1)
+            close(cmd->pipe[0]);
+        if (cmd->pipe[1] != -1)
+            close(cmd->pipe[1]);
         cmd = cmd->next ;
     }
 }
@@ -423,8 +425,10 @@ void ft_close_all_files(t_lcmd *cmd)
             close(cmd->output);
         if (cmd->error > 2)
             close(cmd->error);
-        close(cmd->pipe[0]);
-        close(cmd->pipe[1]);
+        if (cmd->pipe[0] != -1)
+            close(cmd->pipe[0]);
+        if (cmd->pipe[1] != -1)
+            close(cmd->pipe[1]);
         cmd = cmd->next;
     }
 }
@@ -532,7 +536,7 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
                 }
 				ft_free_strr(path);
 			}
-			lastdeeznuts = tmp->pipe[0];
+		    lastdeeznuts = tmp->pipe[0];
 		}
 		else
 		{

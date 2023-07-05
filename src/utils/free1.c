@@ -44,17 +44,19 @@ void	free_cmd(t_lcmd *lcmd)
 	while (lcmd)
 	{
 		next = lcmd->next;
-		free_ioe(lcmd->ioe_put);
-		free_split(lcmd->cmd);
-		free(lcmd);
         if (lcmd->input > 2)
             close(lcmd->input);
         if (lcmd->output > 2)
             close(lcmd->output);
         if (lcmd->error > 2)
             close(lcmd->error);
-        close(lcmd->pipe[0]);
-        close(lcmd->pipe[1]);
+        if (lcmd->pipe[0] != -1)
+            close(lcmd->pipe[0]);
+        if (lcmd->pipe[1] != -1)
+            close(lcmd->pipe[1]);
+        free_ioe(lcmd->ioe_put);
+        free_split(lcmd->cmd);
+        free(lcmd);
 		lcmd = next;
 	}
 }
