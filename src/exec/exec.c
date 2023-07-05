@@ -340,12 +340,12 @@ char	**ft_get_path(t_env *env)
 
 int	ft_strchr(char *str, char c)
 {
-	while (*str)
-	{
-		if (*str == c)
-			return (1);
-		str++;
-	}
+    while (*str)
+    {
+        if (*str == c)
+            return (1);
+        str++;
+    }
 	return (0);
 }
 
@@ -378,7 +378,9 @@ int	ft_get_working_path(char **path, char **cmd)
 	char	*tmp;
 	int		i;
 
-	if (ft_strchr(*cmd, '/'))
+    if (!cmd || !(*cmd))
+        return (1);
+    else if (ft_strchr(*cmd, '/'))
 		return (0);
 	i = 0;
 	while (path[i])
@@ -505,8 +507,8 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 			if (!ft_is_builtin(tmp, all->env))
 			{
 				path = ft_get_path(all->env);
-				ft_get_working_path(path, &(*(tmp->cmd)));
-				ft_child(tmp, all->env);
+				if (!ft_get_working_path(path, &(*(tmp->cmd))))
+    				ft_child(tmp, all->env);
 				ft_free_strr(path);
 			}
 		}
