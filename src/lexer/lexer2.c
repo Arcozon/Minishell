@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:05:21 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 10:22:30 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 14:31:00 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	get_text(const char *line, int *start, t_lexer **root)
 			len++;
 	(*root)->type = TEXT;
 	if (lastsep == '\'')
-		(*root)->type = (len++, TEXT_SQ);
+		(*root)->type = (TEXT_SQ);
 	else if (lastsep == '"')
-		(*root)->type = (len++, TEXT_DQ);
+		(*root)->type = (TEXT_DQ);
 	else if (lastsep == ' ' || lastsep == '\t' || lastsep == '\n')
 		(*root)->type = SPACE_;
 	(*root)->content = ft_substr(line, *start, len);
