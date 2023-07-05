@@ -6,34 +6,27 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:05:21 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 14:31:00 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 15:06:00 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	aff_lexer(t_lexer *root, t_lexer *end_lexer)
-{
-	static char	*trad[] = {"TEXT", "FILE_INPUT", "FILE_OUTPUT", "FILE_ERROR",
-		"CMD", "ARGS", "TEXT_SQ", "TEXT_DQ", "INPUT_REDIR",
-		"INPUT_HEREDOC", "HEREDOC_EOF", "OUTPUT_REDIR", "OUTPUT_HAPPEND_REDIR",
-		"ERROR_REDIR", "PIPE", "AND", "OR", "OPEN_PAR", "CLOSE_PAR",
-		"SPACE"};
-
-	while (root && root != end_lexer)
-	{
-		if (root->type >= 0 && root->type <= MAX_TYPE)
-			printf("%s>%s<\n", trad[root->type], root->content);
-		else
-			printf("Errortype %d\n", root->type);
-		root = root->next;
-	}
-}
-
 static inline int	is_special_char(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '|' || c == '('
 		|| c == ')' || c == '<' || c == '>' || c == '\'' || c == '"');
+}
+
+static int	whatsmytype(char lastsep)
+{
+	if (lastsep == '\'')
+		return (TEXT_SQ);
+	else if (lastsep == '"')
+		return (TEXT_DQ);
+	else if (lastsep == ' ' || lastsep == '\t' || lastsep == '\n')
+		return (SPACE_);
+	return (TEXT);
 }
 
 void	get_text(const char *line, int *start, t_lexer **root)
@@ -54,13 +47,9 @@ void	get_text(const char *line, int *start, t_lexer **root)
 		while (line[*start + len] && !is_special_char(line[*start + len])
 			&& ft_strncmp(line + *start + len, "&&", 2))
 			len++;
-	(*root)->type = TEXT;
-	if (lastsep == '\'')
-		(*root)->type = (TEXT_SQ);
-	else if (lastsep == '"')
-		(*root)->type = (TEXT_DQ);
-	else if (lastsep == ' ' || lastsep == '\t' || lastsep == '\n')
-		(*root)->type = SPACE_;
+	(*root)->type = whatsmytype(lastsep);
+	if ((lastsep == '\'' || lastsep == '"') && line[*start + len])
+		++len;
 	(*root)->content = ft_substr(line, *start, len);
 	(*start) += len;
 }

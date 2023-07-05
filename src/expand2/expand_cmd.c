@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 05:02:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 13:24:59 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 15:09:49 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	expand_cmd_ioe(t_lcmd *lcmd, t_minishell *ms)
 	t_lexer	**root;
 
 	root = &(lcmd->start_lexer);
+	// aff_lexer(lcmd->start_lexer, lcmd->end_lexer);
 	while (*root && *root != lcmd->end_lexer)
 	{
 		if ((*root)->type == TEXT_SQ)

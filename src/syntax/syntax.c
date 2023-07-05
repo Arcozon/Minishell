@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 14:56:52 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 15:12:55 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	check_quote(t_lexer *root)
 	while (root)
 	{
 		if (root->type == TEXT_SQ || root->type == TEXT_DQ)
-			if (root->content[0] != root->content[ft_strlen(root->content) - 1])
+			if (root->content[0] != root->content[ft_strlen(root->content) - 1]
+				|| ft_strlen(root->content) == 1)
 				return (0);
 		root = root->next;
 	}
