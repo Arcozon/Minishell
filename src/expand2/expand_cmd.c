@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 05:02:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/30 11:26:06 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:24:59 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	expand_cmd_ioe(t_lcmd *lcmd, t_minishell *ms)
 	}
 	change_text(lcmd->start_lexer, lcmd->end_lexer);
 	change_text_into_cmd_args(lcmd->start_lexer, lcmd->end_lexer);
-	lcmd->cmd = create_cmd(lcmd->start_lexer, lcmd->end_lexer);
-	lcmd->ioe_put = create_ioeput(lcmd->start_lexer, lcmd->end_lexer);
+	lcmd->cmd = create_cmd(lcmd->start_lexer, lcmd->end_lexer, ms);
+	lcmd->ioe_put = create_ioeput(lcmd->start_lexer, lcmd->end_lexer, ms);
 	// aff_lexer(lcmd->start_lexer, lcmd->end_lexer);
 }
