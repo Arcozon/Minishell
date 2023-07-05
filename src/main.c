@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 09:21:43 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 09:37:07 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(int ac, char **av, char **cenv)
 	{
 		set_sig_routine();
 		ms.line = readline(PROMPT);
-		set_sig_exec();
 		if (!ms.line)
 			break ;
 		ms.lexer = lexer(ms.line, &ms);
@@ -33,12 +32,15 @@ int	main(int ac, char **av, char **cenv)
 			add_history(ms.line);
 		else
 			continue ;
-		if (!syntax(ms.lexer))
-			continue ;
-		// aff_lexer(root_lexer, 0);
-		ms.tree = create_node(ms.lexer, 0);
-		//print_tree(tree, 0);
-		process_tree(&ms, ms.tree);
+		if (syntax(ms.lexer))
+		{
+			// aff_lexer(root_lexer, 0);
+			ms.tree = create_node(ms.lexer, 0);
+			//print_tree(tree, 0);
+			set_sig_exec();
+			process_tree(&ms, ms.tree);
+			ms.tree = (free_tree(ms.tree), (t_node *)0);
+		}
 		ms.lexer = (free_lexer(ms.lexer), (t_lexer *)0);
 	}
 	bi_exit(0, &ms);
