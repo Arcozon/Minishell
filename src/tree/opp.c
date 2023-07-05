@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:56:53 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 13:28:10 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:47:15 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_lexer	*look_for_mid_opp(t_lexer *lexer, t_lexer *end_lexer)
 {
 	t_lexer	*mid;
 
-	if (!lexer)
+	if (!lexer || lexer == end_lexer)
 		return (0);
 	mid = look_for_last_opp(lexer, end_lexer);
 	if (!mid)
