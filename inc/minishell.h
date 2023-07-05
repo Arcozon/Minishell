@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/30 09:38:59 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/30 19:42:56 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,8 @@ void					my_bbsort(char **tab);
 void					*ms_calloc(unsigned int to_malloc, t_minishell ms);
 char					*strnrand(int len);
 int						ft_strcmp(char *str1, char *str2);
+char					**ft_split(char const *s, char c);
+
 
 /*----------------------Signal-----------------------*/
 void					set_sig_exec(void);

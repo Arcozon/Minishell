@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:55:29 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/30 09:55:30 by geudes           ###   ########.fr       */
+/*   Updated: 2023/06/30 19:43:26 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
 		return (1);
 	return (0);
 }
+
 int	process_file(t_lcmd *cmd)
 {
 	t_ioe_put	*tmp;
@@ -328,21 +329,13 @@ char	**ft_split(char const *s, char c)
 
 char	**ft_get_path(t_env *env)
 {
-	char	**path;
-
-	if (!env)
-		return (0);
-	path = 0;
 	while (env)
 	{
 		if (!ft_strcmp(env->var_name, "PATH"))
-		{
-			path = ft_split(env->content, ':');
-			break ;
-		}
+			return (ft_split(env->content, ':'));
 		env = env->next;
 	}
-	return (path);
+	return (0);
 }
 
 int	ft_strchr(char *str, char c)
@@ -385,7 +378,7 @@ int	ft_get_working_path(char **path, char **cmd)
 	char	*tmp;
 	int		i;
 
-    if (ft_strchr(*cmd, '/'))
+	if (ft_strchr(*cmd, '/'))
 		return (0);
 	i = 0;
 	while (path[i])
@@ -400,9 +393,9 @@ int	ft_get_working_path(char **path, char **cmd)
 		free(tmp);
 		i++;
 	}
-    ft_write_to_fd(2, *cmd, ft_strlen(*cmd));
-    ft_write_to_fd(2, ": command not found\n", 20);
-    return (1);
+	ft_write_to_fd(2, *cmd, ft_strlen(*cmd));
+	ft_write_to_fd(2, ": command not found\n", 20);
+	return (1);
 }
 
 void	ft_child(t_lcmd *cmd, t_env *env)
@@ -493,7 +486,7 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 			{
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
-    				ft_child(tmp, all->env);
+					ft_child(tmp, all->env);
 				ft_free_strr(path);
 			}
 			close(p[1]);
