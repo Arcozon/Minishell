@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 #define MAX_EMOJIES 7
 
 static const char	*g_lookuptable[128] = {
@@ -43,7 +43,7 @@ static const char	*g_lookuptable[128] = {
 [124] = "|", [125] = "}", [126] = "~", [127] = "\x7F"};
 
 // Returns 0 on succes 1 on error
-int	owo(t_lcmd *lcmd, t_minishell *ms)
+int	bi_owo(t_lcmd *lcmd, t_minishell *ms)
 {
 	static const char	*end_str[MAX_EMOJIES] = {"❤💕💜💞💖💙", "(｡♥‿♥｡)",
 		"(⁄ ⁄•⁄ω⁄•⁄ ⁄)", "(◕ᴗ◕✿)", "🌸🌺🌼", "ʕ•́ᴥ•̀ʔっ", "(づ｡◕‿‿◕｡)づ"};

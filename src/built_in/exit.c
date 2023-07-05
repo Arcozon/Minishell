@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 //Return nothing
-void	bi_exit(t_lcmd *lcmd, t_minishell *ms)
+int	bi_exit(t_lcmd *lcmd, t_minishell *ms)
 {
 	int	error;
 
@@ -24,4 +24,5 @@ void	bi_exit(t_lcmd *lcmd, t_minishell *ms)
 	rl_clear_history();
 	free_ms(ms);
 	exit (g_cmd_exit);
+    return (69);
 }

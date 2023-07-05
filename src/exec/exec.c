@@ -196,12 +196,15 @@ void	ft_free_strr(char **str)
 {
 	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
+    if (str)
+    {
+        i = 0;
+        while (str[i])
+        {
+            free(str[i]);
+            i++;
+        }
+    }
 	free(str);
 }
 
@@ -340,12 +343,12 @@ char	**ft_get_path(t_env *env)
 
 int	ft_strchr(char *str, char c)
 {
-	while (*str)
-	{
-		if (*str == c)
-			return (1);
-		str++;
-	}
+    while (*str)
+    {
+        if (*str == c)
+            return (1);
+        str++;
+    }
 	return (0);
 }
 
@@ -378,7 +381,9 @@ int	ft_get_working_path(char **path, char **cmd)
 	char	*tmp;
 	int		i;
 
-	if (ft_strchr(*cmd, '/'))
+    if (!cmd || !(*cmd) || !path)
+        return (1);
+    else if (ft_strchr(*cmd, '/'))
 		return (0);
 	i = 0;
 	while (path[i])
@@ -482,11 +487,16 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 			if (tmp->output > 2)
 				close(tmp->output);
 			tmp->output = p[1];
-			if (!ft_is_builtin(tmp, all->env))
+			if (!ft_is_builtin(tmp, all))
 			{
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
 					ft_child(tmp, all->env);
+                if (!path && tmp)
+                {
+                    ft_write_to_fd(2, *(tmp->cmd), ft_strlen(*(tmp->cmd)));
+                    ft_write_to_fd(2, " : command not found\n", 21);
+                }
 				ft_free_strr(path);
 			}
 			close(p[1]);
@@ -502,11 +512,16 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 					close(tmp->input);
 				tmp->input = lastdeeznuts;
 			}
-			if (!ft_is_builtin(tmp, all->env))
+			if (!ft_is_builtin(tmp, all))
 			{
 				path = ft_get_path(all->env);
-				ft_get_working_path(path, &(*(tmp->cmd)));
-				ft_child(tmp, all->env);
+				if (!ft_get_working_path(path, &(*(tmp->cmd))))
+    				ft_child(tmp, all->env);
+                if (!path && tmp)
+                {
+                    ft_write_to_fd(2, *(tmp->cmd), ft_strlen(*(tmp->cmd)));
+                    ft_write_to_fd(2, " : command not found\n", 21);
+                }
 				ft_free_strr(path);
 			}
 		}
