@@ -175,14 +175,16 @@ int						bi_cd(t_lcmd *lcmd, t_minishell *ms);
 int						bi_env(t_lcmd *lcmd, t_minishell *ms);
 int						bi_export(t_lcmd *lcmd, t_minishell *ms);
 int						bi_unset(t_lcmd *lcmd, t_minishell *ms);
-int						owo(t_lcmd *lcmd, t_minishell *ms);
-void					bi_exit(t_lcmd *lcmd, t_minishell *ms);
+int                     bi_clear(t_lcmd *lcmd, t_minishell *ms);
+int						bi_owo(t_lcmd *lcmd, t_minishell *ms);
+int	                    bi_which(t_lcmd *lcmd, t_minishell *ms);
+int				    	bi_exit(t_lcmd *lcmd, t_minishell *ms);
 
 char					*get_pwd(void);
 t_env					*new_env(char *var);
 void					env_addback(t_env **root, t_env *new);
 
-int						ft_is_builtin(t_lcmd *cmd, t_env *env);
+int						ft_is_builtin(t_lcmd *cmd, t_minishell *all);
 void					process_tree(t_minishell *info, t_node *tree);
 void					set_up_dup(t_lcmd *cmd);
 char					**t_env_to_charr(t_env *env);
@@ -200,7 +202,7 @@ char					*join_args(t_lexer *lexer);
 void					my_bbsort(char **tab);
 void					*ms_calloc(unsigned int to_malloc, t_minishell *ms);
 char					*strnrand(int len);
-int						ft_strcmp(char *str1, char *str2);
+int						ft_strcmp(const char *str1, const char *str2);
 char					**ft_split(char const *s, char c);
 
 /*----------------------Signal-----------------------*/

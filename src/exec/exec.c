@@ -484,7 +484,7 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 			if (tmp->output > 2)
 				close(tmp->output);
 			tmp->output = p[1];
-			if (!ft_is_builtin(tmp, all->env))
+			if (!ft_is_builtin(tmp, all))
 			{
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
@@ -504,7 +504,7 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 					close(tmp->input);
 				tmp->input = lastdeeznuts;
 			}
-			if (!ft_is_builtin(tmp, all->env))
+			if (!ft_is_builtin(tmp, all))
 			{
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
