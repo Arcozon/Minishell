@@ -1,6 +1,4 @@
-obj/*
+obj/*.o
 minishell
-<<<<<<< HEAD
-=======
 *.out
->>>>>>> 2dfd500 (stopped tracking of object files)
+*.nfs*
