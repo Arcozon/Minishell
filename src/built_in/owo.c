@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 02:42:20 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 09:01:30 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 10:36:50 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	owo(t_lcmd *lcmd, t_minishell *ms)
 
 	j = 1;
 	(void)ms;
-	while (lcmd->cmd[j][0])
+	while (lcmd->cmd[j])
 	{
 		i = -1;
 		while (lcmd->cmd[j][++i])

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 08:59:26 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 10:20:24 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,24 @@ int	check_special(t_lexer *root)
 {
 	static int	is_special[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
 		1, 1, 1, 1, 0, 0, 0};
+	static char	am_i_redirrect[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
+		1, 0, 0, 0, 0, 0, 0};
 	int			last_type_was_special;
+	int			last_type;
 
+	last_type = 0;
 	last_type_was_special = 0;
 	while (root)
 	{
 		if (last_type_was_special && root->type >= 0 && root->type < MAX_TYPE
-			&& is_special[root->type])
+			&& is_special[root->type] && !((last_type == PIPE || last_type == OR
+					|| last_type == AND) && am_i_redirrect [root->type]))
 			return (0);
 		if (root->type >= 0 && root->type < MAX_TYPE)
-			last_type_was_special = is_special[root->type];
+		{
+			last_type = root->type;
+			last_type_was_special = is_special[last_type];
+		}
 		root = root->next;
 	}
 	return (1);

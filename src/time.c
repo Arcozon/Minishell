@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 12:16:03 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 12:25:06 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 10:44:55 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	mytime(struct s_timeval *var)
 	(void)var;
 }
 
-int main(void)
+int	main(void)
 {
 	struct s_timeval	caca;
 
