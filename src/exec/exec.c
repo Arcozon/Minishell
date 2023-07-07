@@ -78,15 +78,18 @@ int	ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
 
 int	ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
 {
+    int status;
+
 	ioe->herename = strnrand(8);
+    status = 0;
 	if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC,
 			0644))
 		return (1);
 	if (ft_heredoc_sub(cmd, ioe))
-		return (1);
+		status = 1;
 	if (ft_open_file(ioe->herename, &cmd->input, O_RDONLY, 0))
 		return (1);
-	return (0);
+	return (status);
 }
 
 int	process_file(t_lcmd *cmd)
