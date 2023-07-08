@@ -47,6 +47,14 @@ int	ft_write_to_fd(int fd, char *str, int len)
 	return (write(fd, str, len) != len);
 }
 
+int ft_putchar_to_fd(int fd, char *str)
+{
+    int i;
+
+    i = ft_strlen(str);
+    return (ft_write_to_fd(fd, str, i));
+}
+
 int	ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
 {
 	char	*buf;
