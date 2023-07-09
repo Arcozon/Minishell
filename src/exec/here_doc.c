@@ -14,7 +14,7 @@ int ft_strlen(char *str)
 
 static inline int ft_putchar(char c)
 {
-    return (write(STDOUT_FILENO, &c, 1) & 1);
+    return (write(STDOUT_FILENO, &c, 1) > 0);
 }
 
 int ft_putstr(char *str)
