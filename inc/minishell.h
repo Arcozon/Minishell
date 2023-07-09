@@ -227,5 +227,6 @@ void					awaiting_death(int test, t_minishell *ms);
 void                    ft_exit_safely(t_minishell *all);
 void                    ft_close_all_files(t_lcmd *cmd);
 void                    ft_close_all_pipes(t_lcmd *cmd);
+void	                here_unlink(t_lcmd *cmd);
 
 #endif

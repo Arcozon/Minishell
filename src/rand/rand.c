@@ -25,7 +25,7 @@ char	*strnrand(int len)
 	char	fd;
 	int		i;
 
-	fd = open("/dev/random", O_RDONLY);
+	fd = open("/dev/urandom", O_RDONLY);
 	if (fd == -1)
 		return (0);
 	out = malloc(sizeof(char) * (len + 1));

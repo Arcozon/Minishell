@@ -497,8 +497,9 @@ void	here_unlink(t_lcmd *cmd)
 		tmp = cmd->ioe_put;
 		while (tmp)
 		{
-			if (tmp->type == INPUT_HEREDOC && tmp->herename)
-				unlink(tmp->herename);
+			if (tmp->type == INPUT_HEREDOC && tmp->herename != 0)
+				tmp->herename = (unlink(tmp->herename),
+                    free(tmp->herename), (char *)0);
 			tmp = tmp->next;
 		}
 		cmd = cmd->next;

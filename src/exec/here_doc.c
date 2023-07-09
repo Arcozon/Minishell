@@ -12,12 +12,12 @@ int ft_strlen(char *str)
     return (i);
 }
 
-static inline int ft_putchar(char c)
+static inline int ft_putchar_fd(int fd, char c)
 {
-    return (write(STDOUT_FILENO, &c, 1) > 0);
+    return (write(fd, &c, 1) < 1);
 }
 
-int ft_putstr(char *str)
+int ft_putstr_fd(int fd, char *str)
 {
     int i;
 
@@ -26,7 +26,7 @@ int ft_putstr(char *str)
     {
         while (*str)
         {
-            i |= ft_putchar(*str);
+            i |= ft_putchar_fd(fd, *str);
             str++;
         }
     }
@@ -37,30 +37,13 @@ int ft_heredoc_perror(char *str)
 {
     int i;
 
-    i = ft_putstr("Minishell: warning: here-document at line 1 delimited by"
+    i = ft_putstr_fd(2, "Minishell: warning: here-document at line 1 delimited by"
             " end-of-file (wanted '");
     i <<= 1;
-    i += ft_putstr(str);
+    i += ft_putstr_fd(2, str);
     i <<= 1;
-    i +=ft_putstr("')\n");
+    i +=ft_putstr_fd(2, "')\n");
     return (i);
-}
-
-void ft_putnbr(int nbr)
-{
-    if (nbr < 0)
-    {
-        nbr = -nbr;
-        ft_putchar('-');
-    }
-    if (nbr < 9)
-    {
-        ft_putchar(nbr + '0');
-    }
-    else {
-        ft_putnbr(nbr / 10);
-        ft_putchar(nbr % 10);
-    }
 }
 
 int ft_check_eof(int fd, char buf[1], char *str, int len)

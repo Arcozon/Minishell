@@ -54,6 +54,7 @@ void	free_cmd(t_lcmd *lcmd)
             close(lcmd->pipe[0]);
         if (lcmd->pipe[1] != -1)
             close(lcmd->pipe[1]);
+        here_unlink(lcmd);
         free_ioe(lcmd->ioe_put);
         free_split(lcmd->cmd);
         free(lcmd);
