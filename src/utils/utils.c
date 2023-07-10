@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -26,7 +26,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (ft_strdup(s1));
 	i = 0;
 	iptr = 0;
-	ptr = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	ptr = malloc((ft_strlen((char *)s1) +
+            ft_strlen((char *)s2) + 1) * sizeof(char));
 	if (ptr == 0)
 		return (0);
 	while (s1[i])
@@ -44,7 +45,7 @@ char	*ft_strdup(const char *s)
 	int		i;
 
 	str = 0;
-	str = malloc((ft_strlen(s) + 1) * sizeof(char));
+	str = malloc((ft_strlen((char *)s) + 1) * sizeof(char));
 	if (!str)
 		return (0);
 	i = 0;
@@ -57,16 +58,15 @@ char	*ft_strdup(const char *s)
 	return (str);
 }
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(char *str)
 {
-	size_t	len;
+	int	i;
 
-	if (!s)
-		return (0);
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	i = 0;
+	if (str)
+		while (str[i])
+			i++;
+	return (i);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -100,10 +100,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (0);
-	if (start > ft_strlen(s))
+	if (start > (unsigned int)ft_strlen((char *)s))
 		return (ft_strdup(""));
-	if (ft_strlen(s + start) < len)
-		len = ft_strlen(s + start);
+	if ((unsigned int)ft_strlen((char *)s + start) < len)
+		len = ft_strlen((char *)s + start);
 	str = malloc((len + 1) * sizeof(char));
 	if (!str)
 		return (0);

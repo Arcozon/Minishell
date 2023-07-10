@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 char	*ft_strjoin_with_slash(char const *s1, char const *s2)
 {
@@ -26,7 +26,8 @@ char	*ft_strjoin_with_slash(char const *s1, char const *s2)
 		return (ft_strdup(s1));
 	i = 0;
 	iptr = 0;
-	ptr = malloc((ft_strlen(s1) + ft_strlen(s2) + 1 + 1) * sizeof(char));
+	ptr = malloc((ft_strlen((char *)s1)
+            + ft_strlen((char *)s2) + 1 + 1) * sizeof(char));
 	if (ptr == 0)
 		return (0);
 	while (s1[i])
@@ -92,3 +93,26 @@ void	my_bbsort(char **tab)
 		i++;
 	}
 }
+
+
+static inline int	ft_putchar_fd(int fd, char c)
+{
+	return (write(fd, &c, 1) < 1);
+}
+
+int	ft_putstr_fd(int fd, char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str)
+	{
+		while (*str)
+		{
+			i |= ft_putchar_fd(fd, *str);
+			str++;
+		}
+	}
+	return (i);
+}
+

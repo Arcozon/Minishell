@@ -18,7 +18,7 @@ S_TREE =  cmd.c  node.c  opp.c  utils.c  utils2.c  debug.c
 D_TREE = tree/
 SRC_TREE = $(addprefix ${D_TREE}, ${S_TREE})
 
-S_EXEC = exec.c get_builtin.c
+S_EXEC = exec.c get_builtin.c here_doc.c
 D_EXEC = exec/
 SRC_EXEC = $(addprefix ${D_EXEC}, ${S_EXEC})
 

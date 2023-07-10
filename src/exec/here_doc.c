@@ -1,39 +1,8 @@
 #include <fcntl.h>
 #include <unistd.h>
+#include "../../inc/minishell.h"
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str)
-		while (str[i])
-			i++;
-	return (i);
-}
-
-static inline int	ft_putchar_fd(int fd, char c)
-{
-	return (write(fd, &c, 1) < 1);
-}
-
-int	ft_putstr_fd(int fd, char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str)
-	{
-		while (*str)
-		{
-			i |= ft_putchar_fd(fd, *str);
-			str++;
-		}
-	}
-	return (i);
-}
-
-int	ft_heredoc_perror(char *str)
+static int	ft_heredoc_perror(char *str)
 {
 	int	i;
 
@@ -47,7 +16,7 @@ int	ft_heredoc_perror(char *str)
 	return (i);
 }
 
-int	ft_check_eof(int fd, char buf[1], char *str, int len)
+static int	ft_check_eof(int fd, char buf[1], char *str, int len)
 {
 	int	i;
 	int	br;
@@ -70,9 +39,9 @@ int	ft_check_eof(int fd, char buf[1], char *str, int len)
 		if (buf[0] == '\n')
 			return (0);
 	}
-	write(STDOUT_FILENO, str, i);
+	write(fd, str, i);
 	if (i < len || (i == len && buf[0] != '\n'))
-		write(STDOUT_FILENO, buf, 1);
+		write(fd, buf, 1);
 	return (1 + (br == 0));
 }
 
@@ -97,7 +66,7 @@ int	ft_read_stdin(int fd, char *str, int len)
 		while (buf[0] != '\n')
 		{
 			br = read(STDIN_FILENO, buf, 1);
-			if (br == -1 || write(STDOUT_FILENO, buf, 1) == 2)
+			if (br == -1 || write(fd, buf, 1) == 2)
 				return (-1);
 		}
 		write(STDOUT_FILENO, "> ", 2);
@@ -105,16 +74,25 @@ int	ft_read_stdin(int fd, char *str, int len)
 	return (0);
 }
 
-int	main(void)
+int heredoc(t_lcmd *cmd, t_ioe_put *ioe, int *ostatus)
 {
-	char	str[];
-	int		len;
-	int		fd;
+    int status;
+    int tmp_g_status;
 
-	str[] = {"dio"};
-	len = ft_strlen(str);
-	fd = open("test.ty", O_CREAT | O_TRUNC | O_WRONLY, 0622);
-	ft_read_stdin(fd, str, len);
-	close(fd);
-	return (0);
+    ioe->herename = strnrand(64);
+    status = 0;
+    if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC,
+            0644))
+        return (1);
+    tmp_g_status = g_cmd_exit;
+    status = ft_read_stdin(cmd->input, ioe->name, ft_strlen(ioe->name));
+    if (g_cmd_exit == 130 || status == -1)
+    {
+        *ostatus = 1;
+        return (1);
+    }
+    g_cmd_exit = tmp_g_status;
+    if (ft_open_file(ioe->herename, &cmd->input, O_RDONLY, 0))
+        return (1);
+    return (0);
 }

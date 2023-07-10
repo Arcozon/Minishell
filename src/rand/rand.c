@@ -39,7 +39,7 @@ char	*strnrand(int len)
 		if (read(fd, &b, 1) < 1)
 			return (free(out), close(fd), (char *)0);
 		if (is_alphanum(b))
-			out[i++] = b;
+            out[i++] = b;
 	}
 	close(fd);
 	return (out);

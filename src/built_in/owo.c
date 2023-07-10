@@ -58,10 +58,10 @@ int	bi_owo(t_lcmd *lcmd, t_minishell *ms)
 		i = -1;
 		while (lcmd->cmd[j][++i])
 			write(lcmd->output, g_lookuptable[(int)lcmd->cmd[j][i]],
-				ft_strlen(g_lookuptable[(int)lcmd->cmd[j][i]]));
+				ft_strlen((char *)g_lookuptable[(int)lcmd->cmd[j][i]]));
 		write(lcmd->output, " ", 1);
 		write(lcmd->output, end_str[cmptr % MAX_EMOJIES],
-			ft_strlen(end_str[cmptr % MAX_EMOJIES]));
+			ft_strlen((char *)end_str[cmptr % MAX_EMOJIES]));
 		write(lcmd->output, "\n", 1);
 		++cmptr;
 		++j;

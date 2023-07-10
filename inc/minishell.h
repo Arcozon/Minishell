@@ -190,7 +190,7 @@ t_env					*new_env(char *var);
 void					env_addback(t_env **root, t_env *new);
 
 int						ft_is_builtin(t_lcmd *cmd, t_minishell *all);
-void					process_tree(t_minishell *info, t_node *tree);
+int	                    process_tree(t_minishell *all, t_node *tree);
 void					set_up_dup(t_lcmd *cmd);
 char					**t_env_to_charr(t_env *env);
 void					ft_free_strr(char **str);
@@ -199,7 +199,7 @@ void					ft_free_strr(char **str);
 char					*ft_strdup(const char *s);
 char					*ft_strjoin(char const *s1, char const *s2);
 char					*ft_strjoin_with_slash(char const *s1, char const *s2);
-size_t					ft_strlen(const char *s);
+int	                    ft_strlen(char *str);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 char					*ft_substr(char const *s, unsigned int start,
 							size_t len);
@@ -209,6 +209,9 @@ void					*ms_calloc(unsigned int to_malloc, t_minishell *ms);
 char					*strnrand(int len);
 int						ft_strcmp(const char *str1, const char *str2);
 char					**ft_split(char const *s, char c);
+int	                    ft_putstr_fd(int fd, char *str);
+int                     heredoc(t_lcmd *cmd, t_ioe_put *ioe, int *ostatus);
+int	                    ft_open_file(char *name, int *fd, int oflag, int mode);
 
 /*----------------------Signal-----------------------*/
 void					set_sig_exec(void);

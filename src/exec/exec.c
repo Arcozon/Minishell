@@ -55,56 +55,58 @@ int	ft_putchar_to_fd(int fd, char *str)
 	return (ft_write_to_fd(fd, str, i));
 }
 
-int	ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
-{
-	char	*buf;
-	int		len2;
-	int		len;
-
-	len = ft_strlen(ioe->name);
-	write(1, "> ", 2);
-	while (1)
-	{
-		buf = get_next_line(STDIN_FILENO);
-		if (!buf)
-		{
-			write(2, "Warning : heredoc delimited by EOF (wanted '", 44);
-			(write(2, ioe->name, len), write(2, "')\n", 3));
-			return (free(buf), 1);
-		}
-		len2 = ft_strlen(buf) - 1;
-		if (len == len2 && !ft_strncmp(buf, ioe->name, len))
-			break ;
-		if (len2 + 1 > 0)
-			write(1, "> ", 2);
-		if (ft_write_to_fd(cmd->input, buf, len2 + 1))
-			return (free(buf), 1);
-		free(buf);
-	}
-	return (free(buf), 0);
-}
-
-int	ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
-{
-	int	status;
-
-	ioe->herename = strnrand(8);
-	status = 0;
-	if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC,
-			0644))
-		return (1);
-	if (ft_heredoc_sub(cmd, ioe))
-		status = 1;
-	if (ft_open_file(ioe->herename, &cmd->input, O_RDONLY, 0))
-		return (1);
-	return (status);
-}
+//int	ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
+//{
+//	char	*buf;
+//	int		len2;
+//	int		len;
+//
+//	len = ft_strlen(ioe->name);
+//	write(1, "> ", 2);
+//	while (1)
+//	{
+//		buf = get_next_line(STDIN_FILENO);
+//		if (!buf)
+//		{
+//			write(2, "Warning : heredoc delimited by EOF (wanted '", 44);
+//			(write(2, ioe->name, len), write(2, "')\n", 3));
+//			return (free(buf), 1);
+//		}
+//		len2 = ft_strlen(buf) - 1;
+//		if (len == len2 && !ft_strncmp(buf, ioe->name, len))
+//			break ;
+//		if (len2 + 1 > 0)
+//			write(1, "> ", 2);
+//		if (ft_write_to_fd(cmd->input, buf, len2 + 1))
+//			return (free(buf), 1);
+//		free(buf);
+//	}
+//	return (free(buf), 0);
+//}
+//
+//int	ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
+//{
+//	int	status;
+//
+//	ioe->herename = strnrand(64);
+//	status = 0;
+//	if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC,
+//			0644))
+//		return (1);
+//	if (ft_heredoc_sub(cmd, ioe))
+//		status = 1;
+//	if (ft_open_file(ioe->herename, &cmd->input, O_RDONLY, 0))
+//		return (1);
+//	return (status);
+//}
 
 int	process_file(t_lcmd *cmd)
 {
 	t_ioe_put	*tmp;
+    int status;
 
 	tmp = cmd->ioe_put;
+    status = 0;
 	while (tmp)
 	{
 		if (tmp->type == INPUT_REDIR && !ft_open_file(tmp->name, &cmd->input,
@@ -116,13 +118,13 @@ int	process_file(t_lcmd *cmd)
 		else if (tmp->type == OUTPUT_HAPPEND_REDIR && !ft_open_file(tmp->name,
 					&cmd->output, O_CREAT | O_WRONLY | O_APPEND, 0622))
 			;
-		else if (tmp->type == INPUT_HEREDOC && !ft_heredoc(cmd, tmp))
+		else if (tmp->type == INPUT_HEREDOC && !heredoc(cmd, tmp, &status))
 			;
 		else if (tmp->type == ERROR_REDIR && !ft_open_file(tmp->name,
 					&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 0622))
 			;
 		else
-			return (1);
+			return (1 + status);
 		tmp = tmp->next;
 	}
 	return (0);
@@ -152,7 +154,8 @@ char	*ft_strjoin_weq(char const *s1, char const *s2)
 		return (ft_strdup(s1));
 	i = 0;
 	iptr = 0;
-	ptr = malloc((ft_strlen(s1) + ft_strlen(s2) + 1 + 1) * sizeof(char));
+	ptr = malloc((ft_strlen((char *)s1)
+            + ft_strlen((char *)s2) + 1 + 1) * sizeof(char));
 	if (ptr == 0)
 		return (0);
 	while (s1[i])
@@ -277,7 +280,7 @@ char	*ft_substr_split(char const *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (0);
-	len_s = (unsigned int)ft_strlen(s);
+	len_s = (unsigned int)ft_strlen((char *)s);
 	if (start <= 0 || start >= len_s)
 		start = 0;
 	if (len_s <= start)
@@ -475,17 +478,24 @@ void	ft_child(t_lcmd *cmd, t_minishell *all)
 void	cmd_wait(t_lcmd *cmd)
 {
 	int	status;
+    int i;
 
 	status = g_cmd_exit;
+    i = 0;
 	while (cmd)
 	{
-		if (cmd->pid > 0 && cmd->next)
-			waitpid(cmd->pid, 0, 0);
-		else if (cmd->pid > 0)
-			waitpid(cmd->pid, &status, 0);
+		if (cmd->pid > 0)
+        {
+            if (cmd->next)
+                waitpid(cmd->pid, 0, 0);
+            else
+                waitpid(cmd->pid, &status, 0);
+            i++;
+        }
 		cmd = cmd->next;
 	}
-	g_cmd_exit = WEXITSTATUS(status);
+    if (i > 0)
+    	g_cmd_exit = WEXITSTATUS(status);
 }
 
 void	here_unlink(t_lcmd *cmd)
@@ -512,34 +522,37 @@ static int	ft_is_std_fd(int fd)
 	return (fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO);
 }
 
-void	process_cmd(t_minishell *all, t_lcmd *cmd)
+int	process_cmd(t_minishell *all, t_lcmd *cmd)
 {
 	int		lastdeeznuts;
 	t_lcmd	*tmp;
 	char	**path;
+    int status;
 
 	lastdeeznuts = -1;
 	tmp = cmd;
 	while (tmp)
 	{
 		expand_cmd_ioe(tmp, all);
-		process_file(tmp);
+		status = process_file(tmp);
+        if (status == 2)
+            return (1);
+        if (status == 1)
+            g_cmd_exit = 1;
 		if (tmp->next)
 		{
 			if (pipe(tmp->pipe) == -1)
 				ft_exit_safely(all);
 			if (lastdeeznuts != -1)
 			{
-				if (!ft_is_std_fd(tmp->input))
-				{
+				if (!ft_is_std_fd(tmp->input) && tmp->input > -1)
 					close(tmp->input);
-				}
 				tmp->input = lastdeeznuts;
 			}
-			if (!ft_is_std_fd(tmp->output))
+			if (!ft_is_std_fd(tmp->output) && tmp->input > -1)
 				close(tmp->output);
 			tmp->output = tmp->pipe[1];
-			if (!ft_is_builtin(tmp, all))
+			if (status == 0 && !ft_is_builtin(tmp, all))
 			{
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
@@ -561,7 +574,7 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 					close(tmp->input);
 				tmp->input = lastdeeznuts;
 			}
-			if (!ft_is_builtin(tmp, all))
+			if (status == 0 && !ft_is_builtin(tmp, all))
 			{
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
@@ -576,29 +589,37 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 		}
 		tmp = tmp->next;
 	}
-	ft_close_all_pipes(cmd);
+	ft_close_all_files(cmd);
 	cmd_wait(cmd);
 	here_unlink(cmd);
+    return (0);
 }
 
-void	process_tree(t_minishell *all, t_node *tree)
+int	process_tree(t_minishell *all, t_node *tree)
 {
 	if (!tree)
-		exit(69);
+		return (1);
 	if (tree->lcmd && !tree->opp)
-		process_cmd(all, tree->lcmd);
+    {
+		if (process_cmd(all, tree->lcmd) == 1)
+            return (1);
+    }
 	else if (!tree->lcmd && tree->opp)
 	{
-		process_tree(all, tree->opp->l_node);
+		if (process_tree(all, tree->opp->l_node) == 1)
+            return (1);
 		if (tree->opp->logical_opp == AND)
 		{
 			if (!g_cmd_exit)
-				process_tree(all, tree->opp->r_node);
+				if (process_tree(all, tree->opp->r_node) == 1)
+                    return (1);
 		}
 		else if (tree->opp->logical_opp == OR)
 			if (g_cmd_exit)
-				process_tree(all, tree->opp->r_node);
+                if (process_tree(all, tree->opp->r_node) == 1)
+                    return (1);
 	}
-	else
-		exit(69);
+    else
+        return (1);
+    return (0);
 }
