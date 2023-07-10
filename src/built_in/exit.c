@@ -14,9 +14,8 @@
 
 void	clean_exit(t_minishell *ms, int exit_value)
 {
-	rl_clear_history();
-	free_ms(ms);
-	exit (exit_value);
+    (void)exit_value;
+    ft_exit_safely(ms);
 }
 
 //Return sex number cause noah is a silly little clown

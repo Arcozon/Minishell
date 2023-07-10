@@ -35,6 +35,10 @@ int	ft_open_file(char *name, int *fd, int oflag, int mode)
 
 	if (*fd > 2)
 		close(*fd);
+    if (mode != 0)
+    {
+        mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+    }
 	tmp = ft_open_file_(name, oflag, mode);
 	if (tmp == -1)
 		return (1);
@@ -113,15 +117,15 @@ int	process_file(t_lcmd *cmd)
 				O_RDONLY, 0))
 			;
 		else if (tmp->type == OUTPUT_REDIR && !ft_open_file(tmp->name,
-					&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 0622))
+					&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 1))
 			;
 		else if (tmp->type == OUTPUT_HAPPEND_REDIR && !ft_open_file(tmp->name,
-					&cmd->output, O_CREAT | O_WRONLY | O_APPEND, 0622))
+					&cmd->output, O_CREAT | O_WRONLY | O_APPEND, 1))
 			;
 		else if (tmp->type == INPUT_HEREDOC && !heredoc(cmd, tmp, &status))
 			;
 		else if (tmp->type == ERROR_REDIR && !ft_open_file(tmp->name,
-					&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 0622))
+					&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 1))
 			;
 		else
 			return (1 + status);
@@ -450,6 +454,9 @@ void	ft_close_all_files(t_lcmd *cmd)
 void	ft_exit_safely(t_minishell *all)
 {
 	rl_clear_history();
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
 	free_ms(all);
 	exit(g_cmd_exit);
 }
@@ -544,14 +551,10 @@ int	process_cmd(t_minishell *all, t_lcmd *cmd)
 			if (pipe(tmp->pipe) == -1)
 				ft_exit_safely(all);
 			if (lastdeeznuts != -1)
-			{
-				if (!ft_is_std_fd(tmp->input) && tmp->input > -1)
-					close(tmp->input);
-				tmp->input = lastdeeznuts;
-			}
-			if (!ft_is_std_fd(tmp->output) && tmp->input > -1)
-				close(tmp->output);
-			tmp->output = tmp->pipe[1];
+                if (ft_is_std_fd(tmp->input))
+                    tmp->input = lastdeeznuts;
+			if (ft_is_std_fd(tmp->output))
+			    tmp->output = tmp->pipe[1];
 			if (status == 0 && !ft_is_builtin(tmp, all))
 			{
 				path = ft_get_path(all->env);
@@ -569,11 +572,8 @@ int	process_cmd(t_minishell *all, t_lcmd *cmd)
 		else
 		{
 			if (lastdeeznuts != -1)
-			{
-				if (!ft_is_std_fd(tmp->input))
-					close(tmp->input);
-				tmp->input = lastdeeznuts;
-			}
+				if (ft_is_std_fd(tmp->input))
+    				tmp->input = lastdeeznuts;
 			if (status == 0 && !ft_is_builtin(tmp, all))
 			{
 				path = ft_get_path(all->env);
