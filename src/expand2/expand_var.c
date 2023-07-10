@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 //char to ascii
 const char	*g_ctoa[256] = {
@@ -42,9 +42,11 @@ const char	*g_ctoa[256] = {
 //Shit is faster than ever
 static char	*dup_return_value(void)
 {
-	if (g_cmd_exit >= 0 && g_cmd_exit <= 255)
-		return (ft_strdup(g_ctoa[g_cmd_exit]));
-	return (ft_strdup("0"));
+    while (g_cmd_exit > 255)
+        g_cmd_exit -= 256;
+    while (g_cmd_exit < 0)
+        g_cmd_exit += 256;
+    return (ft_strdup(g_ctoa[g_cmd_exit]));
 }
 
 //Give me the text after dollar and i ll give you the meaning
