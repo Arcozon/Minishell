@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:44:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/30 09:40:09 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/10 15:11:14 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,78 +48,87 @@ static char	*dup_return_value(void)
 }
 
 //Give me the text after dollar and i ll give you the meaning
-char	*expand_var_name(char *text, int *start, t_env *env)
+char	*expand_var_name(char *var_name, t_env *env)
 {
-	char	*var_name;
-	int		i;
-
-	i = 0;
-	while (text[*start + i] && text[*start + i] != ' ' && text[*start
-			+ i] != '\t' && text[*start + i] != '\n' && text[*start + i] != '$')
-		i++;
-	var_name = ft_substr(text, *start, i);
-	if (!var_name)
-		return (0);
-	*start += i;
 	if (!ft_strncmp(var_name, RETURN_VAR, ft_strlen(RETURN_VAR) + 1))
-		return (free(var_name), dup_return_value());
+		return (dup_return_value());
 	while (env)
 	{
 		if (!ft_strncmp(var_name, env->var_name, ft_strlen(env->var_name) + 1))
 			break ;
 		env = env->next;
 	}
-	free(var_name);
 	if (env)
 		return (ft_strdup(env->content));
 	return (ft_strdup(""));
 }
 
-//They actually found a dollar
-static char	*hey_i_found_one_euro(char *text, int i[2], char *return_str,
-		t_minishell *ms)
+char	*join_n_find_var(char *text, int *i, char *return_str, t_minishell *ms)
 {
-	char	*buffer;
-	char	*var_value;
+	char	*buff;
+	char	*var_name;
+	char	*var_content;
+	int		len;
 
-	var_value = ft_substr(text, i[0] - i[1], i[1]);
-	buffer = return_str;
-	return_str = ft_strjoin(return_str, var_value);
-	(free(buffer), free(var_value));
-	i[0]++;
-	i[1] = 0;
-	var_value = expand_var_name(text, i, ms->env);
-	awaiting_death(!var_value, ms);
-	buffer = return_str;
-	return_str = ft_strjoin(return_str, var_value);
-	(free(buffer), free(var_value));
+	++*i;
+	len = 0;
+	if (!((text[*i] >= 'a' && text[*i] <= 'z') || (text[*i] >= 'A'
+				&& text[*i] <= 'Z') || (text[*i] >= '0' && text[*i] <= '9')))
+		len = 1;
+	else
+		while (text[*i + len] && text[*i + len] != ' ' && text[*i + len] != '\t'
+			&& text[*i + len] != '\n' && text[*i + len] != '$')
+			++len;
+	var_name = ft_substr(text, *i, len);
+	awaiting_death(!var_name, ms);
+	var_content = expand_var_name(var_name, ms->env);
+	awaiting_death(!var_content, ms);
+	buff = return_str;
+	return_str = ft_strjoin(return_str, var_content);
+	(free(buff), free(var_name), free(var_content));
+	awaiting_death(!return_str, ms);
+	*i += len;
+	return (return_str);
+}
+
+char	*join_rest_text(char *text, char *return_str, int i, int len)
+{
+	char	*buff;
+	char	*rest;
+
+	rest = ft_substr(text, i, len);
+	if (!rest)
+		return (0);
+	buff = return_str;
+	return_str = ft_strjoin(return_str, rest);
+	(free(buff), free(rest));
 	return (return_str);
 }
 
 char	*expand_dollar_sign(char *text, t_minishell *ms)
 {
 	char	*return_str;
-	char	*buffer;
-	int		i[2];
+	int		last_find;
+	int		i;
 
-	i[0] = 0;
-	i[1] = 0;
+	i = 0;
+	last_find = 0;
 	return_str = ft_strdup("");
 	awaiting_death(!return_str, ms);
-	while (text[i[0]])
+	while (text[i])
 	{
-		if (text[i[0]] == '$')
-			return_str = hey_i_found_one_euro(text, i, return_str, ms);
+		if (text[i] == '$')
+		{
+			return_str = join_rest_text(text, return_str, last_find,
+					i - last_find);
+			awaiting_death(!return_str, ms);
+			return_str = join_n_find_var(text, &i, return_str, ms);
+			last_find = i;
+		}
 		else
-			i[0] += (i[1]++, 1);
-		awaiting_death(!return_str, ms);
+			++i;
 	}
-	if (i[1])
-	{
-		buffer = return_str;
-		return_str = ft_strjoin(return_str, text + i[0] - i[1]);
-		awaiting_death(!return_str, ms);
-		free(buffer);
-	}
+	return_str = join_rest_text(text, return_str, last_find, i - last_find);
+	awaiting_death(!return_str, ms);
 	return (return_str);
 }
