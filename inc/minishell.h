@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 13:25:34 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/10 14:47:07 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct s_lcmd
 	t_lexer				*start_lexer;
 	t_lexer				*end_lexer;
 	char				**cmd;
-    int                 pipe[2];
+	int                 pipe[2];
 	struct s_lcmd		*next;
 }						t_lcmd;
 
@@ -136,7 +136,6 @@ void					expand_sq(t_lexer *root, t_minishell *ms);
 void					expand_dq(t_lexer *root, t_minishell *ms);
 t_lexer					**expand_text(t_lexer **root, t_minishell *ms);
 t_lexer					*expand_wc_v2(char *patern, t_minishell *ms);
-char					*expand_var_name(char *text, int *start, t_env *env);
 char					*expand_dollar_sign(char *text, t_minishell *ms);
 void					expand_cmd_ioe(t_lcmd *lcmd, t_minishell *ms);
 
