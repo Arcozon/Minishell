@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:55:29 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/30 19:43:26 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/10 07:16:06 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int	ft_write_to_fd(int fd, char *str, int len)
 	return (write(fd, str, len) != len);
 }
 
-int ft_putchar_to_fd(int fd, char *str)
+int	ft_putchar_to_fd(int fd, char *str)
 {
-    int i;
+	int	i;
 
-    i = ft_strlen(str);
-    return (ft_write_to_fd(fd, str, i));
+	i = ft_strlen(str);
+	return (ft_write_to_fd(fd, str, i));
 }
 
 int	ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
@@ -86,10 +86,10 @@ int	ft_heredoc_sub(t_lcmd *cmd, t_ioe_put *ioe)
 
 int	ft_heredoc(t_lcmd *cmd, t_ioe_put *ioe)
 {
-    int status;
+	int	status;
 
 	ioe->herename = strnrand(8);
-    status = 0;
+	status = 0;
 	if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC,
 			0644))
 		return (1);
@@ -207,15 +207,15 @@ void	ft_free_strr(char **str)
 {
 	int	i;
 
-    if (str)
-    {
-        i = 0;
-        while (str[i])
-        {
-            free(str[i]);
-            i++;
-        }
-    }
+	if (str)
+	{
+		i = 0;
+		while (str[i])
+		{
+			free(str[i]);
+			i++;
+		}
+	}
 	free(str);
 }
 
@@ -354,12 +354,12 @@ char	**ft_get_path(t_env *env)
 
 int	ft_strchr(char *str, char c)
 {
-    while (*str)
-    {
-        if (*str == c)
-            return (1);
-        str++;
-    }
+	while (*str)
+	{
+		if (*str == c)
+			return (1);
+		str++;
+	}
 	return (0);
 }
 
@@ -392,9 +392,9 @@ int	ft_get_working_path(char **path, char **cmd)
 	char	*tmp;
 	int		i;
 
-    if (!cmd || !(*cmd) || !path)
-        return (1);
-    else if (ft_strchr(*cmd, '/'))
+	if (!cmd || !(*cmd) || !path)
+		return (1);
+	else if (ft_strchr(*cmd, '/'))
 		return (0);
 	i = 0;
 	while (path[i])
@@ -414,41 +414,41 @@ int	ft_get_working_path(char **path, char **cmd)
 	return (1);
 }
 
-void ft_close_all_pipes(t_lcmd *cmd)
+void	ft_close_all_pipes(t_lcmd *cmd)
 {
-    while (cmd)
-    {
-        if (cmd->pipe[0] != -1)
-            close(cmd->pipe[0]);
-        if (cmd->pipe[1] != -1)
-            close(cmd->pipe[1]);
-        cmd = cmd->next ;
-    }
+	while (cmd)
+	{
+		if (cmd->pipe[0] != -1)
+			close(cmd->pipe[0]);
+		if (cmd->pipe[1] != -1)
+			close(cmd->pipe[1]);
+		cmd = cmd->next;
+	}
 }
 
-void ft_close_all_files(t_lcmd *cmd)
+void	ft_close_all_files(t_lcmd *cmd)
 {
-    while (cmd)
-    {
-        if (cmd->input > 2)
-            close(cmd->input);
-        if (cmd->output > 2)
-            close(cmd->output);
-        if (cmd->error > 2)
-            close(cmd->error);
-        if (cmd->pipe[0] != -1)
-            close(cmd->pipe[0]);
-        if (cmd->pipe[1] != -1)
-            close(cmd->pipe[1]);
-        cmd = cmd->next;
-    }
+	while (cmd)
+	{
+		if (cmd->input > 2)
+			close(cmd->input);
+		if (cmd->output > 2)
+			close(cmd->output);
+		if (cmd->error > 2)
+			close(cmd->error);
+		if (cmd->pipe[0] != -1)
+			close(cmd->pipe[0]);
+		if (cmd->pipe[1] != -1)
+			close(cmd->pipe[1]);
+		cmd = cmd->next;
+	}
 }
 
-void    ft_exit_safely(t_minishell *all)
+void	ft_exit_safely(t_minishell *all)
 {
 	rl_clear_history();
 	free_ms(all);
-	exit (g_cmd_exit);
+	exit(g_cmd_exit);
 }
 
 void	ft_child(t_lcmd *cmd, t_minishell *all)
@@ -463,12 +463,12 @@ void	ft_child(t_lcmd *cmd, t_minishell *all)
 		set_up_dup(cmd);
 		envstrr = t_env_to_charr(all->env);
 		if (!envstrr)
-            ft_exit_safely(all);
-        ft_close_all_pipes(all->tree->lcmd);
+			ft_exit_safely(all);
+		ft_close_all_pipes(all->tree->lcmd);
 		execve(*(cmd->cmd), cmd->cmd, envstrr);
 		perror(*(cmd->cmd));
 		ft_free_strr(envstrr);
-        ft_exit_safely(all);
+		ft_exit_safely(all);
 	}
 }
 
@@ -481,7 +481,7 @@ void	cmd_wait(t_lcmd *cmd)
 	{
 		if (cmd->pid > 0 && cmd->next)
 			waitpid(cmd->pid, 0, 0);
-        else if (cmd->pid > 0)
+		else if (cmd->pid > 0)
 			waitpid(cmd->pid, &status, 0);
 		cmd = cmd->next;
 	}
@@ -499,16 +499,17 @@ void	here_unlink(t_lcmd *cmd)
 		{
 			if (tmp->type == INPUT_HEREDOC && tmp->herename != 0)
 				tmp->herename = (unlink(tmp->herename),
-                    free(tmp->herename), (char *)0);
+									free(tmp->herename),
+									(char *)0);
 			tmp = tmp->next;
 		}
 		cmd = cmd->next;
 	}
 }
 
-static int ft_is_std_fd(int fd)
+static int	ft_is_std_fd(int fd)
 {
-    return (fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO);
+	return (fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO);
 }
 
 void	process_cmd(t_minishell *all, t_lcmd *cmd)
@@ -529,10 +530,10 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 				ft_exit_safely(all);
 			if (lastdeeznuts != -1)
 			{
-                if (!ft_is_std_fd(tmp->input))
-                {
-        			close(tmp->input);
-                }
+				if (!ft_is_std_fd(tmp->input))
+				{
+					close(tmp->input);
+				}
 				tmp->input = lastdeeznuts;
 			}
 			if (!ft_is_std_fd(tmp->output))
@@ -543,14 +544,14 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
 					ft_child(tmp, all);
-                if (!path && tmp)
-                {
-                    ft_write_to_fd(2, *(tmp->cmd), ft_strlen(*(tmp->cmd)));
-                    ft_write_to_fd(2, " : command not found\n", 21);
-                }
+				if (!path && tmp)
+				{
+					ft_write_to_fd(2, *(tmp->cmd), ft_strlen(*(tmp->cmd)));
+					ft_write_to_fd(2, " : command not found\n", 21);
+				}
 				ft_free_strr(path);
 			}
-		    lastdeeznuts = tmp->pipe[0];
+			lastdeeznuts = tmp->pipe[0];
 		}
 		else
 		{
@@ -564,18 +565,18 @@ void	process_cmd(t_minishell *all, t_lcmd *cmd)
 			{
 				path = ft_get_path(all->env);
 				if (!ft_get_working_path(path, &(*(tmp->cmd))))
-    				ft_child(tmp, all);
-                if (!path && tmp)
-                {
-                    ft_write_to_fd(2, *(tmp->cmd), ft_strlen(*(tmp->cmd)));
-                    ft_write_to_fd(2, " : command not found\n", 21);
-                }
+					ft_child(tmp, all);
+				if (!path && tmp)
+				{
+					ft_write_to_fd(2, *(tmp->cmd), ft_strlen(*(tmp->cmd)));
+					ft_write_to_fd(2, " : command not found\n", 21);
+				}
 				ft_free_strr(path);
 			}
 		}
 		tmp = tmp->next;
 	}
-    ft_close_all_pipes(cmd);
+	ft_close_all_pipes(cmd);
 	cmd_wait(cmd);
 	here_unlink(cmd);
 }
