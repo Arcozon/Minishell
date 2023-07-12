@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
-void	expand_hd(t_ioeput *ioe, t_minishell *ms)
+void	expand_hd(t_ioe_put *ioe, t_minishell *ms)
 {
 	int	my_hd;
 	//gnl a line

@@ -7,7 +7,7 @@ static int	ft_heredoc_perror(char *str)
 	int	i;
 
 	i = ft_putstr_fd(2,
-			"Minishell: warning: here-document at line 1 delimited by"
+			"\nMinishell: warning: here-document at line 1 delimited by"
 			" end-of-file (wanted '");
 	i <<= 1;
 	i += ft_putstr_fd(2, str);
@@ -40,7 +40,7 @@ static int	ft_check_eof(int fd, char buf[1], char *str, int len)
 			return (0);
 	}
 	write(fd, str, i);
-	if (i < len || (i == len && buf[0] != '\n'))
+	if ((i < len  && br != 0) || (i == len && buf[0] != '\n'))
 		write(fd, buf, 1);
 	return (1 + (br == 0));
 }
