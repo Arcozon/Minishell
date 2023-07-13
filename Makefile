@@ -1,97 +1,44 @@
-S_BUILT_IN =  pwd.c  cd.c  echo.c  env.c  exit.c  export.c  unset.c  owo.c  which.c  clear.c
-D_BUILT_IN = built_in/
-SRC_BUILT_IN = $(addprefix ${D_BUILT_IN}, ${S_BUILT_IN})
+NAME 	 = minishell
 
-S_LEXER =  lexer.c  lexer2.c  lexer3.c  lexer4.c
-D_LEXER = lexer/
-SRC_LEXER = $(addprefix ${D_LEXER}, ${S_LEXER})
+CC 		 = cc
+CFLAGS 	 = -Wall -Wextra -Werror
+RM 		 = rm -f
 
-S_EXPAND =  double_quote.c  expand_cmd.c  expand_var.c  single_quote.c  text.c  wildcardv2.c
-D_EXPAND = expand2/
-SRC_EXPAND = $(addprefix ${D_EXPAND}, ${S_EXPAND})
+SRC_PATH = src/
+OBJ_PATH = obj/
+INC_PATH = inc/
 
-S_SYNTAX =  syntax.c
-D_SYNTAX =	syntax/
-SRC_SYNTAX = $(addprefix ${D_SYNTAX}, ${S_SYNTAX})
+SRC 	 = built_in/cd.c built_in/clear.c built_in/echo.c built_in/env.c built_in/exit.c built_in/export.c built_in/owo.c built_in/pwd.c built_in/unset.c built_in/which.c \
+		   lexer/lexer.c lexer/lexer2.c lexer/lexer3.c lexer/lexer4.c \
+		   expand2/double_quote.c expand2/expand_cmd.c expand2/expand_var.c expand2/single_quote.c expand2/text.c expand2/wildcardv2.c \
+		   syntax/syntax.c \
+		   tree/cmd.c tree/debug.c tree/node.c tree/opp.c tree/utils.c tree/utils2.c \
+		   exec/exec.c exec/get_builtin.c exec/here_doc.c \
+		   utils/free1.c utils/free2.c utils/ms_calloc.c utils/utils.c utils/utils2.c \
+		   euthanasia/euthanasia.c \
+		   signal/signal.c \
+		   rand/rand.c \
+		   main.c env.c
 
-S_TREE =  cmd.c  node.c  opp.c  utils.c  utils2.c  debug.c
-D_TREE = tree/
-SRC_TREE = $(addprefix ${D_TREE}, ${S_TREE})
+OBJ 	 = $(addprefix $(OBJ_PATH), $(patsubst %.c,%.o,$(SRC)))
 
-S_EXEC = exec.c get_builtin.c here_doc.c
-D_EXEC = exec/
-SRC_EXEC = $(addprefix ${D_EXEC}, ${S_EXEC})
+INC 	 = inc/minishell.h
 
-S_GNL = get_next_line.c get_next_line_utils.c
-D_GNL = gnl/
-SRC_GNL = $(addprefix $(D_GNL), $(S_GNL))
+all: $(NAME)
 
-S_UTILS =  utils.c  utils2.c free1.c free2.c ms_calloc.c
-D_UTILS = utils/
-SRC_UTILS = $(addprefix ${D_UTILS}, ${S_UTILS})
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^ -lreadline
 
-S_EUTHA = euthanasia.c
-D_EUTHA = euthanasia/
-SRC_EUTHA = $(addprefix $(D_EUTHA), $(S_EUTHA))
+$(OBJ) : $(OBJ_PATH)%.o : $(SRC_PATH)%.c $(INC)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -I$(INC_PATH) -c $< -o $@
 
-S_SIGNAL = signal.c
-D_SIGNAL = signal/
-SRC_SIGNAL = $(addprefix $(D_SIGNAL), $(S_SIGNAL))
+clean:
+	$(RM) $(OBJ)
 
-S_RAND = rand.c
-D_RAND = rand/
-SRC_RAND = $(addprefix $(D_RAND), $(S_RAND))
+fclean: clean
+	$(RM) $(NAME)
 
-S_SRC = main.c  env.c  ${SRC_BUILT_IN}  ${SRC_LEXER}  ${SRC_SYNTAX}  ${SRC_UTILS}  ${SRC_EXPAND}  ${SRC_TREE} ${SRC_EXEC} $(SRC_GNL) $(SRC_RAND) $(SRC_SIGNAL) $(SRC_EUTHA)
-D_SRC = ./src/
-SRC = $(addprefix ${D_SRC}, ${S_SRC})
+re: fclean all
 
-S_OBJ = ${S_SRC:.c=.o}
-D_OBJ = ./obj/
-OBJ = $(addprefix ${D_OBJ}, ${S_OBJ})
-
-S_INC = minishell.h get_next_line.h
-D_INC = ./inc/
-INC = $(addprefix ${D_INC}, ${S_INC})
-
-
-NAME = minishell
-
-CC = cc
-
-FLAGS = -Wall -Wextra -Werror -g
-
-LFLAGS = -lreadline
-
-${D_OBJ}%.o : ${D_SRC}%.c ${INC}
-	${CC} ${FLAGS} -I${D_INC} -c $< -o $@
-
-all	: ${NAME}
-
-${NAME}	:	${D_OBJ}  ${OBJ}
-	${CC} ${FLAGS} ${OBJ} -o${NAME} ${LFLAGS}
-
-${D_OBJ}:
-	mkdir -p ${D_OBJ}
-	mkdir -p ${D_OBJ}${D_BUILT_IN}
-	mkdir -p ${D_OBJ}${D_LEXER}
-	mkdir -p ${D_OBJ}${D_EXPAND}
-	mkdir -p ${D_OBJ}${D_SYNTAX}
-	mkdir -p ${D_OBJ}${D_UTILS}
-	mkdir -p ${D_OBJ}${D_TREE}
-	mkdir -p ${D_OBJ}${D_EXEC}
-	mkdir -p $(D_OBJ)$(D_GNL)
-	mkdir -p $(D_OBJ)$(D_RAND)
-	mkdir -p $(D_OBJ)$(D_SIGNAL)
-	mkdir -p $(D_OBJ)$(D_EUTHA)
-
-clean :
-	rm -f ${OBJ}
-
-fclean :
-	rm -f ${NAME} ${OBJ}
-	rm -rf ${D_OBJ}
-
-re : fclean all
-
-.PHONY : all clean fclean re
+.PHONY: all clean fclean re
