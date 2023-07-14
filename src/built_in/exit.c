@@ -18,6 +18,16 @@ void	clean_exit(t_minishell *ms, int exit_value)
     ft_exit_safely(ms);
 }
 
+void	ft_exit_safely(t_minishell *all)
+{
+	rl_clear_history();
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+	free_ms(all);
+	exit(g_cmd_exit);
+}
+
 //Return sex number cause noah is a silly little clown
 int	bi_exit(t_lcmd *lcmd, t_minishell *ms)
 {

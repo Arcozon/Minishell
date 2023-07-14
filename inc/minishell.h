@@ -231,4 +231,14 @@ void                    ft_close_all_files(t_lcmd *cmd);
 void                    ft_close_all_pipes(t_lcmd *cmd);
 void	                here_unlink(t_lcmd *cmd);
 
+/*-------------------File_handling------------------*/
+int	                    ft_open_file(char *name, int *fd, int oflag, int mode);
+int	                    ft_putstr_to_fd(int fd, char *str);
+int	                    ft_write_to_fd(int fd, char *str, int len);
+int	                    process_file(t_lcmd *cmd);
+void	                *ft_calloc(size_t nmemb, size_t n);
+int	                    ft_get_working_path(char **path, char **cmd);
+char	                **ft_get_path(t_env *env);
+void	                ft_child(t_lcmd *cmd, t_minishell *all);
+void	                cmd_wait(t_lcmd *cmd);
 #endif

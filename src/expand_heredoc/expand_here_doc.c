@@ -15,6 +15,10 @@
 void	expand_hd(t_ioe_put *ioe, t_minishell *ms)
 {
 	int	my_hd;
+    (void)my_hd;
+    (void)ioe;
+    (void)ms;
+
 	//gnl a line
 	//use expand_dollarsign on line like this
 
@@ -24,4 +28,4 @@ void	expand_hd(t_ioe_put *ioe, t_minishell *ms)
 
 	//write to new here doc
 	//close old here doc
-}
+} 

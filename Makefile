@@ -8,17 +8,7 @@ SRC_PATH = src/
 OBJ_PATH = obj/
 INC_PATH = inc/
 
-SRC 	 = built_in/cd.c built_in/clear.c built_in/echo.c built_in/env.c built_in/exit.c built_in/export.c built_in/owo.c built_in/pwd.c built_in/unset.c built_in/which.c \
-		   lexer/lexer.c lexer/lexer2.c lexer/lexer3.c lexer/lexer4.c \
-		   expand2/double_quote.c expand2/expand_cmd.c expand2/expand_var.c expand2/single_quote.c expand2/text.c expand2/wildcardv2.c \
-		   syntax/syntax.c \
-		   tree/cmd.c tree/debug.c tree/node.c tree/opp.c tree/utils.c tree/utils2.c \
-		   exec/exec.c exec/get_builtin.c exec/here_doc.c \
-		   utils/free1.c utils/free2.c utils/ms_calloc.c utils/utils.c utils/utils2.c \
-		   euthanasia/euthanasia.c \
-		   signal/signal.c \
-		   rand/rand.c \
-		   main.c env.c
+SRC 	 = built_in/cd.c built_in/clear.c built_in/echo.c built_in/env.c built_in/exit.c built_in/export.c built_in/owo.c built_in/pwd.c built_in/unset.c built_in/which.c env.c euthanasia/euthanasia.c exec/exec.c exec/exec_redir.c exec/file_handling.c exec/file_handling_2.c exec/get_builtin.c exec/get_pid.c exec/here_doc.c exec/path_finding.c exec/path_handling_2.c exec/split.c exec/split_2.c expand2/double_quote.c expand2/expand_cmd.c expand2/expand_var.c expand2/single_quote.c expand2/text.c expand2/wildcardv2.c expand_heredoc/expand_here_doc.c gnl/get_next_line.c gnl/get_next_line_utils.c lexer/lexer.c lexer/lexer2.c lexer/lexer3.c lexer/lexer4.c main.c rand/rand.c signal/signal.c syntax/syntax.c tree/cmd.c tree/debug.c tree/node.c tree/opp.c tree/utils.c tree/utils2.c utils/free1.c utils/free2.c utils/ms_calloc.c utils/utils.c utils/utils2.c
 
 OBJ 	 = $(addprefix $(OBJ_PATH), $(patsubst %.c,%.o,$(SRC)))
 
