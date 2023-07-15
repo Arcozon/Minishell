@@ -72,6 +72,8 @@ int	process_cmd(t_minishell *all, t_lcmd *cmd)
 			return (1);
 		if (status == 1)
 			g_cmd_exit = 1;
+        if (status == 0)
+            g_cmd_exit = 0;
 		ft_chain_exec(all, tmp, &lastdeeznuts, status);
 		tmp = tmp->next;
 	}
