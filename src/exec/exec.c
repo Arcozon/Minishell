@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:55:29 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/10 07:16:06 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/15 19:42:35 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,15 @@ int	process_cmd(t_minishell *all, t_lcmd *cmd)
 	lastdeeznuts = -1;
 	tmp = cmd;
 	while (tmp)
+		tmp = (expand_cmd_ioe(tmp, all), tmp->next);
+	tmp = cmd;
+	while (tmp)
 	{
-		expand_cmd_ioe(tmp, all);
 		status = process_file(tmp, 0);
 		if (status == 2)
 			return (1);
 		if (status == 1)
 			g_cmd_exit = 1;
-        if (status == 0)
-            g_cmd_exit = 0;
 		ft_chain_exec(all, tmp, &lastdeeznuts, status);
 		tmp = tmp->next;
 	}
