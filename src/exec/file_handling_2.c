@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_handling_2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/15 18:37:01 by nriviere          #+#    #+#             */
+/*   Updated: 2023/07/15 18:37:38 by nriviere         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	here_unlink(t_lcmd *cmd)
@@ -11,8 +23,7 @@ void	here_unlink(t_lcmd *cmd)
 		{
 			if (tmp->type == INPUT_HEREDOC && tmp->herename != 0)
 				tmp->herename = (unlink(tmp->herename),
-									free(tmp->herename),
-									(char *)0);
+						free(tmp->herename), (char *)0);
 			tmp = tmp->next;
 		}
 		cmd = cmd->next;
@@ -48,4 +59,3 @@ void	ft_close_all_pipes(t_lcmd *cmd)
 		cmd = cmd->next;
 	}
 }
-

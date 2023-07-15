@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_handling_2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/15 18:43:09 by nriviere          #+#    #+#             */
+/*   Updated: 2023/07/15 18:43:10 by nriviere         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	ft_strchr(char *str, char c)
@@ -61,4 +73,3 @@ int	ft_get_working_path(char **path, char **cmd)
 	ft_write_to_fd(2, ": command not found\n", 20);
 	return (1);
 }
-

@@ -2,5 +2,3 @@
 minishell
 *.out
 *.nfs*
-.minishell.supp
-.valgrindrc

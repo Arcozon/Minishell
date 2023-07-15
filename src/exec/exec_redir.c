@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_redir.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/15 18:36:52 by nriviere          #+#    #+#             */
+/*   Updated: 2023/07/15 18:36:55 by nriviere         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 #include <sys/wait.h>
 
@@ -35,23 +47,22 @@ void	ft_child(t_lcmd *cmd, t_minishell *all)
 void	cmd_wait(t_lcmd *cmd)
 {
 	int	status;
-    int i;
+	int	i;
 
 	status = g_cmd_exit;
-    i = 0;
+	i = 0;
 	while (cmd)
 	{
 		if (cmd->pid > 0)
-        {
-            if (cmd->next)
-                waitpid(cmd->pid, 0, 0);
-            else
-                waitpid(cmd->pid, &status, 0);
-            i++;
-        }
+		{
+			if (cmd->next)
+				waitpid(cmd->pid, 0, 0);
+			else
+				waitpid(cmd->pid, &status, 0);
+			i++;
+		}
 		cmd = cmd->next;
 	}
-    if (i > 0)
-    	g_cmd_exit = WEXITSTATUS(status);
+	if (i > 0)
+		g_cmd_exit = WEXITSTATUS(status);
 }
-

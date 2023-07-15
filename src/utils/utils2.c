@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 08:39:25 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/25 05:35:23 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/15 18:47:37 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strjoin_with_slash(char const *s1, char const *s2)
 	i = 0;
 	iptr = 0;
 	ptr = malloc((ft_strlen((char *)s1)
-            + ft_strlen((char *)s2) + 1 + 1) * sizeof(char));
+				+ ft_strlen((char *)s2) + 1 + 1) * sizeof(char));
 	if (ptr == 0)
 		return (0);
 	while (s1[i])
@@ -94,7 +94,6 @@ void	my_bbsort(char **tab)
 	}
 }
 
-
 static inline int	ft_putchar_fd(int fd, char c)
 {
 	return (write(fd, &c, 1) < 1);
@@ -115,4 +114,3 @@ int	ft_putstr_fd(int fd, char *str)
 	}
 	return (i);
 }
-

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_finding.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/15 18:43:03 by nriviere          #+#    #+#             */
+/*   Updated: 2023/07/15 18:43:04 by nriviere         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 char	*ft_strjoin_weq(char const *s1, char const *s2)
@@ -14,8 +26,8 @@ char	*ft_strjoin_weq(char const *s1, char const *s2)
 		return (ft_strdup(s1));
 	i = 0;
 	iptr = 0;
-	ptr = malloc((ft_strlen((char *)s1)
-            + ft_strlen((char *)s2) + 1 + 1) * sizeof(char));
+	ptr = malloc((ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1 + 1)
+			* sizeof(char));
 	if (ptr == 0)
 		return (0);
 	while (s1[i])
@@ -76,4 +88,3 @@ char	**ft_get_path(t_env *env)
 	}
 	return (0);
 }
-

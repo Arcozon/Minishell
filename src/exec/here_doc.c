@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/15 18:42:45 by nriviere          #+#    #+#             */
+/*   Updated: 2023/07/15 18:42:53 by nriviere         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../inc/minishell.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include "../../inc/minishell.h"
 
 static int	ft_heredoc_perror(char *str)
 {
@@ -40,7 +52,7 @@ static int	ft_check_eof(int fd, char buf[1], char *str, int len)
 			return (0);
 	}
 	write(fd, str, i);
-	if ((i < len  && br != 0) || (i == len && buf[0] != '\n'))
+	if ((i < len && br != 0) || (i == len && buf[0] != '\n'))
 		write(fd, buf, 1);
 	return (1 + (br == 0));
 }
@@ -74,25 +86,25 @@ int	ft_read_stdin(int fd, char *str, int len)
 	return (0);
 }
 
-int heredoc(t_lcmd *cmd, t_ioe_put *ioe, int *ostatus)
+int	heredoc(t_lcmd *cmd, t_ioe_put *ioe, int *ostatus)
 {
-    int status;
-    int tmp_g_status;
+	int	status;
+	int	tmp_g_status;
 
-    ioe->herename = strnrand(64);
-    status = 0;
-    if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC,
-            0644))
-        return (1);
-    tmp_g_status = g_cmd_exit;
-    status = ft_read_stdin(cmd->input, ioe->name, ft_strlen(ioe->name));
-    if (g_cmd_exit == 130 || status == -1)
-    {
-        *ostatus = 1;
-        return (1);
-    }
-    g_cmd_exit = tmp_g_status;
-    if (ft_open_file(ioe->herename, &cmd->input, O_RDONLY, 0))
-        return (1);
-    return (0);
+	ioe->herename = strnrand(64);
+	status = 0;
+	if (ft_open_file(ioe->herename, &cmd->input, O_CREAT | O_WRONLY | O_TRUNC,
+			0644))
+		return (1);
+	tmp_g_status = g_cmd_exit;
+	status = ft_read_stdin(cmd->input, ioe->name, ft_strlen(ioe->name));
+	if (g_cmd_exit == 130 || status == -1)
+	{
+		*ostatus = 1;
+		return (1);
+	}
+	g_cmd_exit = tmp_g_status;
+	if (ft_open_file(ioe->herename, &cmd->input, O_RDONLY, 0))
+		return (1);
+	return (0);
 }

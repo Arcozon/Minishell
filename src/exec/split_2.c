@@ -1,5 +1,16 @@
-#include "../../inc/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/15 18:43:16 by nriviere          #+#    #+#             */
+/*   Updated: 2023/07/15 18:43:17 by nriviere         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../../inc/minishell.h"
 
 static void	*ft_memset(void *s, int c, size_t n)
 {
@@ -40,4 +51,3 @@ void	ft_free_strr(char **str)
 	}
 	free(str);
 }
-

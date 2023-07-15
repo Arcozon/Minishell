@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:44:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/10 15:11:14 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/15 18:50:35 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ const char	*g_ctoa[256] = {
 //Shit is faster than ever
 static char	*dup_return_value(void)
 {
-    while (g_cmd_exit > 255)
-        g_cmd_exit -= 256;
-    while (g_cmd_exit < 0)
-        g_cmd_exit += 256;
-    return (ft_strdup(g_ctoa[g_cmd_exit]));
+	while (g_cmd_exit > 255)
+		g_cmd_exit -= 256;
+	while (g_cmd_exit < 0)
+		g_cmd_exit += 256;
+	return (ft_strdup(g_ctoa[g_cmd_exit]));
 }
 
 //Give me the text after dollar and i ll give you the meaning

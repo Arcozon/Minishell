@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rand.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 11:51:11 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 09:56:24 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/15 18:51:30 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*strnrand(int len)
 		if (read(fd, &b, 1) < 1)
 			return (free(out), close(fd), (char *)0);
 		if (is_alphanum(b))
-            out[i++] = b;
+			out[i++] = b;
 	}
 	close(fd);
 	return (out);

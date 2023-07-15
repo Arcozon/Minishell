@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_handling.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/15 18:37:49 by nriviere          #+#    #+#             */
+/*   Updated: 2023/07/15 18:39:24 by nriviere         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -18,10 +30,10 @@ int	ft_open_file(char *name, int *fd, int oflag, int mode)
 
 	if (*fd > 2)
 		close(*fd);
-    if (mode != 0)
-    {
-        mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-    }
+	if (mode != 0)
+	{
+		mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	}
 	tmp = ft_open_file_(name, oflag, mode);
 	if (tmp == -1)
 		return (1);
@@ -42,28 +54,26 @@ int	ft_putstr_to_fd(int fd, char *str)
 	return (ft_write_to_fd(fd, str, i));
 }
 
-int	process_file(t_lcmd *cmd)
+int	process_file(t_lcmd *cmd, int status)
 {
 	t_ioe_put	*tmp;
-    int status;
 
 	tmp = cmd->ioe_put;
-    status = 0;
 	while (tmp)
 	{
 		if (tmp->type == INPUT_REDIR && !ft_open_file(tmp->name, &cmd->input,
 				O_RDONLY, 0))
 			;
 		else if (tmp->type == OUTPUT_REDIR && !ft_open_file(tmp->name,
-					&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 1))
+				&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 1))
 			;
 		else if (tmp->type == OUTPUT_HAPPEND_REDIR && !ft_open_file(tmp->name,
-					&cmd->output, O_CREAT | O_WRONLY | O_APPEND, 1))
+				&cmd->output, O_CREAT | O_WRONLY | O_APPEND, 1))
 			;
 		else if (tmp->type == INPUT_HEREDOC && !heredoc(cmd, tmp, &status))
 			;
 		else if (tmp->type == ERROR_REDIR && !ft_open_file(tmp->name,
-					&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 1))
+				&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 1))
 			;
 		else
 			return (1 + status);
@@ -71,4 +81,3 @@ int	process_file(t_lcmd *cmd)
 	}
 	return (0);
 }
-

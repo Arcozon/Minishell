@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:02:13 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 13:26:12 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/15 18:52:11 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	clean_exit(t_minishell *ms, int exit_value)
 {
-    (void)exit_value;
-    ft_exit_safely(ms);
+	(void)exit_value;
+	ft_exit_safely(ms);
 }
 
 void	ft_exit_safely(t_minishell *all)
 {
 	rl_clear_history();
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    close(STDERR_FILENO);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	free_ms(all);
 	exit(g_cmd_exit);
 }
