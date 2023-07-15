@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 12:03:34 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 08:52:08 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/05 14:01:16 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_ioe(t_ioe_put *ioe)
 	{
 		next = ioe->next;
 		free(ioe->name);
+		free(ioe->herename);
 		free(ioe);
 		ioe = next;
 	}
@@ -72,6 +73,7 @@ void	free_node(t_node *node)
 	{
 		free_node(node->opp->l_node);
 		free_node(node->opp->r_node);
+		free(node->opp);
 	}
 	free(node);
 }
