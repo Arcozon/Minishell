@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 15:12:55 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/15 18:29:57 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	check_special(t_lexer *root)
 			last_type = root->type;
 			last_type_was_special = is_special[last_type];
 		}
+		if (last_type_was_special && !root->next)
+			return (0);
 		root = root->next;
 	}
 	return (1);
