@@ -67,7 +67,7 @@ int	process_cmd(t_minishell *all, t_lcmd *cmd)
 	while (tmp)
 	{
 		expand_cmd_ioe(tmp, all);
-		status = process_file(tmp);
+		status = process_file(tmp, 0);
 		if (status == 2)
 			return (1);
 		if (status == 1)
