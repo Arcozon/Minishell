@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:05:21 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 15:06:00 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/16 18:48:06 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	get_text(const char *line, int *start, t_lexer **root)
 	(*root)->type = whatsmytype(lastsep);
 	if ((lastsep == '\'' || lastsep == '"') && line[*start + len])
 		++len;
+	free((*root)->content);
 	(*root)->content = ft_substr(line, *start, len);
 	(*start) += len;
 }

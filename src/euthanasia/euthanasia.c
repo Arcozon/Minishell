@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   euthanasia.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 02:34:49 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/16 17:52:21 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/16 19:53:01 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ void	awaiting_death(int test, t_minishell *ms)
 {
 	if (test)
 	{
-		kill(ms->euthanasia_pid, SIGUSR1);
+		write(2, "ERROR\n", 6);
+		if (kill(ms->euthanasia_pid, SIGUSR1) == -1)
+			ft_exit_safely(ms);
 		while (1)
 			;
 	}

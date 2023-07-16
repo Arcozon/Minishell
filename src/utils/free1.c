@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 12:03:34 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/15 18:49:13 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/16 19:34:05 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	free_node(t_node *node)
 
 void	free_ms(t_minishell *ms)
 {
-	free_lexer(ms->lexer);
+	free_lexer(ms->lexer, ms->trash_wc);
+	free_trash(ms);
 	free_node(ms->tree);
 	free_env(ms->env);
 	kill(ms->euthanasia_pid, SIGUSR2);
