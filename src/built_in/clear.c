@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:33:12 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 08:57:10 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/16 09:35:10 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ int	bi_clear(t_lcmd *lcmd, t_minishell *ms)
 {
 	(void)ms;
 	write(lcmd->output, "[H[2J[3J", 11);
-	return (1);
+	return (0);
 }
