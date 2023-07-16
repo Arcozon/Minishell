@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 09:59:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/16 09:32:14 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/16 09:37:53 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ int	ft_is_builtin(t_lcmd *cmd, t_minishell *all)
 	{
 		if (cmd->cmd && cmd->cmd[0] && !ft_strcmp(*(cmd->cmd), g_builtin[i]))
 		{
-			printf("CBI|%d|\n", g_cmd_exit);
 			g_cmd_exit = i[g_bi_func](cmd, all);
-			printf("CPB|%d|\n", g_cmd_exit);
 			return (1);
 		}
 		i++;

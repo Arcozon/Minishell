@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 23:16:00 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/15 18:51:43 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/16 09:49:28 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ t_lcmd	*create_lcmd(t_lexer *lexer, t_lexer *end_lexer, t_minishell *ms)
 	lcmd->output = 1;
 	lcmd->error = 2;
 	lcmd->start_lexer = lexer;
-	lcmd->end_lexer = look_for_pipe(lexer, end_lexer);
+	lcmd->end_lexer = look_for_end_cmd(lexer, end_lexer);
 	lcmd->cmd = 0;
 	lcmd->ioe_put = 0;
 	lcmd->pipe[0] = -1;
 	lcmd->pipe[1] = -1;
-	lcmd->next = create_lcmd(look_for_pipe(lexer, end_lexer), end_lexer, ms);
+	lcmd->next = create_lcmd(look_for_end_cmd(lexer, end_lexer), end_lexer, ms);
 	return (lcmd);
 }
 
