@@ -6,18 +6,11 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:55:29 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/15 19:42:35 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/16 18:16:24 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/get_next_line.h"
 #include "../../inc/minishell.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 static int	ft_is_std_fd(int fd)
 {
