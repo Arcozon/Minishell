@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 t_lcmd	*create_lcmd(t_lexer *lexer, t_lexer *end_lexer, t_minishell *ms)
 {

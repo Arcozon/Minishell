@@ -6,7 +6,7 @@
 /*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 18:43:09 by nriviere          #+#    #+#             */
-/*   Updated: 2023/07/15 18:43:10 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/16 17:59:33 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	ft_get_working_path(char **path, char **cmd)
 	while (path[i])
 	{
 		tmp = ft_strcat_split(path[i], *cmd);
+		if (!tmp)
+			return (ft_write_to_fd(2, "Malloc error\n", 14), 1);
 		if (access(tmp, F_OK | X_OK) != -1)
 		{
 			free(*cmd);

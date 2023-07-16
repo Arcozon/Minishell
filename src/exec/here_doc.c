@@ -6,12 +6,15 @@
 /*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 18:42:45 by nriviere          #+#    #+#             */
-/*   Updated: 2023/07/15 18:42:53 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/16 18:00:29 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+#include <bits/posix_opt.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include <termios.h>
 #include <unistd.h>
 
 static int	ft_heredoc_perror(char *str)
@@ -86,6 +89,27 @@ int	ft_read_stdin(int fd, char *str, int len)
 	return (0);
 }
 
+void	capture_signal(int status)
+{
+	static struct termios	orig;
+	struct termios			tmp;
+
+	if (status == 1)
+	{
+		tcgetattr(STDIN_FILENO, &tmp);
+		orig = tmp;
+		tmp.c_cc[VQUIT] = _POSIX_VDISABLE;
+		tmp.c_lflag |= ICANON | ECHO ;
+		tcsetattr(STDIN_FILENO, TCSANOW, &tmp);
+		set_sig_heredoc();
+	}
+	else if (status == 0)
+	{
+		tcsetattr(STDIN_FILENO, TCSANOW, &orig);
+		set_sig_exec();
+	}
+}
+
 int	heredoc(t_lcmd *cmd, t_ioe_put *ioe, int *ostatus)
 {
 	int	status;
@@ -97,7 +121,9 @@ int	heredoc(t_lcmd *cmd, t_ioe_put *ioe, int *ostatus)
 			0644))
 		return (1);
 	tmp_g_status = g_cmd_exit;
+	capture_signal(1);
 	status = ft_read_stdin(cmd->input, ioe->name, ft_strlen(ioe->name));
+	capture_signal(0);
 	if (g_cmd_exit == 130 || status == -1)
 	{
 		*ostatus = 1;
