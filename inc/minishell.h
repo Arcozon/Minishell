@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/16 18:19:29 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/16 21:13:10 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,15 @@ typedef struct s_minishell
 {
 	t_env				*env;
 	t_lexer				*lexer;
+	t_lexer				*trash_wc;
 	t_node				*tree;
 	char				*line;
 	int					euthanasia_pid;
 }						t_minishell;
 
-void					lexer_add_back(t_lexer **root, t_lexer *new);
+int						lexer_add_back(t_lexer **root, t_lexer *new);
 t_lexer					*lexer_new(int type, char *content);
+t_lexer					**lexer_get_last(t_lexer **root);
 t_lexer					*lexer(const char *line, t_minishell *ms);
 void					get_text(const char *line, int *start, t_lexer **root);
 void					aff_lexer(t_lexer *root, t_lexer *end_lexer);
@@ -131,7 +133,6 @@ void					change_space(t_lexer **root);
 void					change_text(t_lexer *root, t_lexer *end_lexer);
 void					change_text_into_cmd_args(t_lexer *root,
 							t_lexer *end_lexer);
-void					free_lexer(t_lexer *root);
 
 //ls | xargs -I var find var -name "PATERN" -not -path '* /\.*' | grep -v /
 /*---------------------Expand-----------------------*/
@@ -229,7 +230,8 @@ void					free_cmd(t_lcmd *lcmd);
 void					free_ioe(t_ioe_put *ioe);
 void					free_split(char **split);
 void					free_env(t_env *env);
-void					free_lexer(t_lexer *root);
+void					free_lexer(t_lexer *root, t_lexer *trash);
+void					free_trash(t_minishell *ms);
 int						euthanasia(void);
 void					awaiting_death(int test, t_minishell *ms);
 void					ft_exit_safely(t_minishell *all);
