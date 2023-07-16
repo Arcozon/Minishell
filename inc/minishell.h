@@ -6,7 +6,7 @@
 /*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/15 18:55:11 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/16 18:01:00 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <termios.h>
 
 # define PROMPT ">Minishell:"
 # define RETURN_VAR "?"
@@ -215,6 +216,9 @@ int						ft_open_file(char *name, int *fd, int oflag, int mode);
 /*----------------------Signal-----------------------*/
 void					set_sig_exec(void);
 void					set_sig_routine(void);
+void					set_sig_heredoc(void);
+void					set_attr(struct termios orig);
+struct termios			capture_attr(void);
 
 /*---------------------Free--------------------------*/
 void					free_ms(t_minishell *ms);

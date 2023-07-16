@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   euthanasia.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 02:34:49 by geudes            #+#    #+#             */
-/*   Updated: 2023/06/29 12:10:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/16 17:52:21 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+#include <unistd.h>
 
 struct	s_mytimespec
 {
@@ -69,6 +70,9 @@ int	euthanasia(void)
 		exit(1);
 	if (pid)
 		return (pid);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	sig_eutanasia();
 	one_sec.sec = 1;
 	one_sec.nano = 0;
