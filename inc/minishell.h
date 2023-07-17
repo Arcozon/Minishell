@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/17 20:44:31 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/17 23:10:34 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,11 @@ t_lexer					**expand_text(t_lexer **root, t_minishell *ms);
 t_lexer					*expand_wc_v2(char *patern, t_minishell *ms);
 char					*expand_dollar_sign(char *text, t_minishell *ms);
 void					expand_cmd_ioe(t_lcmd *lcmd, t_minishell *ms);
+char					*expand_var_name(char *var_name, t_env *env);
+char					*join_n_find_var(char *text, int *i, char *return_str,
+							t_minishell *ms);
+char					*join_rest_text(char *text, char *return_str, int i,
+							int len);
 
 /*---------------------Syntax-----------------------*/
 int						check_parenthesis(t_lexer *root);

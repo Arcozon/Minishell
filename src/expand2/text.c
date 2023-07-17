@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   text.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 01:08:20 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/17 20:47:01 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/17 23:04:33 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*expand_dollar_sign(char *text, t_minishell *ms)
+{
+	char	*return_str;
+	int		last_find;
+	int		i;
+
+	i = 0;
+	last_find = 0;
+	return_str = ft_strdup("");
+	awaiting_death(!return_str, ms);
+	while (text[i])
+	{
+		if (text[i] == '$')
+		{
+			return_str = join_rest_text(text, return_str, last_find,
+					i - last_find);
+			awaiting_death(!return_str, ms);
+			return_str = join_n_find_var(text, &i, return_str, ms);
+			last_find = i;
+		}
+		else
+			++i;
+	}
+	return_str = join_rest_text(text, return_str, last_find, i - last_find);
+	awaiting_death(!return_str, ms);
+	return (return_str);
+}
 
 static t_lexer	**expand_text2(t_lexer **root, t_minishell *ms)
 {
@@ -26,8 +54,8 @@ static t_lexer	**expand_text2(t_lexer **root, t_minishell *ms)
 	my_litle_slly_trash = *root;
 	*root = expand_wc_v2((*root)->content, ms);
 	*ms_root = *root;
-	my_litle_slly_trash->next = 0;
-	lexer_add_back(&(ms->trash_wc), my_litle_slly_trash);
+	free(my_litle_slly_trash->content);
+	free(my_litle_slly_trash);
 	return_value = lexer_get_last(root);
 	lexer_add_back(root, next);
 	return (&(*return_value)->next);

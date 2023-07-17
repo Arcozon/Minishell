@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:44:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/15 18:50:35 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/17 23:11:35 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ char	*expand_var_name(char *var_name, t_env *env)
 	return (ft_strdup(""));
 }
 
+static inline int	is_alpha_num(int c)
+{
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9') || c == '_');
+}
+
 char	*join_n_find_var(char *text, int *i, char *return_str, t_minishell *ms)
 {
 	char	*buff;
@@ -74,12 +80,10 @@ char	*join_n_find_var(char *text, int *i, char *return_str, t_minishell *ms)
 
 	++*i;
 	len = 0;
-	if (!((text[*i] >= 'a' && text[*i] <= 'z') || (text[*i] >= 'A'
-				&& text[*i] <= 'Z') || (text[*i] >= '0' && text[*i] <= '9')))
+	if (text[*i] && !is_alpha_num(text[*i]))
 		len = 1;
 	else
-		while (text[*i + len] && text[*i + len] != ' ' && text[*i + len] != '\t'
-			&& text[*i + len] != '\n' && text[*i + len] != '$')
+		while (text[*i + len] && is_alpha_num(text[*i + len]))
 			++len;
 	var_name = ft_substr(text, *i, len);
 	awaiting_death(!var_name, ms);
@@ -104,33 +108,5 @@ char	*join_rest_text(char *text, char *return_str, int i, int len)
 	buff = return_str;
 	return_str = ft_strjoin(return_str, rest);
 	(free(buff), free(rest));
-	return (return_str);
-}
-
-char	*expand_dollar_sign(char *text, t_minishell *ms)
-{
-	char	*return_str;
-	int		last_find;
-	int		i;
-
-	i = 0;
-	last_find = 0;
-	return_str = ft_strdup("");
-	awaiting_death(!return_str, ms);
-	while (text[i])
-	{
-		if (text[i] == '$')
-		{
-			return_str = join_rest_text(text, return_str, last_find,
-					i - last_find);
-			awaiting_death(!return_str, ms);
-			return_str = join_n_find_var(text, &i, return_str, ms);
-			last_find = i;
-		}
-		else
-			++i;
-	}
-	return_str = join_rest_text(text, return_str, last_find, i - last_find);
-	awaiting_death(!return_str, ms);
 	return (return_str);
 }
