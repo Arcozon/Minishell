@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   text.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 01:08:20 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/16 21:32:17 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/17 20:47:01 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@ static t_lexer	**expand_text2(t_lexer **root, t_minishell *ms)
 	t_lexer	**return_value;
 	t_lexer	*my_litle_slly_trash;
 	t_lexer	*next;
-	t_lexer **ms_root;
+	t_lexer	**ms_root;
 
 	ms_root = &(ms->lexer);
 	while (*ms_root && *ms_root != *root)
 		ms_root = &((*ms_root)->next);
-
 	next = (*root)->next;
 	my_litle_slly_trash = *root;
 	*root = expand_wc_v2((*root)->content, ms);

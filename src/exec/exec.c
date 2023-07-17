@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:55:29 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/16 18:16:24 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/17 20:45:59 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,14 @@ static int	ft_is_std_fd(int fd)
 	return (fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO);
 }
 
-void    print_cmd(t_lcmd *cmd)
-{
-    ft_printf("\n|%s|\n", *(cmd->cmd));
-    ft_printf("input:%d\noutput:%d\nerror:%d\n", cmd->input, cmd->output, cmd->error);
-}
-
-
 void	ft_exec(t_minishell *all, t_lcmd *cmd)
 {
 	char	**path;
-    int     status;
+	int		status;
 
 	path = ft_get_path(all->env);
-    status = ft_get_working_path(path, &(*(cmd->cmd)));
-    ft_free_strr(path);
+	status = ft_get_working_path(path, &(*(cmd->cmd)));
+	ft_free_strr(path);
 	if (!status)
 		ft_child(cmd, all);
 	if (!path && cmd)

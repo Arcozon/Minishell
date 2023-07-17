@@ -23,12 +23,6 @@ void	set_up_dup(t_lcmd *cmd)
 		dup2(cmd->error, STDERR_FILENO);
 }
 
-void    print_cmd_noah(t_lcmd *cmd)
-{
-    ft_printf("\n|%s|\n", *(cmd->cmd));
-    ft_printf("input:%d\noutput:%d\nerror:%d\n", cmd->input, cmd->output, cmd->error);
-}
-
 void	ft_child(t_lcmd *cmd, t_minishell *all)
 {
 	char	**envstrr;
@@ -42,13 +36,12 @@ void	ft_child(t_lcmd *cmd, t_minishell *all)
 		envstrr = t_env_to_charr(all->env);
 		if (!envstrr)
 			ft_exit_safely(all);
-		ft_close_all_pipes(all->tree->lcmd);
+		ft_close_all_pipes(all->tree);
 		execve(*(cmd->cmd), cmd->cmd, envstrr);
 		perror(*(cmd->cmd));
 		ft_free_strr(envstrr);
 		ft_exit_safely(all);
 	}
-    print_cmd_noah(cmd);
 }
 
 void	cmd_wait(t_lcmd *cmd)

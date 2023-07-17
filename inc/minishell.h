@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/16 21:13:10 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/17 20:44:31 by nriviere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ int						euthanasia(void);
 void					awaiting_death(int test, t_minishell *ms);
 void					ft_exit_safely(t_minishell *all);
 void					ft_close_all_files(t_lcmd *cmd);
-void					ft_close_all_pipes(t_lcmd *cmd);
+void					ft_close_all_pipes(t_node *node);
 void					here_unlink(t_lcmd *cmd);
 
 /*-------------------File_handling------------------*/
@@ -249,5 +249,5 @@ int						ft_get_working_path(char **path, char **cmd);
 char					**ft_get_path(t_env *env);
 void					ft_child(t_lcmd *cmd, t_minishell *all);
 void					cmd_wait(t_lcmd *cmd);
-int                     ft_printf();
+
 #endif
