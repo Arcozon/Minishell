@@ -17,19 +17,28 @@ static int	ft_is_std_fd(int fd)
 	return (fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO);
 }
 
+void    print_cmd(t_lcmd *cmd)
+{
+    ft_printf("\n|%s|\n", *(cmd->cmd));
+    ft_printf("input:%d\noutput:%d\nerror:%d\n", cmd->input, cmd->output, cmd->error);
+}
+
+
 void	ft_exec(t_minishell *all, t_lcmd *cmd)
 {
 	char	**path;
+    int     status;
 
 	path = ft_get_path(all->env);
-	if (!ft_get_working_path(path, &(*(cmd->cmd))))
+    status = ft_get_working_path(path, &(*(cmd->cmd)));
+    ft_free_strr(path);
+	if (!status)
 		ft_child(cmd, all);
 	if (!path && cmd)
 	{
 		ft_write_to_fd(2, *(cmd->cmd), ft_strlen(*(cmd->cmd)));
 		ft_write_to_fd(2, " : command not found\n", 21);
 	}
-	ft_free_strr(path);
 }
 
 void	ft_chain_exec(t_minishell *all, t_lcmd *cmd, int *lastpipe, int status)

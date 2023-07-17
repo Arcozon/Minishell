@@ -53,9 +53,16 @@ void	ft_close_all_pipes(t_lcmd *cmd)
 	while (cmd)
 	{
 		if (cmd->pipe[0] != -1)
+        {
 			close(cmd->pipe[0]);
+            ft_printf("%s, closed pipe:%d\n", *(cmd->cmd), cmd->pipe[0]);
+        }
 		if (cmd->pipe[1] != -1)
+        {
 			close(cmd->pipe[1]);
-		cmd = cmd->next;
+            ft_printf("%s, closed pipe:%d\n", *(cmd->cmd), cmd->pipe[1]);
+        }
+    	cmd = cmd->next;
 	}
+    printf("wtf");
 }

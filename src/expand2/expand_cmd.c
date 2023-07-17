@@ -34,6 +34,6 @@ void	expand_cmd_ioe(t_lcmd *lcmd, t_minishell *ms)
 	change_text_into_cmd_args(lcmd->start_lexer, lcmd->end_lexer);
 	lcmd->cmd = create_cmd(lcmd->start_lexer, lcmd->end_lexer, ms);
 	lcmd->ioe_put = create_ioeput(lcmd->start_lexer, lcmd->end_lexer, ms);
-	aff_lexer(lcmd->start_lexer, 0);
-	write(2, "\n", 1);
+//	aff_lexer(lcmd->start_lexer, 0);
+//	write(2, "\n", 1);
 }

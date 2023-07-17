@@ -249,4 +249,5 @@ int						ft_get_working_path(char **path, char **cmd);
 char					**ft_get_path(t_env *env);
 void					ft_child(t_lcmd *cmd, t_minishell *all);
 void					cmd_wait(t_lcmd *cmd);
+int                     ft_printf();
 #endif
