@@ -55,13 +55,13 @@ int	ft_get_working_path(char **path, char **cmd)
 	if (!cmd || !(*cmd) || !path)
 		return (1);
 	else if (ft_strchr(*cmd, '/'))
-		return (0);
+		return (access(*cmd, F_OK | X_OK));
 	i = 0;
 	while (path[i])
 	{
 		tmp = ft_strcat_split(path[i], *cmd);
 		if (!tmp)
-			return (ft_write_to_fd(2, "Malloc error\n", 14), 1);
+			return (ft_write_to_fd(2, "Malloc error\n", 14), 2);
 		if (access(tmp, F_OK | X_OK) != -1)
 		{
 			free(*cmd);
@@ -71,7 +71,5 @@ int	ft_get_working_path(char **path, char **cmd)
 		free(tmp);
 		i++;
 	}
-	ft_write_to_fd(2, *cmd, ft_strlen(*cmd));
-	ft_write_to_fd(2, ": command not found\n", 20);
-	return (1);
+	return (3);
 }

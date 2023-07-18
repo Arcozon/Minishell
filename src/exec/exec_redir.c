@@ -61,8 +61,15 @@ void	cmd_wait(t_lcmd *cmd)
 				waitpid(cmd->pid, &status, 0);
 			i++;
 		}
+        else if (cmd->pid == -747 && !cmd->next)
+        {
+            printf("%d\n", cmd->pid);
+            i = 0;
+            g_cmd_exit = 127;
+        }
 		cmd = cmd->next;
 	}
-	if (i > 0)
+    if (i > 0)
 		g_cmd_exit = WEXITSTATUS(status);
+    printf("exit: %d\n", g_cmd_exit);
 }
