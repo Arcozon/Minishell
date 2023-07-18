@@ -24,14 +24,16 @@ void	ft_exec(t_minishell *all, t_lcmd *cmd)
 
 	path = ft_get_path(all->env);
 	status = ft_get_working_path(path, &(*(cmd->cmd)));
-	ft_free_strr(path);
-	if (!status)
+    printf("status: %d\n", status);
+	if (status == 0)
 		ft_child(cmd, all);
-	if (!path && cmd)
-	{
-		ft_write_to_fd(2, *(cmd->cmd), ft_strlen(*(cmd->cmd)));
-		ft_write_to_fd(2, " : command not found\n", 21);
-	}
+    else if (status == 1)
+        ft_write_to_fd(2, "Null Path or Cmd\n", 17);
+    else if (status == 3)
+        perror(*(cmd->cmd));
+    if (status != 0)
+        cmd->pid = -747;
+    ft_free_strr(path);
 }
 
 void	ft_chain_exec(t_minishell *all, t_lcmd *cmd, int *lastpipe, int status)
