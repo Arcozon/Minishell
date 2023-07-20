@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/17 23:10:34 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/20 18:59:19 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ void					change_text_into_cmd_args(t_lexer *root,
 //ls | xargs -I var find var -name "PATERN" -not -path '* /\.*' | grep -v /
 /*---------------------Expand-----------------------*/
 void					expand_sq(t_lexer *root, t_minishell *ms);
-void					expand_dq(t_lexer *root, t_minishell *ms);
-t_lexer					**expand_text(t_lexer **root, t_minishell *ms);
+void					expand_dq(t_lexer *root, t_minishell *ms, int in_here);
+t_lexer					**expand_text(t_lexer **root, t_minishell *ms, int in_here);
 t_lexer					*expand_wc_v2(char *patern, t_minishell *ms);
 char					*expand_dollar_sign(char *text, t_minishell *ms);
 void					expand_cmd_ioe(t_lcmd *lcmd, t_minishell *ms);

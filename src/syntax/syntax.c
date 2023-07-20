@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/15 18:30:48 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/20 19:07:43 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,24 @@ int	check_redirect(t_lexer *root)
 {
 	static char	am_i_redirrect[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
 		1, 0, 0, 0, 0, 0, 0};
-	int			last_was_redirect;
+	int			in_redirect;
+	int			i;
 
-	last_was_redirect = 0;
+	in_redirect = 0;
 	while (root)
 	{
-		if (last_was_redirect && root->type == TEXT)
+		if (in_redirect && root->type != TEXT && root->type != TEXT_SQ
+			&& root->type != TEXT_DQ)
+			in_redirect = 0;
+		else if (!in_redirect && am_i_redirrect[root->type])
+			in_redirect = 1;
+		if (in_redirect && root->type == TEXT)
 		{
-			last_was_redirect = -1;
-			while (root->content && root->content[++last_was_redirect])
-				if (root->content[last_was_redirect] == '*')
+			i = -1;
+			while (root->content && root->content[++i])
+				if (root->content[i] == '*')
 					return (0);
 		}
-		last_was_redirect = am_i_redirrect[root->type];
 		root = root->next;
 	}
 	return (1);

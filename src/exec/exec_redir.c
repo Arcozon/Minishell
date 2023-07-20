@@ -6,12 +6,11 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 18:36:52 by nriviere          #+#    #+#             */
-/*   Updated: 2023/07/16 09:37:37 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/18 17:48:01 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <sys/wait.h>
 
 void	set_up_dup(t_lcmd *cmd)
 {
@@ -61,15 +60,15 @@ void	cmd_wait(t_lcmd *cmd)
 				waitpid(cmd->pid, &status, 0);
 			i++;
 		}
-        else if (cmd->pid == -747 && !cmd->next)
-        {
-            printf("%d\n", cmd->pid);
-            i = 0;
-            g_cmd_exit = 127;
-        }
+		else if (cmd->pid == -747 && !cmd->next)
+		{
+			printf("%d\n", cmd->pid);
+			i = 0;
+			g_cmd_exit = 127;
+		}
 		cmd = cmd->next;
 	}
-    if (i > 0)
+	if (i > 0)
 		g_cmd_exit = WEXITSTATUS(status);
-    printf("exit: %d\n", g_cmd_exit);
+	printf("exit: %d\n", g_cmd_exit);
 }

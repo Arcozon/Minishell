@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 01:08:20 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/17 23:04:33 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/20 18:58:10 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static t_lexer	**expand_text2(t_lexer **root, t_minishell *ms)
 	return (&(*return_value)->next);
 }
 
-t_lexer	**expand_text(t_lexer **root, t_minishell *ms)
+t_lexer	**expand_text(t_lexer **root, t_minishell *ms, int in_here)
 {
 	int		i;
 	int		what_i_find;
@@ -72,13 +72,13 @@ t_lexer	**expand_text(t_lexer **root, t_minishell *ms)
 	while ((*root)->content[++i] && !(what_i_find & 1))
 		what_i_find |= (((*root)->content[i] == '$') + 2
 				* ((*root)->content[i] == '*'));
-	if (what_i_find & 1)
+	if (what_i_find & 1 && !in_here)
 	{
 		buffer = (*root)->content;
 		(*root)->content = expand_dollar_sign((*root)->content, ms);
 		free(buffer);
 	}
-	else if (what_i_find & 2)
+	else if (what_i_find & 2 && !in_here)
 		return (expand_text2(root, ms));
 	return (&((*root)->next));
 }
