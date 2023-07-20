@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:55:29 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/20 21:05:17 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/20 21:14:42 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ void	ft_exec(t_minishell *all, t_lcmd *cmd)
 		status = ft_is_file(*(cmd->cmd));
 		if (status == 0)
 			ft_child(cmd, all);
-	}
-	else if (status == 1)
-	{
-		ft_putstr_to_fd(2, PROMPTERR);
-		ft_putstr_to_fd(2, ": NULL Path or Cmd\n");
 	}
 	else if (status == 3)
 	{

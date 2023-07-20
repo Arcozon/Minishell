@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/20 19:29:17 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/20 21:22:01 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <termios.h>
 
 # define PROMPT ">Minishell: "
-# define PROMPTERR "Minishell: "
+# define PROMPTERR "minishell: "
 # define RETURN_VAR "?"
 
 /*--------------------Lexing-----------------------*/
@@ -256,6 +256,6 @@ int						ft_get_working_path(char **path, char **cmd);
 char					**ft_get_path(t_env *env);
 void					ft_child(t_lcmd *cmd, t_minishell *all);
 void					cmd_wait(t_lcmd *cmd);
-int                     ft_is_file(char *filepath);
+int						ft_is_file(char *filepath);
 
 #endif

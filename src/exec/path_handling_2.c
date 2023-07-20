@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_handling_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 18:43:09 by nriviere          #+#    #+#             */
-/*   Updated: 2023/07/16 17:59:33 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/20 21:22:36 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	ft_get_working_path(char **path, char **cmd)
 		return (1);
 	else if (ft_strchr(*cmd, '/'))
 		return (access(*cmd, F_OK | X_OK));
-    else if (!ft_strcmp(*cmd, ".") || !ft_strcmp(*cmd, ".."))
-        return (3);
-    i = 0;
+	else if (!ft_strcmp(*cmd, ".") || !ft_strcmp(*cmd, ".."))
+		return (3);
+	i = 0;
 	while (path[i])
 	{
 		tmp = ft_strcat_split(path[i], *cmd);

@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 18:36:52 by nriviere          #+#    #+#             */
-/*   Updated: 2023/07/18 17:48:01 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/20 21:16:19 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	cmd_wait(t_lcmd *cmd)
 		}
 		else if (cmd->pid == -747 && !cmd->next)
 		{
-			printf("%d\n", cmd->pid);
 			i = 0;
 			g_cmd_exit = 127;
 		}
@@ -70,5 +69,4 @@ void	cmd_wait(t_lcmd *cmd)
 	}
 	if (i > 0)
 		g_cmd_exit = WEXITSTATUS(status);
-	printf("exit: %d\n", g_cmd_exit);
 }
