@@ -25,7 +25,8 @@
 # include <sys/wait.h>
 # include <termios.h>
 
-# define PROMPT ">Minishell:"
+# define PROMPT ">Minishell: "
+# define PROMPTERR "Minishell: "
 # define RETURN_VAR "?"
 
 /*--------------------Lexing-----------------------*/
@@ -255,5 +256,6 @@ int						ft_get_working_path(char **path, char **cmd);
 char					**ft_get_path(t_env *env);
 void					ft_child(t_lcmd *cmd, t_minishell *all);
 void					cmd_wait(t_lcmd *cmd);
+int                     ft_is_file(char *filepath);
 
 #endif
