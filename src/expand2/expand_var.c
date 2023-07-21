@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:44:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/22 01:10:22 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/22 01:13:52 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*join_n_find_var(char *text, int *i, char *return_str, t_minishell *ms)
 
 	++*i;
 	len = 0;
-	if (!text[*i])
+	if (!text[*i] || text[*i] == ' ')
 		return (join_rest_text(text, return_str, *i - 1, 1));
 	if (text[*i] && !is_alpha_num(text[*i]))
 		len = 1;
