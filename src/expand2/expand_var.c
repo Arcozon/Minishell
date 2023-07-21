@@ -6,14 +6,14 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:44:10 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/17 23:11:35 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/22 01:10:22 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 //char to ascii
-const char	*g_ctoa[256] = {
+static const char	*g_ctoa[256] = {
 	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
 	"14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25",
 	"26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37",
@@ -80,6 +80,8 @@ char	*join_n_find_var(char *text, int *i, char *return_str, t_minishell *ms)
 
 	++*i;
 	len = 0;
+	if (!text[*i])
+		return (join_rest_text(text, return_str, *i - 1, 1));
 	if (text[*i] && !is_alpha_num(text[*i]))
 		len = 1;
 	else
