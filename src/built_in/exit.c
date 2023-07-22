@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:02:13 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/22 05:16:08 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/22 05:27:38 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	bi_exit(t_lcmd *lcmd, t_minishell *ms)
 	if (lcmd)
 		error = lcmd->error;
 	write(error, "exit\n", 5);
-	printf("|%d|%d|\n", error, lcmd->error);
 	if (!lcmd || !exit_errors(lcmd->cmd, error))
 		ft_exit_safely(ms);
 	return (1);
