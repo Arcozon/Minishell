@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:02:13 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/22 02:53:59 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/22 03:29:12 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	exit_errors(char **cmd, int error)
 	ac[0] = 0;
 	while (cmd[ac[0]])
 		ac[0]++;
-	if (ac[0] == 2 && (cmd[1], error))
+	if (ac[0] == 2 && exit_num_arg_req(cmd[1], error))
 	{
 		g_cmd_exit = 0;
 		sign = 1;
