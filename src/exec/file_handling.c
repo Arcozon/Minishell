@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_handling.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriviere <nriviere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 18:37:49 by nriviere          #+#    #+#             */
-/*   Updated: 2023/07/15 18:39:24 by nriviere         ###   ########.fr       */
+/*   Updated: 2023/07/22 05:24:28 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	process_file(t_lcmd *cmd, int status)
 		else if (tmp->type == INPUT_HEREDOC && !heredoc(cmd, tmp, &status))
 			;
 		else if (tmp->type == ERROR_REDIR && !ft_open_file(tmp->name,
-				&cmd->output, O_CREAT | O_WRONLY | O_TRUNC, 1))
+				&cmd->error, O_CREAT | O_WRONLY | O_TRUNC, 1))
 			;
 		else
 			return (1 + status);

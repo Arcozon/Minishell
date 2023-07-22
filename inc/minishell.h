@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:58:51 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/20 21:22:01 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/22 04:50:56 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <termios.h>
 
 # define PROMPT ">Minishell: "
+# define PROMPTOK "\033[32m>Minishell: \033[0m"
+# define PROMPTKO "\033[31m>Minishell: \033[0m"
 # define PROMPTERR "minishell: "
 # define RETURN_VAR "?"
 

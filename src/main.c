@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/16 21:12:10 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/22 05:12:47 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ int	main(int ac, char **av, char **cenv)
 {
 	t_minishell	ms;
 
-	((void)ac, (void)av);
-	ms = init_ms(cenv);
+	ms = ((void)ac, (void)av, set_sig_routine(), init_ms(cenv));
 	while (1)
 	{
-		set_sig_routine();
-		ms.line = readline(PROMPT);
+		if (g_cmd_exit)
+			ms.line = readline(PROMPTKO);
+		else
+			ms.line = readline(PROMPTOK);
 		if (!ms.line)
 			break ;
 		ms.lexer = lexer(ms.line, &ms);
@@ -46,11 +47,10 @@ int	main(int ac, char **av, char **cenv)
 		if (syntax(ms.lexer))
 		{
 			ms.tree = create_node(ms.lexer, 0, &ms);
-			(set_sig_exec(), process_tree(&ms, ms.tree));
+			(set_sig_exec(), process_tree(&ms, ms.tree), set_sig_routine());
 			ms.tree = (free_node(ms.tree), (t_node *)0);
 		}
 		ms.lexer = (free_lexer(ms.lexer, ms.trash_wc), free_trash(&ms), NULL);
 	}
-	bi_exit(0, &ms);
-	return (0);
+	return (bi_exit(0, &ms), 0);
 }

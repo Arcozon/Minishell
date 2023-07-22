@@ -6,37 +6,11 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:54:37 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/05 09:00:13 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/22 04:41:50 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_env	*new_env(char *var)
-{
-	t_env	*new;
-	int		i_equal;
-
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return (write(2, "Malloc error during var assigment\n", 34), (t_env *)0);
-	new->next = 0;
-	i_equal = 0;
-	while (var[i_equal] && var[i_equal] != '=')
-		i_equal++;
-	if (!var[i_equal])
-		return (free(new), (t_env *)0);
-	new->var_name = ft_substr(var, 0, i_equal);
-	new->content = ft_substr(var, i_equal + 1, ft_strlen(var));
-	return (new);
-}
-
-void	env_addback(t_env **root, t_env *new)
-{
-	while (*root)
-		root = &((*root)->next);
-	*root = new;
-}
 
 t_env	*do_i_exist_in_env(char *var, t_env *root)
 {
@@ -72,6 +46,23 @@ int	count_equals(char *var)
 	return (nb_equals);
 }
 
+static inline int	is_alpha_num(int c)
+{
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9') || c == '_');
+}
+
+int	error_or_no(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i] && str[i] != '=')
+		if (!is_alpha_num(str[i]))
+			return (1);
+	return (0);
+}
+
 // Returns 0 on succes 1 on error
 int	bi_export(t_lcmd *lcmd, t_minishell *ms)
 {
@@ -84,10 +75,10 @@ int	bi_export(t_lcmd *lcmd, t_minishell *ms)
 	i = 0;
 	while (lcmd->cmd[++i])
 	{
-		if (lcmd->cmd[i][0] == '=')
+		if (error_or_no(lcmd->cmd[i]))
 			returnvalue = (write(lcmd->error,
 						"Minishell: export: not a valid identifier\n", 42), 1);
-		if (lcmd->cmd[i][0] == '=' || count_equals(lcmd->cmd[i]) == 0)
+		if (error_or_no(lcmd->cmd[i]) || count_equals(lcmd->cmd[i]) == 0)
 			continue ;
 		do_i = do_i_exist_in_env(lcmd->cmd[i], ms->env);
 		if (!do_i)
