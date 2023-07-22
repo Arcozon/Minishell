@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/20 19:07:43 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/22 23:01:18 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,25 @@ int	check_redirect(t_lexer *root)
 	return (1);
 }
 
+//Return 0 on OK, 1 or 2 on error depending on error type
 int	syntax(t_lexer *root)
 {
+	int	return_value;
+
+	return_value = 0;
 	if (!check_parenthesis(root))
-		return (write(2, "Minishell: Syntax error: Missing parenthesis\n", 45),
-			0);
+		return_value = (write(2, "Minishell: Syntax error: Missing parenthesis\n", 45),
+			2);
 	if (!check_quote(root))
-		return (write(2, "Minishell: Syntax error: Missing quote\n", 39), 0);
+		return_value = (write(2, "Minishell: Syntax error: Missing quote\n", 39),
+			2);
 	if (!check_special(root))
-		return (write(2, "Minishell: Syntax error: Missing file or command\n",
-				49), 0);
+		return_value = (write(2, "Minishell: Syntax error: Missing file or command\n", 49),
+			2);
 	if (!check_redirect(root))
-		return (write(2, "Minishell: Syntax error: Ambigous redirect\n", 43), 0);
-	return (1);
+		return_value = (write(2, "Minishell: Syntax error: Ambigous redirect\n", 43),
+			1);
+	if (return_value)
+		return (g_cmd_exit = return_value, return_value);
+	return (0);
 }

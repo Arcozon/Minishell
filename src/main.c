@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:27:48 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/22 05:12:47 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/22 22:59:53 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int ac, char **av, char **cenv)
 			add_history(ms.line);
 		else
 			continue ;
-		if (syntax(ms.lexer))
+		if (!syntax(ms.lexer))
 		{
 			ms.tree = create_node(ms.lexer, 0, &ms);
 			(set_sig_exec(), process_tree(&ms, ms.tree), set_sig_routine());
