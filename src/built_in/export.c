@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 07:54:37 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/22 04:41:50 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/24 19:06:08 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	bi_export(t_lcmd *lcmd, t_minishell *ms)
 	i = 0;
 	while (lcmd->cmd[++i])
 	{
-		if (error_or_no(lcmd->cmd[i]))
+		if (error_or_no(lcmd->cmd[i]) || lcmd->cmd[i][0] == '=')
 			returnvalue = (write(lcmd->error,
 						"Minishell: export: not a valid identifier\n", 42), 1);
 		if (error_or_no(lcmd->cmd[i]) || count_equals(lcmd->cmd[i]) == 0)
