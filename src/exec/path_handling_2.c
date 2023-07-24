@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 18:43:09 by nriviere          #+#    #+#             */
-/*   Updated: 2023/07/20 21:22:36 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/24 17:33:42 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	ft_get_working_path(char **path, char **cmd)
 	char	*tmp;
 	int		i;
 
-	if (!cmd || !(*cmd) || !path)
+	if (!cmd || !(*cmd))
 		return (1);
-	else if (ft_strchr(*cmd, '/'))
+	else if (ft_strchr(*cmd, '/') || !path)
 		return (access(*cmd, F_OK | X_OK));
 	else if (!ft_strcmp(*cmd, ".") || !ft_strcmp(*cmd, ".."))
 		return (3);
