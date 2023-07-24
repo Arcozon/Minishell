@@ -6,7 +6,7 @@
 /*   By: geudes <geudes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:07:04 by geudes            #+#    #+#             */
-/*   Updated: 2023/07/22 23:01:18 by geudes           ###   ########.fr       */
+/*   Updated: 2023/07/24 19:15:36 by geudes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int	check_parenthesis(t_lexer *root)
 // Returns 1 if OK 0 if not
 int	check_special(t_lexer *root)
 {
-	static int	is_special[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
-		1, 1, 1, 1, 0, 0, 0};
-	static char	am_i_redirrect[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
-		1, 0, 0, 0, 0, 0, 0};
+	static int	is_special[MAX_TYPE] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1,
+		1, 1, 1, 1, 1, 0, 0, 0};
+	static char	am_i_redirrect[MAX_TYPE] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1,
+		1, 1, 0, 0, 0, 0, 0, 0};
 	int			last_type_was_special;
 	int			last_type;
 
@@ -47,7 +47,7 @@ int	check_special(t_lexer *root)
 	{
 		if (last_type_was_special && root->type >= 0 && root->type < MAX_TYPE
 			&& is_special[root->type] && !((last_type == PIPE || last_type == OR
-					|| last_type == AND) && am_i_redirrect [root->type]))
+					|| last_type == AND) && am_i_redirrect[root->type]))
 			return (0);
 		if (root->type >= 0 && root->type < MAX_TYPE)
 		{
@@ -78,8 +78,8 @@ int	check_quote(t_lexer *root)
 // Returns 1 if OK 0 if not
 int	check_redirect(t_lexer *root)
 {
-	static char	am_i_redirrect[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
-		1, 0, 0, 0, 0, 0, 0};
+	static char	am_i_redirrect[MAX_TYPE] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
+		1, 1, 1, 0, 0, 0, 0, 0, 0};
 	int			in_redirect;
 	int			i;
 
@@ -110,17 +110,18 @@ int	syntax(t_lexer *root)
 
 	return_value = 0;
 	if (!check_parenthesis(root))
-		return_value = (write(2, "Minishell: Syntax error: Missing parenthesis\n", 45),
-			2);
+		return_value = (write(2,
+					"Minishell: Syntax error: Missing parenthesis\n", 45), 2);
 	if (!check_quote(root))
-		return_value = (write(2, "Minishell: Syntax error: Missing quote\n", 39),
-			2);
+		return_value = (write(2, "Minishell: Syntax error: Missing quote\n",
+					39), 2);
 	if (!check_special(root))
-		return_value = (write(2, "Minishell: Syntax error: Missing file or command\n", 49),
-			2);
+		return_value = (write(2,
+					"Minishell: Syntax error: Missing file or command\n", 49),
+				2);
 	if (!check_redirect(root))
-		return_value = (write(2, "Minishell: Syntax error: Ambigous redirect\n", 43),
-			1);
+		return_value = (write(2, "Minishell: Syntax error: Ambigous redirect\n",
+					43), 1);
 	if (return_value)
 		return (g_cmd_exit = return_value, return_value);
 	return (0);
