@@ -31,7 +31,7 @@ void	ft_exec(t_minishell *all, t_lcmd *cmd)
 		if (status == 0)
 			ft_child(cmd, all);
 	}
-	else if (status == 3 || (status == -1 && !path))
+	else if (status == 3)
 	{
 		ft_putstr_to_fd(2, *(cmd->cmd));
 		ft_putstr_to_fd(2, ": command not found\n");

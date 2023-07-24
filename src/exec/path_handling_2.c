@@ -54,9 +54,9 @@ int	ft_get_working_path(char **path, char **cmd)
 
 	if (!cmd || !(*cmd))
 		return (1);
-	else if (ft_strchr(*cmd, '/') || !path)
+	else if (ft_strchr(*cmd, '/'))
 		return (access(*cmd, F_OK | X_OK));
-	else if (!ft_strcmp(*cmd, ".") || !ft_strcmp(*cmd, ".."))
+	else if (!ft_strcmp(*cmd, ".") || !ft_strcmp(*cmd, "..") || !path)
 		return (3);
 	i = 0;
 	while (path[i])
